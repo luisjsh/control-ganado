@@ -5,9 +5,11 @@ import useSearchWithPagination from '../../functions/paginator'
 
 import "./style.scss";
 
+import HouseIcon from './img/house.svg'
 import Card from "../image-card/image-card";
+import CustomButton from '../custom-button/custom-button'
 
-function HomePage ({history, setBadNotification}) {
+function HomePage ({history, setBadNotification, currentUserAdmin}) {
   const [pageNumber, setPageNumber] = useState(1)
   const {loading, error, items, hasMore} = useSearchWithPagination('', pageNumber)
 
@@ -29,6 +31,17 @@ function HomePage ({history, setBadNotification}) {
   return (
     <div className="HomePage" >
       <div className='loader'>
+        {items.length === 0 && 
+          <div className='no-cards'> 
+            <h3>Esto se encuentra algo vacío...</h3>
+            <img src={HouseIcon} alt='empty house'/>
+            {currentUserAdmin && 
+            <CustomButton 
+              onClick={()=>history.push('/add-res')}
+              color='primary-blue'
+              >Agregar Res</CustomButton>}
+          </div>
+        }
         <div className="card-section">
         {
           items.map( ({ id, nombre, hierro, torosimagenes, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => {
@@ -72,7 +85,6 @@ function HomePage ({history, setBadNotification}) {
             }})
         }
         </div>
-        {loading && 'loading...'}
       </div>
     </div>
   );

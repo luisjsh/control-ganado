@@ -1,8 +1,12 @@
 import React , { Component } from "react";
+import {connect} from 'react-redux'
 import { withRouter } from "react-router-dom";
 
-import Card from "../image-card/image-card";
 import "./search-page-styles.scss";
+
+import TreeIcon from './img/park.svg'
+import Card from "../image-card/image-card";
+import CustomButton from '../custom-button/custom-button'
 
 class SearchPage extends Component {
     constructor(props) {
@@ -27,7 +31,7 @@ class SearchPage extends Component {
     }
 
     async handleUpdate(value){
-        await fetch("/search/page/"+ value, {
+        await fetch("http://localhost:4000/search/page/"+ value, {
             method: "GET",
           }).then(async (response) =>
             this.setState({ result: await response.json() })
@@ -68,7 +72,15 @@ class SearchPage extends Component {
     
             </div>
           ) : (
-            ""
+            <div className='no-cards'> 
+              <h3>Esto se encuentra algo vacío...</h3>
+              <img src={TreeIcon} alt='empty house'/>
+              {this.props.currentUserAdmin && 
+              <CustomButton 
+                onClick={()=>this.props.history.push('/add-res')}
+                color='primary-blue'
+                >Agregar Res</CustomButton>}
+            </div>
           )}
         </div>
       </div>
@@ -76,4 +88,10 @@ class SearchPage extends Component {
     }
 }
 
-export default withRouter(SearchPage)
+const mapStatetoProps = ({user: {currentUserAdmin}})=>{
+  return{
+    currentUserAdmin
+  }
+}
+
+export default connect (mapStatetoProps) (withRouter(SearchPage))
