@@ -33,7 +33,7 @@ class configurationPage extends Component {
   }
 
   async getPelajes(){
-    await fetch("http://localhost:4000/configuration/getpelaje", {
+    await fetch("configuration/getpelaje", {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
@@ -66,7 +66,7 @@ class configurationPage extends Component {
         let formData = new FormData();
         formData.append("pelaje", this.state.pelajeCode);
 
-        await fetch("http://localhost:4000/configuration/pelajes", {
+        await fetch("configuration/pelajes", {
           method: "POST",
           headers: {
             "x-access-token": this.props.currentToken,
@@ -83,7 +83,7 @@ class configurationPage extends Component {
         let formData = new FormData();
         formData.append("hierroCode", this.state.hierroCode);
         formData.append("image", this.state.file);
-        await fetch("http://localhost:4000/configuration/hierros", {
+        await fetch("configuration/hierros", {
           method: "POST",
           headers: {
             "x-access-token": this.props.currentToken,
@@ -96,7 +96,7 @@ class configurationPage extends Component {
 
 
   async handleClick (){
-    await fetch("http://localhost:4000/configuration/destroy/pelaje/"+this.state.destroyPelajeId, {
+    await fetch("configuration/destroy/pelaje/"+this.state.destroyPelajeId, {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,

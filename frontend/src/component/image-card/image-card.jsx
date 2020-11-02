@@ -28,7 +28,7 @@ class ImageCard extends Component {
 
   async componentDidMount() {
     await fetch(
-      "http://localhost:4000/configuration/getparticularhierro/" +
+      "/configuration/getparticularhierro/" +
         this.props.hierro,
       {
         method: "GET",
@@ -73,7 +73,7 @@ class ImageCard extends Component {
                 className="hierro-logo"
                 style={{
                   backgroundImage: this.state.hierro
-                    ? "url(http://localhost:4000" +
+                    ? "url(" +
                       this.state.hierro.response.path +
                       ")"
                     : "",

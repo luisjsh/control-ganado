@@ -34,7 +34,7 @@ class AddPage extends React.Component {
     if(this.props.currentUser === 'null' || this.props.currentUser === null) 
     return this.props.history.push('/')
     
-    await fetch("http://localhost:4000/configuration/gethierro", {
+    await fetch("/configuration/gethierro", {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
@@ -45,7 +45,7 @@ class AddPage extends React.Component {
       })
       .catch((e) => this.props.setBadNotification("Error de conexion al intentar obtener la informacion de los hierros"));
 
-      await fetch("http://localhost:4000/configuration/getpelaje", {
+      await fetch("/configuration/getpelaje", {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
@@ -56,7 +56,7 @@ class AddPage extends React.Component {
       })
       .catch((e) => this.props.setBadNotification("Error de conexion al intentar obtener la información de los pelajes"));
 
-      /*await fetch("http://localhost:4000/configuration/logros", {
+      /*await fetch("/configuration/logros", {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
@@ -76,7 +76,7 @@ class AddPage extends React.Component {
       formData.append("name", value);
       formData.append("sex", parent);
       
-      await fetch("http://localhost:4000/item/searchforParent", {
+      await fetch("/item/searchforParent", {
         method: "POST",
         headers: {
           "x-access-token": this.props.currentToken,
@@ -96,7 +96,7 @@ class AddPage extends React.Component {
       formData.append("name", value);
       formData.append("sex", parent);
       
-      await fetch("http://localhost:4000/item/searchforParent", {
+      await fetch("/item/searchforParent", {
         method: "POST",
         headers: {
           "x-access-token": this.props.currentToken,
@@ -165,7 +165,7 @@ class AddPage extends React.Component {
     }
 
     try {
-          await fetch("http://localhost:4000/item/add", {
+          await fetch("/item/add", {
             method: "POST",
             headers: {
               "x-access-token": this.props.currentToken,

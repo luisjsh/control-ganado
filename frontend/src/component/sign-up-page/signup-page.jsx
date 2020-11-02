@@ -97,7 +97,7 @@ class signUpPage extends React.Component {
         }
 
         try{
-            await fetch('http://localhost:4000/user/add',{
+            await fetch('/user/add',{
                 method: 'POST',
                 body: formData
             }).then ( async ( response ) => {

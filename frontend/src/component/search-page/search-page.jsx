@@ -27,7 +27,7 @@ class SearchPage extends Component {
     }
 
     async handleUpdate(value){
-        await fetch("http://localhost:4000/search/page/"+ value, {
+        await fetch("/search/page/"+ value, {
             method: "GET",
           }).then(async (response) =>
             this.setState({ result: await response.json() })

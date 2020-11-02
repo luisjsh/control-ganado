@@ -45,7 +45,7 @@ class Nav extends React.Component{
     async UpdateStatus ( ){
         if ( this.props.currentToken ){
         
-            await fetch("http://localhost:4000/user/admin", {
+            await fetch("/user/admin", {
                 method: "GET",
                 headers: {
                   "Content-type": "application/json",
@@ -80,7 +80,7 @@ class Nav extends React.Component{
     }
 
     async setUserForProfile( ){
-        await fetch('http://localhost:4000/user/profile/',{
+        await fetch('/user/profile/',{
             method:'GET',
             headers:{
                 'Content-type' :'application/json',
@@ -126,7 +126,7 @@ class Nav extends React.Component{
     
                                 :
     
-                                <button className='info' style={{background: 'url(http://localhost:4000'+this.props.currentUserImagePath +') center center / 80px no-repeat'}}>
+                                <button className='info' style={{background: 'url('+this.props.currentUserImagePath +') center center / 80px no-repeat'}}>
                           
                                 </button>
                         }    

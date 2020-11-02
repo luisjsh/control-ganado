@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Backend proyecto univ",
   "main": "index.js",
+  "engines": {
+    "node": "12.16.2",
+    "npm":"6.14.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
@@ -25,5 +29,6 @@
   "devDependencies": {
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4"
-  }
+  },
+  "proxy":"http://localhost:4000"
 }

@@ -47,7 +47,7 @@ class ItemPage extends React.Component{
 
         if(prevState.edit !== this.state.edit ) {
             try{
-                await fetch('http://localhost:4000/item/search/profile/' + this.props.match.params.id)
+                await fetch('/item/search/profile/' + this.props.match.params.id)
                     .then( async responseArray => {
                         let { response } = await responseArray.json()
                         this.setState({currentItemArray: response , id: this.props.match.params.id })
@@ -60,7 +60,7 @@ class ItemPage extends React.Component{
     }
 
     async updateInformation(id){
-        await fetch('http://localhost:4000/item/search/profile/' + id)
+        await fetch('/item/search/profile/' + id)
             .then( async responseArray => {
                 let { response, detail } = await responseArray.json()
 
@@ -74,7 +74,7 @@ class ItemPage extends React.Component{
                 }
             })
 
-        await fetch('http://localhost:4000/item/search/family/parents/'+ id)
+        await fetch('/item/search/family/parents/'+ id)
             .then( async responseArray => {
                 let { parents , grandParents , detail} = await responseArray.json()
                 
@@ -89,7 +89,7 @@ class ItemPage extends React.Component{
             })
 
             
-            await fetch('http://localhost:4000/item/search/family/child/' + id).then( async response => {
+            await fetch('/item/search/family/child/' + id).then( async response => {
                 let { detail , responseArray } = await response.json()
 
                 if (detail.search('has childs') !== -1){
@@ -99,7 +99,7 @@ class ItemPage extends React.Component{
                 let i=0;
                 let grandChildArr = [];
                 for( i = 0; i<this.state.childs.response.length; i++){
-                    await fetch('http://localhost:4000/item/search/family/child/' + this.state.childs.response[i].id )
+                    await fetch('/item/search/family/child/' + this.state.childs.response[i].id )
                         .then( async response => {
                         let { detail , responseArray } = await response.json()
 
@@ -133,7 +133,7 @@ class ItemPage extends React.Component{
     }
 
     async handleDelete(){
-        await fetch("http://localhost:4000/item/destroy/"+this.props.match.params.id, {
+        await fetch("/item/destroy/"+this.props.match.params.id, {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,

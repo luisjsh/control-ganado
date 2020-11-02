@@ -27,12 +27,12 @@ class EditImageModal extends Component {
 
     propsImageConditionHandler ( images ){
         return images.map( ({ id, path }) => {
-            return {id, path: 'http://localhost:4000' + path , oldVersion: path }
+            return {id, path: path , oldVersion: path }
         })
     }
 
     setImageonMount (image){
-        return 'http://localhost:4000' + image[0].path
+        return image[0].path
     }
 
     async inputHandler(event){
@@ -80,12 +80,12 @@ class EditImageModal extends Component {
             
             case 'item':
                 
-                await fetch('http://localhost:4000/item/updateimage', {
+                await fetch('/item/updateimage', {
                     method: 'POST',
                     body: formData
                     }).then( async () =>{
 
-                       await fetch('http://localhost:4000/item/search/profile/' + this.props.id)
+                       await fetch('/item/search/profile/' + this.props.id)
                         .then( async responseArray => {
                             let { response } = await responseArray.json()
                              
@@ -101,12 +101,12 @@ class EditImageModal extends Component {
             case 'user':
 
                  
-                await fetch('http://localhost:4000/user/updateimage', {
+                await fetch('/user/updateimage', {
                     method: 'POST',
                     body: formData
                     }).then( async () =>{
 
-                       await fetch('http://localhost:4000/user/profile/', {
+                       await fetch('/user/profile/', {
                         method: "GET",
                         headers: {
                           "Content-type": "application/json",

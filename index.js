@@ -12,8 +12,8 @@ app.set('PORT', process.env.PORT || 4000)
 if (process.env.NODE_ENV === 'production'){
   app.use(express.static(path.join(__dirname, 'frontend/build')))
 }
+app.use(express.static(path.join(__dirname, 'frontend/build')))
 
-console.log(path.join(__dirname, 'frontend/build') )
 
 //middlewares
 
@@ -37,6 +37,10 @@ app.use('/search', require('./routes/search.routes'))
 
 //static files
 app.use(express.static(path.join(__dirname, "public")));
+
+app.get('*', (req, res) =>{
+  res.sendFile(path.join(__dirname, 'frontend/build/index.html'))
+})
 
 // deploy server 
 app.listen(app.get ('PORT'), ()=>console.log(app.get('PORT')))

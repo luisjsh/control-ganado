@@ -44,7 +44,7 @@ class LogIn extends React.Component {
         formData.append('correo', this.state.email)
         formData.append('clave', this.state.password)
         try{
-            await fetch('http://localhost:4000/user/login', {
+            await fetch('/user/login', {
                 method: 'POST',
                 body: formData
             }).then( async response =>{

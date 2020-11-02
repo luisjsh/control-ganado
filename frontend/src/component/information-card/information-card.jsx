@@ -62,7 +62,7 @@ class informationCard extends Component {
         this.handleUpdateandMount(this.props.id)
       } 
       if(this.props.edit && !this.state.pelajeInformation){
-        await fetch("http://localhost:4000/configuration/getpelaje", {
+        await fetch("/configuration/getpelaje", {
             method: "GET",
             headers: {
               "x-access-token": this.props.currentToken,
@@ -77,7 +77,7 @@ class informationCard extends Component {
     }
 
     async handleUpdateandMount(id){
-        await fetch('http://localhost:4000/item/search/profile/' + id)
+        await fetch('/item/search/profile/' + id)
         .then( async responseArray => {
             let { response } = await responseArray.json()
             let fechaNac = response.fechanac.split('-')
@@ -151,7 +151,7 @@ class informationCard extends Component {
         formData.append('tientaCapa' , this.state.tientacapa)
         formData.append('tientaMuleta' , this.state.tientamuleta)
         try{
-            await fetch('http://localhost:4000/item/update',{
+            await fetch('/item/update',{
             method: 'POST',
             headers:{
                 'x-access-token' : this.props.currentToken
