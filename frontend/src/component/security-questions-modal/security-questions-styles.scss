@@ -1,0 +1,139 @@
+@import '../breakpoints/breakpoints.scss';
+
+@keyframes toptobot {
+    0%{
+        margin-top: 300px;
+        opacity: 0.3; 
+    }
+
+    100%{
+        margin-top: 0;
+        opacity: 1;
+    }
+}
+
+.security-questions{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: toptobot 0.7s ease;
+    
+    .card{
+        width: 600px;
+        height: 70%;
+        background-color: white;
+        border-radius: 4px;
+        z-index: 2;
+        transition: 0.3s;
+        text-align: center;
+
+        span{
+            font-size: 28px;
+        }
+
+        .input-section{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            &::before{
+                content: 'Preguntas de Seguridad';
+                font-size: 30px;
+                text-align: center;
+                width: 100%;
+            }
+
+            .card-select{
+                width: 100%;
+                height: 80%;
+                position: relative;
+                display: flex;
+                align-items: center;
+                box-sizing: border-box;
+                overflow: hidden;
+
+                .select-input{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    padding: 40px;
+                    flex-direction: column;
+                    align-items: center;
+                    transition: 0.6s ease;
+
+                    select{
+                        height: 50px;
+                        border-radius: 4px;
+                        border: 1px solid #dedede;
+                        font-size: 20px;
+                        padding: 10px 10px 10px 5px;
+                        color: #707070;
+                        text-align: center;
+                        cursor: pointer;
+                        margin-bottom: 20px;
+                    }
+
+                    .form{
+                        display: flex;
+                        width: 100%; 
+                    }
+                }
+            }
+
+
+        }
+    }
+}
+
+
+
+@media ( max-width: '599px'){
+    .security-questions{
+        .card{
+            width: 400px;
+            .input-section{
+                .card-select{
+                    .select-input{
+                        padding: 20px;
+                        width: 360px;
+
+                        select{
+                            width: 360px;
+                            padding: 0;
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media ( max-width: '400px'){
+    .security-questions{
+        .card{
+            width: 300px;
+            .input-section{
+                .card-select{
+                    .select-input{
+                        padding: 20px;
+                        width: 260px;
+
+                        select{
+                            width: 260px;
+                            padding: 0;
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

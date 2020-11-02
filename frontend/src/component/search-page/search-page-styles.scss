@@ -1,0 +1,57 @@
+.HomePage{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    
+    .loader{ 
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+
+        &:empty{
+            margin-top:0;
+            background-size: 100px;
+            background-position: center;
+            animation: rotate 3s infinite;        
+        }
+
+        .cards-section{
+            height: 100%;
+            width: 100%;
+            display: grid;
+            grid-gap: 1em;
+            justify-content: center;
+            grid-template-columns: repeat(auto-fill, 300px);
+            
+            &:empty{
+                margin-top:0;
+                background-size: 100px;
+                background-position: center;
+                animation: rotate 3s infinite;        
+            }
+        }
+    }
+}
+
+@keyframes rotate {
+    0%{
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100%{
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+
+}
+

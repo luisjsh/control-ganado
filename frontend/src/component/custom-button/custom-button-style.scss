@@ -1,0 +1,81 @@
+$button-black: #000000;
+$button-blue: #0E8FFF;
+$button-radius: 10px;
+
+%button{
+        width: 100%;
+        padding: 20px auto;
+        height: 40px;
+        font-weight: bold;
+        color: white;
+        border: none;
+        border-radius: $button-radius;
+        cursor: pointer;
+        transition: 0.3s;
+}
+
+.form-button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+
+    .button{
+        @extend %button;    
+        background-color: $button-black;
+        
+        &:hover, &:focus{
+            background-color: white;
+            border: 1px solid $button-black;
+            color: $button-black;
+        }
+    }
+}
+
+.button-section{
+    width: 100%;
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+
+    .primary-blue{
+        @extend %button;
+        background-color: $button-blue;
+
+        &:hover, &:focus{
+            background-color: white;
+            border: 1px solid $button-blue;
+            color: $button-blue;
+            outline: none;
+        }        
+    }
+
+    .secundary-blue{
+        @extend %button;
+        background-color: white;
+        border: 1px solid white;
+        color: $button-blue;
+        outline: none;
+        width: 100%;
+        &:hover, &:focus{
+            background-color:$button-blue;
+            color: white;
+        }
+    }
+
+    .secundary-red{
+        @extend %button;
+        background-color: white;
+        border: 1px solid white;
+        color: red;
+        transition: .3s;
+        width: 100%;
+        transition: 0.3s;
+
+        &:hover, &:focus{
+            background-color:red;
+            color: white;
+        
+        }
+    }
+}

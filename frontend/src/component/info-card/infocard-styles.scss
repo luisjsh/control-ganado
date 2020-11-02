@@ -1,0 +1,153 @@
+@import '../breakpoints/breakpoints.scss';
+$blue-color: #0E8FFF;
+$sub-color: grey;
+$main-color: #DEDEDE;
+
+
+.infocard{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    p{
+        padding: 0.1em;
+        font-size: smaller;
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+    }
+
+    .inside-card{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid $main-color;
+
+        .profile-picture{
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+            border: 1px solid $main-color;
+        }
+
+        .no-picture{
+            background: url('./img/name-icon.svg') no-repeat;
+            background-position: center ;
+            background-size: 100px;
+            width: 100px;
+            height: 100px;
+            border-radius: 100%;
+            border: 1px solid $main-color;
+            
+        }
+
+    }
+
+    .below-card{
+        border-top: 1px solid $main-color;
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        bottom: 0;
+        
+        button{
+            width: 100%;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border: 0;
+            font-size: 20px;
+            color: #615e5e;
+            
+            &:focus-within, &:hover{
+                background: $main-color;
+            }
+        }
+
+        .dropdown{
+            width: 100%;
+            height: 50%;
+
+            span{
+                height: 300px;
+            }
+            
+            
+            .dropdown-button{
+                .arrow{
+                    background: url('./img/arrow-icon.svg') no-repeat;
+                    background-size: 20px;
+                    background-position:center ;
+                    height: 30px;
+                    width: 30px;
+                    transition: transform 0.4s;
+                }
+
+
+            }
+
+
+            &:focus-within , &:hover{
+
+                .dropdown-button{
+
+                        .arrow{
+                            transform: rotate(180deg);
+                        }
+                    
+                }
+
+                .displayed-dropdown{
+                    display: block;
+                    height: 70%;
+                }
+
+            }
+
+            .displayed-dropdown{
+                height: 0;
+                display: none;
+                transition: 0.3s;
+                overflow-y: auto;
+
+                button{
+                    background: #f1f1f1;
+                    border-top: 1px solid $main-color;
+
+                    &:focus-within, &:hover{
+                        background: $main-color;
+                    }
+                }
+
+            }
+
+        }
+        
+        .log-out{
+            bottom: 0;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 10%;
+            border-top: 1px solid $main-color;
+            justify-content: center;
+            cursor: pointer;
+
+            &:hover, &:focus{
+                border:1px solid red;
+            }
+
+            &::before{
+                content: 'Desconectarse';
+                font-size: 20px;
+                color:red;
+            }
+        }
+    }
+}

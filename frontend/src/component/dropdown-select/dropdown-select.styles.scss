@@ -1,0 +1,52 @@
+$main-color: #DEDEDE;
+$sub-color: grey;
+$focus-color: #0E8FFF; 
+
+.dropdown-select {
+    padding: 1em 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &:focus-within, &:hover{
+
+        label{
+            color: black;
+          }
+        }
+    
+
+    label {
+        position: absolute;
+        font-weight: normal;
+        top: 0px;
+        text-align: left;
+        color: $sub-color;
+        transition: 0.3s;
+    }
+
+    select {
+        background-color: #F2F2F2;
+        padding: .8em;
+        font-weight: bold;
+        height: 40px;
+        display: block;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+
+        &:hover {
+            background: #aaaaaa;
+          }
+
+        select-list {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            margin-top: 40px;
+            padding: 0;
+            background-color: #595959;
+        }
+    }
+}

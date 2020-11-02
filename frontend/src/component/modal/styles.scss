@@ -1,0 +1,57 @@
+@keyframes appear {
+    0%{
+        opacity: 0
+    }
+
+    100%{
+        opacity: 0.9;
+    }
+}
+
+.modal {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+
+    .close{
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        opacity: 0.9;
+        background-color: rgb(35, 37, 37);
+        animation: appear 0.4s;
+            :hover{
+            cursor: pointer;
+            }
+        }
+
+    .closeanimated{
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        opacity: 0.9;
+        background-color: red;
+        animation: appear 0.4s reverse;
+            :hover{
+            cursor: pointer;
+            }
+        }
+    
+
+    .forgotPassword{
+       margin-top:10px;
+    }
+    .form{
+        width: 80%;
+    }
+    
+}  
+
+

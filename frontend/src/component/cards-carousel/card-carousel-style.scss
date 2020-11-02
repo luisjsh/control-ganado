@@ -1,0 +1,126 @@
+@import '../breakpoints/breakpoints.scss';
+$blue-color: #0E8FFF;
+$main-color: #DEDEDE;
+
+.cards-carousel {
+    margin: 15px;
+    width: 99%;
+    height: 470px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    position: relative;
+
+    button{
+        position: absolute;
+        right: -20px;
+        top: 150px;
+        width: 55px;
+        height: 55px;
+        border: 2px solid #DEDEDE;
+        background-color: white;
+        border-radius: 100%;
+        cursor: pointer;
+    }
+
+    #goLeft{
+        background: url('./img/goright.svg') no-repeat; 
+        background-size: 30px;
+        background-position: right;
+        background-color: white;
+        left: -25px;
+
+        &:hover, &:focus{
+            animation: hoverFocusLeft 0.4s forwards;
+        }
+    }
+
+    #goRight{
+        background: url('./img/goleft.svg') no-repeat; 
+        background-size: 30px;
+        background-position: left;
+        background-color: white;
+        right: -20px;
+
+        &:hover, &:focus{
+            animation: hoverFocusRight 0.4s forwards;
+        }
+    }
+    
+    .cards-section{
+        width: 100%;
+        height: 350px;
+        margin-left: 40px;
+
+
+        .title-span{
+            position: sticky;
+            left: 0;
+        }
+        .card{
+            padding: 1em;
+            display: grid;
+            grid-auto-flow: column;
+            grid-gap: 1em;
+            transition: 0.5s ease;
+            max-width: 120%;
+            @extend %empty;
+        } 
+
+        &:focus-within, &:hover{
+            .title-span{
+                color: $blue-color;
+            }
+        }
+    }
+}
+
+%empty {
+    width: 100%;
+    height: 100%;
+
+    &:empty{
+        width: 80%;
+        height: 90%;
+        background: url('./img/loader.svg') no-repeat;
+        background-size: 100px;
+        background-position: center;
+        overflow: hidden;
+        animation: 4s rotate infinite;
+    }
+
+    .no-response{
+        width: 100%;
+        height: 100%;
+        background: url('./img/no-added.svg') no-repeat;
+        background-size: 100px;
+        background-position: center;
+    }
+}
+
+
+@keyframes hoverFocusRight {
+
+    0%{
+        right: -25px;
+        background-position: left;
+    }
+
+    100%{
+        right: 8px;
+        background-position: center;
+    }
+}
+
+@keyframes hoverFocusLeft {
+    
+    0%{
+        left: -25px;
+        background-position: right;
+    }
+
+    100%{
+        left: 8px;
+        background-position: center;
+    }
+}
