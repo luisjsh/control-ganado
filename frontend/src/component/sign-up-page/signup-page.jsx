@@ -115,8 +115,12 @@ class signUpPage extends React.Component {
                         this.props.history.push('/')
                         break;
                     
-                    case 'llave':
-                        this.props.setBadNotification('Por favor introduzca otro correo')
+                    case 'same email':
+                        this.props.setBadNotification('El correo se encuentra registrado con otro usuario')
+                        break;
+
+                    case 'not added':
+                        this.props.setBadNotification('El usuario no ha sido agregado correctamente')
                         break;
 
                     case 'error db':

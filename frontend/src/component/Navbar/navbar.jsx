@@ -27,13 +27,19 @@ class Nav extends React.Component{
 
 
 
-     componentDidMount(){
+    componentDidMount(){
         this.UpdateStatus()
+        if(this.props.currentUser === undefined && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
+    
         if(this.props.currentUser === 'userNotLoged' && this.props.location.pathname !== '/signup'){
             this.props.logOut()
             this.props.history.push('/login')
         }
     }
+    
     
     
     componentDidUpdate(prevProps){
@@ -126,7 +132,7 @@ class Nav extends React.Component{
     
                                 :
     
-                                <button className='info' style={{background: 'url('+this.props.currentUserImagePath +') center center / 80px no-repeat'}}>
+                                <button className='info' style={{background: 'url('+this.props.currentUserImagePath +') center center / 40px no-repeat'}}>
                           
                                 </button>
                         }    

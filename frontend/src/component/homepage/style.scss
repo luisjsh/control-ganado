@@ -26,10 +26,10 @@
         }
 
         .no-cards{
-            display: flex;
+            display: grid;
             align-items: center;
-            justify-content: center;
-            flex-direction: column;
+            justify-items: center;
+            grid-gap: 1em;
 
             img{
                 padding: 1.5em;
@@ -43,3 +43,15 @@
 }
 
 
+@include media('<=tablet'){
+    .HomePage{
+        .loader{
+            .no-cards{
+                img{
+                    width: 180px;
+                    height: 180px;
+                }
+            }
+        }
+    }
+}

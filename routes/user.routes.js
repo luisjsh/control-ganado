@@ -14,7 +14,7 @@ const userimagens = require('../models/usuarioImagenes')
 
 //--------------------------------------------
 
-router.get('/profile/', tokenVerification, adminVerification , async (req,res)=>{
+router.get('/profile/', tokenVerification, async (req,res)=>{
     let { userId } = req;
     let { status, message, userInformation } = '';
     await user.findOne({
@@ -91,9 +91,9 @@ router.post('/add', async (req, res)=>{
         })
 
     }catch(e){
-        res.status(200).json({mesage: 'error db'})
+        if(e.message === 'llave duplicada viola restricción de unicidad «usuarios_email_key»') res.status(200).json({message: 'same email'})
+        if(e.message === 'notNull Violation: usuario.email cannot be null') res.status(200).json({message: 'wrong db'})
     }
-
 
     try{
         let searchUser = await user.findOne({
@@ -110,7 +110,11 @@ router.post('/add', async (req, res)=>{
         res.status(200).json({message: 'succeed', user: searchUser, token})
         
     }catch(e){
-        res.status(200).json({message: 'error db'})
+        if(e.message === "Cannot read property 'id' of null"){
+           res.status(200).json({message: 'not added'})
+        }else{
+           res.status(200).json({message: 'error db'})
+        }
     }
   
 })

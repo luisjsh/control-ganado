@@ -14,7 +14,7 @@ class AddPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      step: 'first',
+      step: 'second',
       hierroInformation: false,
       pelajeInformation: false,
 

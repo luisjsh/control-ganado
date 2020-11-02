@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 export const Page = styled.div`
-    padding: 5em;
+    padding: 0 5em;
 
     @media (max-width: 720px){
-        padding: 1em;
+        padding: 0 1em;
     }
 `
 

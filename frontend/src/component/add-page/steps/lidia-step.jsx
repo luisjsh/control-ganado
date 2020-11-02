@@ -11,6 +11,7 @@ import ConfirmationCard from '../../confirmation-card/confirmation-card'
 import CustomInput from '../../custom-input/custom-input'
 import CustomButton from '../../custom-button/custom-button'
 
+
 function LidiaStep({updateState, handleClickConfirmation, goBack}) {
     const [Data, setData] = useState({
         temptedBy: '',

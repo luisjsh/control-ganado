@@ -1,14 +1,17 @@
+@import '../breakpoints/breakpoints.scss';
+
 .HomePage{
+    width: 100%;
+    grid-area: page;
     position: absolute;
     z-index: -1;
-    
+
     .loader{ 
         display: flex;
+        align-items: center;
         flex-wrap: wrap;
         justify-content: center;
-        width: 100%;
-        height: 100%;
-
+        
         .cards-section{
             height: 100%;
             width: 100%;
@@ -16,15 +19,39 @@
             grid-gap: 1em;
             justify-content: center;
             grid-template-columns: repeat(auto-fill, 300px);
-            
+
             &:empty{
-                margin-top:0;
-                background-size: 100px;
-                background-position: center;
-                animation: rotate 3s infinite;        
+                display: none;
+            }
+        }
+
+        .no-cards{
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            grid-gap: 1em;
+
+            img{
+                padding: 1.5em;
+                background: #beedff;
+                border-radius: 100%;
+                width: 350px;
+                height: 300px;
             }
         }
     }
 }
 
 
+@include media('<=tablet'){
+    .HomePage{
+        .loader{
+            .no-cards{
+                img{
+                    width: 180px;
+                    height: 180px;
+                }
+            }
+        }
+    }
+}
