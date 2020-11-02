@@ -35,7 +35,6 @@ const toros = sequelize.define(
 );
 
 toros.belongsTo(pelajeModel, {foreignKey: 'pelaje', as: 'pelajes' , sourceKey:'id'})
-toros.belongsTo(logrosModel, { foreignKey: 'logros', sourceKey: 'id'})
 toros.hasMany(torosImagenes, { foreignKey: "torosid", sourceKey: "id" });
 torosImagenes.belongsTo(toros, { foreignKey: "torosid", sourceKey: "id" });
 

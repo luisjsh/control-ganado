@@ -63,7 +63,7 @@ router.post('/add', async (req, res)=>{
             email: correo , 
             clave: contrasena, 
             nombre: nombre, 
-            admin, 
+            admin: true, 
             primerapregunta, 
             primerapreguntarespuesta, 
             segundapregunta, 

@@ -5,7 +5,6 @@ const Op = sequelize.Op
 
 const toros = require('../models/toros.model')
 const torosImage = require('../models/torosimagenes.model')
-const logrosModel = require('../models/usefull-model/logros.model')
 const pelajeModel = require('../models/usefull-model/pelaje.model')
 
 const {tokenVerification, adminVerification} = require('../functions/verification-functions')
@@ -134,6 +133,7 @@ router.get('/:pageNumber', async (req, res)=>{
         })
 
     } catch(e){
+        console.log(e.message)
         res.status(200).json({message: 'problem db'})
     }
 })
@@ -292,7 +292,7 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
             
     await toros.findOne({
         where: {id},
-        include: [{model: logrosModel}, {model: pelajeModel, as: 'pelajes'}]
+        include: [{model: pelajeModel, as: 'pelajes'}]
     }).then( response =>{
         res.status(200).json({status: 200, detail:'updated' , response: response})
     })
