@@ -158,7 +158,7 @@ class AddPage extends React.Component {
     formData.append('tientaCaballo', this.state.secondStep.withHorse);
     formData.append('tientaMuleta', this.state.secondStep.withCrutch);
 
-    if (files){
+    if (files.length > 0){
       for (let i = 0; i < [...files].length; i++) {
         formData.append("image", files[i].item);
       }
