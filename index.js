@@ -1,5 +1,4 @@
 const express = require('express');
-const morgan = require('morgan');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
@@ -17,7 +16,6 @@ app.use(express.static(path.join(__dirname, 'frontend/build')))
 
 //middlewares
 
-app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 const storage = multer.diskStorage({
