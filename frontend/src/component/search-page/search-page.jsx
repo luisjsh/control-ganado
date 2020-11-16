@@ -7,6 +7,7 @@ import "./search-page-styles.scss";
 import TreeIcon from './img/park.svg'
 import Card from "../image-card/image-card";
 import CustomButton from '../custom-button/custom-button'
+import SecundaryText from '../secundary-text/secundary-text'
 
 class SearchPage extends Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class SearchPage extends Component {
     }
 
     async handleUpdate(value){
-        await fetch("http://localhost:4000/search/page/"+ value, {
+        await fetch("http://localhost:4000/search/page/"+ value.toLowerCase(), {
             method: "GET",
           }).then(async (response) =>
             this.setState({ result: await response.json() })
@@ -47,17 +48,19 @@ class SearchPage extends Component {
         }
       >
         <div className="loader">
+          <SecundaryText title='Resultado de la busqueda para'>{this.state.value}</SecundaryText>
           {this.state.result ? (
             <div className="cards-section">
               {this.state.result.response.map(
-                ({ id, nombre, hierro, torosimagenes, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => (
+                ({ id, nombre, hierro, torosimagenes, hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => (
                     <Card
                     key={id}
                     hierro={hierro}
                     nombre={nombre}
                     animationDelay={index}
-                    fechanac={fechanac.slice(2, 4)}
+                    hierrocodigo={hierrocodigo}
                     imagenes={torosimagenes}
+                    ganaderia={ganaderia}
                     tientaDia={tientadia}
                     tientaResultado={tientaresultado}
                     tientaTentadoPor={tientatentadopor}

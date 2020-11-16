@@ -9,6 +9,7 @@ import validator from '../../functions/validator'
 
 import LidiaPart from './steps/lidia-step'
 import MainInfo from './steps/mainInfo-step'
+import dateHandler from "../../functions/datehandler";
 
 class AddPage extends React.Component {
   constructor() {
@@ -38,6 +39,7 @@ class AddPage extends React.Component {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
+        Accept: 'application/json', 'Content-Type': 'application/json'
       },
     })
       .then(async (response) => {
@@ -54,7 +56,7 @@ class AddPage extends React.Component {
       .then(async (response) => {
         this.setState({ pelajeInformation: await response.json() });
       })
-      .catch((e) => this.props.setBadNotification("Error de conexion al intentar obtener la información de los pelajes"));
+      .catch( () => this.props.setBadNotification("Error de conexion al intentar obtener la información de los pelajes"));
 
       /*await fetch("/configuration/logros", {
       method: "GET",
@@ -85,7 +87,7 @@ class AddPage extends React.Component {
       }).then(async (response) => {
         let { parentsArray } = await response.json();
         this.setState({ motherArray: parentsArray });
-      }).catch( e =>  
+      }).catch( () =>  
         this.props.this.props.setBadNotification('Error de conexion')
       );
       
@@ -105,7 +107,7 @@ class AddPage extends React.Component {
       }).then(async (response) => {
         let { parentsArray } = await response.json();
         this.setState({ fatherArray: parentsArray });
-      }).catch( e =>  
+      }).catch( () =>  
         this.props.setBadNotification('error de conexion')
         )}
       }, 300)
@@ -134,68 +136,89 @@ class AddPage extends React.Component {
       files,
       sexo,
       encaste,
-      tatuaje,
-      fechaNac
+      ganaderia,
+      fechaNac,
+      fechaMuerte
     } = this.state.firstStep
 
-    let formData = new FormData();
-    formData.append("nombre", nombre);
-    formData.append("hierro", hierroDropdownSelected);
-    formData.append("hierrocodigo", hierro);
-    formData.append("tatuaje", tatuaje);
-    formData.append("encaste", encaste);
-    formData.append("pelaje", pelaje);
-    formData.append("sexo", sexo);
-    formData.append("fechaNac", fechaNac);
-    //formData.append("logros", logros);
-    formData.append("madreId", madreId);
-    formData.append("padreId", padreId);
-    formData.append('tientaDia', this.state.secondStep.tientaDate);
-    formData.append('tientaResultado', this.state.secondStep.result);
-    formData.append('tientaTentadoPor', this.state.secondStep.temptedBy);
-    formData.append('tientaLugar', this.state.secondStep.place);
-    formData.append('tientaCapa', this.state.secondStep.withCape);
-    formData.append('tientaCaballo', this.state.secondStep.withHorse);
-    formData.append('tientaMuleta', this.state.secondStep.withCrutch);
+    if(
+      dateHandler(fechaNac) !== 'everything its fine' 
+      ){
 
-    if (files.length > 0){
-      for (let i = 0; i < [...files].length; i++) {
-        formData.append("image", files[i].item);
-      }
-    }
+        this.setState({step: 'first'})
 
-    try {
+    }else{        
+
+      if( !hierroDropdownSelected || hierro === '' || pelaje === ''){
+          
+          if(!hierroDropdownSelected) this.props.setBadNotification('Por favor recuerde seleccionar la imagen de uno de los hierros')
+          if(hierro === '') this.props.setBadNotification('Por favor recuerde ingresar el numero del animal')
+          if(pelaje === '') this.props.setBadNotification('Por favor recuerde escoger el pelaje del animal')
+          this.setState({step: 'first'})
+      
+        } else {
+          
+        let formData = new FormData();
+        formData.append("nombre", nombre.toLowerCase());
+        formData.append("hierro", hierroDropdownSelected);
+        formData.append("hierrocodigo", hierro);
+        formData.append("ganaderia", ganaderia.toLowerCase());
+        formData.append("encaste", encaste.toLowerCase());
+        formData.append("pelaje", pelaje);
+        formData.append("sexo", sexo.toLowerCase());
+        formData.append("fechaNac", fechaNac);
+        formData.append('fechaMuerte', fechaMuerte);
+        //formData.append("logros", logros);
+        formData.append("madreId", madreId);
+        formData.append("padreId", padreId);
+        formData.append('tientaDia', this.state.secondStep.tientaDate);
+        formData.append('tientaResultado', this.state.secondStep.result);
+        formData.append('tientaTentadoPor', this.state.secondStep.temptedBy.toLowerCase());
+        formData.append('tientaLugar', this.state.secondStep.place.toLowerCase());
+        formData.append('tientaCapa', this.state.secondStep.withCape.toLowerCase());
+        formData.append('tientaCaballo', this.state.secondStep.withHorse.toLowerCase());
+        formData.append('tientaMuleta', this.state.secondStep.withCrutch.toLowerCase());
+        
+        if (files.length > 0){
+          for (let i = 0; i < [...files].length; i++) {
+            formData.append("image", files[i].item);
+          }
+        }
+        
+        try {
           await fetch("/item/add", {
-            method: "POST",
-            headers: {
-              "x-access-token": this.props.currentToken,
-            },
-            body: formData,
-          }).then( async response =>{
-            let {message} = await response.json()
-
-            switch(message){
-
-              case 'succeeded':
-                this.props.setGoodNotification('Agregado exitosamente')
-                this.props.history.push('/')
-                break;
-
-              case 'problem db':
-                validator(message, this.props.history)
-                break;
-
-              case 'problem pelaje':
-                this.props.setBadNotification('El pelaje agregado es incorrecto')
-                this.setState({step: 'first'})
-                break;
-
-            default:
-              return ''
-            }
-          })
-    } catch(e){
-      this.props.setBadNotification('Error de conexión')
+                method: "POST",
+                headers: {
+                  "x-access-token": this.props.currentToken,
+                },
+                body: formData,
+              }).then( async response =>{
+                let {message} = await response.json()
+                
+                switch(message){
+    
+                  case 'succeeded':
+                    this.props.setGoodNotification('Agregado exitosamente')
+                    this.props.history.push('/')
+                    break;
+                    
+                    case 'problem db':
+                      validator(message, this.props.history)
+                    break;
+                    
+                  case 'problem pelaje':
+                    this.props.setBadNotification('El pelaje agregado es incorrecto')
+                    this.setState({step: 'first'})
+                    break;
+                    
+                    default:
+                      return ''
+                    }
+                  })
+        } catch(e){
+          this.props.setBadNotification('Error de conexión')
+        }
+      }
     }
   }
 

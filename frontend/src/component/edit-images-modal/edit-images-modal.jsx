@@ -13,7 +13,7 @@ class EditImageModal extends Component {
 
         this.state = {
             image: this.props.images[0] !== undefined ?  this.propsImageConditionHandler(this.props.images) : [] ,
-            currentUrl: this.props.images[0] !== undefined ?  this.setImageonMount(this.props.images) : '' ,
+            currentUrl: this.props.images[0] !== undefined ?  this.setImageonMount(this.props.images) : false ,
             focusedImage: 0
         }
 
@@ -115,6 +115,7 @@ class EditImageModal extends Component {
                        })
                         .then( async responseArray => {
                             let { userInformation } = await responseArray.json()
+                            
                             this.props.updateItemInformation({ torosimagenes: userInformation.usuariosimagenes })
                             this.props.setUserImagePath(userInformation.usuariosimagenes.length > 0 && userInformation.usuariosimagenes[0].path)
                             this.props.DontShow()
@@ -135,13 +136,19 @@ class EditImageModal extends Component {
                     <button className='x-button' onClick={this.props.DontShow}>
                     </button>
                     <div className="img-displayed">
-                        <img src={this.state.currentUrl} alt='bigger one'></img>
+                        {
+                        this.state.currentUrl ?
+                            <img src={this.state.currentUrl} loading='lazy' alt='bigger one' /> 
+                            : 
+                            <div></div>
+                        }
+                        
                         <div className="background" style={{backgroundImage:' url('+this.state.currentUrl+')'}}></div>
                     </div>
                     <div className="image-controller-section">
                         <div className="input">
                             <label htmlFor='fileEdit'>Agregar Imagen</label>
-                            <input type='file' id='fileEdit' onChange={this.inputHandler} multiple />
+                            <input type='file' id='fileEdit' onChange={this.inputHandler} multiple accept='image/png, image/jpeg'/>
                         </div>
                         <div className="images-thumbnails">
                             {
@@ -156,7 +163,6 @@ class EditImageModal extends Component {
                                 this.state.image.map( ( item , id ) => (
                                     <ImageThumbnail url={item.path} key={id} handleClick={()=>this.focusImage(id)} handleClickButton={ ()=>this.DeleteFromArray(item.id) }  displayed={ this.state.focusedImage === id ? true : false} />
                                 ))
-                                    
                               
                             }
                         </div>

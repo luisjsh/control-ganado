@@ -12,6 +12,7 @@ $button-radius: 10px;
         border-radius: $button-radius;
         cursor: pointer;
         transition: 0.3s;
+        text-transform: capitalize;
 }
 
 .form-button{

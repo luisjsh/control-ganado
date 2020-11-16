@@ -1,9 +1,13 @@
 const express = require('express')
+const imageMin = require('imagemin')
+const imageMin_jpeg = require('imagemin-jpegtran')
+
 const router  = express.Router()
 
 const pelajes = require('../models/usefull-model/pelaje.model')
 const hierros = require('../models/usefull-model/hierro.model')
 const logros = require('../models/usefull-model/logros.model')
+
 const {tokenVerification, adminVerification} = require('../functions/verification-functions')
 
 router.get('/getpelaje',tokenVerification, adminVerification, async (req, res) => {
@@ -32,21 +36,31 @@ router.post('/hierros', tokenVerification, adminVerification, async (req, res)=>
     
     let { hierroCode } = req.body;
     let { filename } = req.files[0];
+    
+    await imageMin(
+        [`public/img/uploads/${filename}`],
+        {
+            destination: 'public/img/compressed',
+            plugins: [imageMin_jpeg()]
+        }
+    )
+    
     await hierros.create({
-        codigo: hierroCode, path: '/img/uploads/' + filename
+        codigo: hierroCode, path: '/img/compressed/' + filename
     },{
         fields: [ 'codigo' , 'path']
-    }).then( response =>{
+    }).then( () =>{
         res.status(200).json({status: 200})}) .catch( e => res.status(400))
     
         
 })
 
 router.get('/getparticularhierro/:id', async(req, res)=>{
-
     await hierros.findOne({
         where: {id: parseInt(req.params.id)}
-    }).then( response => res.status(200).json({status: 200, response}))
+    }).then( response => {
+        res.status(200).json({status: 200, response})
+    })
 })
 
 

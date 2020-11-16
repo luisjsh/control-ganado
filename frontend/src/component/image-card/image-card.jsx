@@ -32,6 +32,10 @@ class ImageCard extends Component {
         this.props.hierro,
       {
         method: "GET",
+        credentials: "same-origin",
+        headers: {
+          Accept: {Accept: 'application/json', 'Content-Type': 'application/json'}
+        }
       }
     ).then(async (hierroResponse) =>
       this.setState({ hierro: await hierroResponse.json() })
@@ -80,11 +84,12 @@ class ImageCard extends Component {
                 }}
               ></Hierro>
               <Span> {this.props.nombre}</Span>
-              <Span> - {this.props.fechanac}</Span>
+              <Span> {this.props.hierrocodigo}</Span>
             </HeaderWrapper>
             <HeaderWrapperBottom
               hovered={this.state.hovered}
             >
+              <SecundaryText title='Ganaderia:'>{this.props.ganaderia}</SecundaryText>
               Datos de la tienta
               <SecundaryText title='Resultado:'>{this.props.tientaResultado}</SecundaryText>
               <SecundaryText title='Lugar:'>{this.props.tientaLugar}</SecundaryText>

@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
@@ -15,15 +16,16 @@ app.use(express.static(path.join(__dirname, 'frontend/build')))
 
 
 //middlewares
-
 app.use(cors());
 app.use(express.json());
+
 const storage = multer.diskStorage({
     destination: path.join(__dirname, "public/img/uploads"),
     filename: (req, file, cb, filename) => {
       cb(null, v1() + path.extname(file.originalname));
     }
-  });
+});
+
 app.use(multer({ storage: storage }).array("image", 10));
 
 //routes

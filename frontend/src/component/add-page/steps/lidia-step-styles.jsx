@@ -61,7 +61,8 @@ export const SectionWithTitle =({title, children})=>{
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
     grid-gap: 1em;
-`
+    
+    `
 
  const Label = styled.label`
     transition: .3s;
@@ -92,3 +93,9 @@ export const BirthSectionTitle = ({title, children})=>{
             </BirthSection>
         </BirthDiv>
     )}
+
+export const GridForTwo = styled.div`
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    grid-gap: 1em;
+`

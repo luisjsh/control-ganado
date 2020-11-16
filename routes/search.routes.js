@@ -7,14 +7,38 @@ const torosModel = require('../models/toros.model')
 const torosImage = require('../models/torosimagenes.model') 
 
 
-router.get('/:name', async (req, res)=>{
+router.get('/name/:name', async (req, res)=>{
     let { name } = req.params
     try{
         await torosModel.findAll({
             where: {
-                nombre:{ 
-                    [Op.like]: '%'+name+'%'
-                }
+                [Op.or]:[
+                    {
+                        encaste:{ 
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    {
+                        nombre: {
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    {
+                        hierrocodigo:{
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    { 
+                        sexo: {
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    { 
+                        ganaderia: {
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                ]
             },
             limit: 5
         }).then( response =>{
@@ -32,9 +56,33 @@ router.get('/page/:name', async (req, res)=>{
     
     let Item = await torosModel.findAll({
         where: {
-            nombre:{ 
-                [Op.like]: '%'+name+'%'
-            }
+            [Op.or]:[
+                {
+                    encaste:{ 
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+                {
+                    nombre: {
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+                {
+                    hierrocodigo:{
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+                { 
+                    sexo: {
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+                { 
+                    ganaderia: {
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+            ]
         },
         include: [{model: torosImage}]
     })

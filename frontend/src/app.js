@@ -15,6 +15,7 @@ import infocard from './page/info-card/info-card';
 import Configuration from './page/configuration/configurationpage'
 import ChangePassword from './component/change-password/changepassword';
 import SearchPage from './page/searchpage/searchpage'
+import RestorePassword from './page/restore-password/restorePassword'
 
 const Display = styled.div`
     grid-template-areas: "navbar" "page";
@@ -29,6 +30,7 @@ export default class App extends Component {
                 <Notification />
                 <Switch>
                         <Route exact path='/login' component={LogIn}/>
+                        <Route exact path='/restorepassword' component={RestorePassword}/>
                     <Display>
                         <Nav/>
                         <Route exact path='/' component={homepage} />

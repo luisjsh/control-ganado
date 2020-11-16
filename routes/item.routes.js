@@ -1,6 +1,8 @@
 const express = require('express')
 const router  = express.Router()
 const sequelize = require('sequelize')
+const imageMin = require('imagemin')
+const imageMin_jpeg = require('imagemin-jpegtran')
 const Op = sequelize.Op
 
 const toros = require('../models/toros.model')
@@ -9,16 +11,18 @@ const pelajeModel = require('../models/usefull-model/pelaje.model')
 
 const {tokenVerification, adminVerification} = require('../functions/verification-functions')
 
-router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
+router.post('/add', tokenVerification, adminVerification ,  async (req, res)=>{
+
     let { 
         nombre , 
         hierro , 
         hierrocodigo, 
-        tatuaje, 
+        ganaderia, 
         pelaje, 
         sexo, 
         encaste, 
         fechaNac , 
+        fechaMuerte,
         //logros, 
         notas , 
         madreId , 
@@ -51,11 +55,12 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
             nombre , 
             hierro,
             hierrocodigo,
-            tatuaje, 
+            ganaderia, 
             pelaje: ChoosedPelaje.id ? ChoosedPelaje.id : 0, 
             encaste, 
             sexo, 
             fechanac: fechaNac, 
+            fechamuerte: fechaMuerte,
             //logros, 
             notas, 
             madreid: madreId, 
@@ -75,9 +80,11 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
                 'hierro',
                 'hierrocodigo', 
                 'pelaje', 
-                'tatuaje',
+                'encaste',
+                'ganaderia',
                 'sexo' ,
                 'fechanac', 
+                'fechamuerte',
                 //'logros', 
                 'notas', 
                 'madreid', 
@@ -93,14 +100,20 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
         
         }).then( async response =>{
             if(req.files){
-                let i = 0;
-                for ( i=0 ; i<req.files.length; i++){
+                req.files.forEach( async ({filename}) =>{
+                    await imageMin(
+                        [`public/img/uploads/${filename}`],
+                        {
+                            destination: 'public/img/compressed',
+                            plugins: [imageMin_jpeg()]
+                        }
+                    )
                     await torosImage.create({ 
-                        path: '/img/uploads/' + req.files[i].filename, torosid: response.id
+                        path: '/img/compressed/' + filename, torosid: response.id
                     },{
                         fields: [ 'path' , 'torosid']
                     })
-                }
+                })
                 res.status(200).json({message: 'succeeded'})
             }
             else {
@@ -117,7 +130,7 @@ router.post('/add', tokenVerification, adminVerification , async (req, res)=>{
 });
 
 
-router.get('/:pageNumber', async (req, res)=>{
+router.get('/page/:pageNumber', async (req, res)=>{
     let {pageNumber} = req.params
     let limit = 10;
 
@@ -133,7 +146,6 @@ router.get('/:pageNumber', async (req, res)=>{
         })
 
     } catch(e){
-        console.log(e.message)
         res.status(200).json({message: 'problem db'})
     }
 })
@@ -159,33 +171,55 @@ router.get('/search/profile/:id', async (req, res)=>{
 
 router.post('/searchforParent', tokenVerification, adminVerification , async (req, res)=>{
     let { sex , name } = req.body
+
+    try{
     await toros.findAndCountAll({
         where: {
-            sexo: sex ,
-            nombre: {
-                [Op.like]: '%'+ name +'%'
-            }
+            sexo: sex.toLowerCase() ,
+            [Op.or]:[
+                {
+                    encaste:{ 
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+                {
+                    nombre: {
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+                {
+                    hierrocodigo:{
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+                { 
+                    ganaderia: {
+                        [Op.like]: '%'+name+'%'
+                    }
+                },
+            ]
         },
-        limit: 15,
+        limit: 7,
         include: [{
             model: torosImage
         }] 
     }).then( response => res.status(200).json({ status: 200, parentsArray: response.rows }))
+    }catch(e){
+        res.status(200).json({detail: 'error db'})
+    }
 })
 
 
 
 router.get('/search/family/parents/:id', async (req, res)=>{
-   let { id } = req.params
-
-   await toros.findOne({
+    let { id } = req.params
+    await toros.findOne({
         where: { id }
     }).then( async response => {
         let {madreid , padreid} = response;
         let grandPaWrapper = [ ]
         
         if ( madreid > 0 || padreid > 0){
-            
             await toros.findAll({
                 where: {
                     [Op.or]: [ {id: parseInt(padreid)},{ id: parseInt(madreid)} ]
@@ -194,24 +228,28 @@ router.get('/search/family/parents/:id', async (req, res)=>{
                 [{ model: torosImage}]
 
             }).then(async parentsArray =>{
-
-                for(let i = 0; i<parentsArray.length; i++){ 
-                    let {madreid, padreid} = parentsArray[i]
-                    if ( madreid > 0 || padreid > 0){
-                        let grandpa = await toros.findAll({
-                            where: {
-                                [Op.or]: [ {id: parseInt(padreid)},{ id: parseInt(madreid)} ]
-                            },
-                            include:
-                            [{ model: torosImage}]
-                        }) 
-                        grandPaWrapper = [...grandPaWrapper, ...grandpa]
+                try{
+                    for(let i = 0; i<parentsArray.length; i++){ 
+                        let {madreid, padreid} = parentsArray[i]
+                        if ( madreid > 0 || padreid > 0){
+                            let grandpa = await toros.findAll({
+                                where: {
+                                    [Op.or]: [ {id: parseInt(padreid)},{ id: parseInt(madreid)} ]
+                                },
+                                include:
+                                [{ model: torosImage}]
+                            })
+                            grandPaWrapper = [...grandPaWrapper, ...grandpa]
+                        }
                     }
+                    res.status(200).json({parents: parentsArray, grandParents: grandPaWrapper})
+                }catch(e){
+                    res.status(200).json({parents: parentsArray, grandParents: grandPaWrapper})
                 }  
-                res.status(200).json({parents: parentsArray, grandParents: grandPaWrapper})
             })
+        }else{
+            res.status(200).json({parents: [], grandParents: []})
         }
-        res.status(200).json({parents: [], grandParents: []})
         
     }).catch((e)=>{
         res.status(200).json({detail: 'isnt on db'})})
@@ -230,6 +268,7 @@ router.get('/search/family/child/:id', async (req, res)=>{
         }]
 
     }).then( async answer => {
+
         answer.length > 0 ?
             res.status(200).json({ status: 200, detail: 'has childs', responseArray: answer})
         :
@@ -238,17 +277,18 @@ router.get('/search/family/child/:id', async (req, res)=>{
     })
 })
 
-router.post('/update', /*tokenVerification, adminVerification , */async (req, res)=>{
+router.post('/update', tokenVerification, adminVerification , async (req, res)=>{
 
     let { 
         id , 
         nombre, 
         pelaje, 
-        fechaNac, 
+        fechaNac,
+        fechaMuerte, 
         //logros, 
         //notas, 
         encaste,
-        tatuaje,   
+        ganaderia,   
         tientaDia,
         tientaResultado,
         tientaTentadoPor,
@@ -275,10 +315,11 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
             response.nombre = nombre;
             response.pelaje = ChoosedPelaje.id;
             response.fechanac = fechaNac;
-        //  response.logros = parseInt(logro);
-        //  response.notas = notas;
+            response.fechamuerte = fechaMuerte;
+            //  response.logros = parseInt(logro);
+            //  response.notas = notas;
             response.encaste = encaste
-            response.tatuaje = tatuaje
+            response.ganaderia = ganaderia
             response.tientadia = tientaDia
             response.tientaresultado = tientaResultado
             response.tientatentadopor = tientaTentadoPor
@@ -300,7 +341,7 @@ router.post('/update', /*tokenVerification, adminVerification , */async (req, re
 
 router.post('/updateimage', async (req, res)=>{
     let { tokeepimage , id } = req.body;
-   
+    
     if(typeof tokeepimage == 'string'){
         tokeepimage = [{id: 0 , path: tokeepimage}]
     } else if (typeof tokeepimage == 'object'){
@@ -339,9 +380,18 @@ router.post('/updateimage', async (req, res)=>{
         await item.destroy()
     })
     
-    req.files.map( async item =>{
+    req.files.map( async ({filename}) =>{
+
+        await imageMin(
+            [`public/img/uploads/${filename}`],
+            {
+                destination: 'public/img/compressed',
+                plugins: [imageMin_jpeg()]
+            }
+        )
+
         await torosImage.create({
-            path: '/img/uploads/' + item.filename , torosid: id 
+            path: '/img/compressed/' + filename , torosid: id 
         },{
             fields: ['path', 'torosid']
         })

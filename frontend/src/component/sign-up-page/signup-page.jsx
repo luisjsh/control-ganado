@@ -177,9 +177,9 @@ class signUpPage extends React.Component {
                     
                         <CustomInput type='email' name='email' onChange={this.formHandler} value={this.state.email} label={this.state.emailLabel} ></CustomInput>
 
-                        <CustomInput name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
+                        <CustomInput type='password' name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
 
-                        <CustomInput name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} ></CustomInput>
+                        <CustomInput type='password' name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} ></CustomInput>
                     
                 {
                     this.props.currentUserAdmin ? 
@@ -200,14 +200,16 @@ class signUpPage extends React.Component {
 
                 </div>
                 </div>
-                <div className="button-side">
-                <div className="button-pack">
-                <Custombutton color='primary-blue'>Registrarse</Custombutton>
-                </div>
-                </div>
+                
+                    <div className="button-side">
+                        <div className="button-pack">
+                            <Custombutton color='primary-blue'>Registrarse</Custombutton>
+                        </div>
+                    </div>
                 </div>
        
-            </div></form>
+            </div>
+            </form>
         )
     }
 }

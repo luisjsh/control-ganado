@@ -19,7 +19,7 @@ function Paginator(title, pageNumber) {
         let cancel
         axios({
             method: 'GET',
-            url: `/item/${pageNumber}`,
+            url: `/item/page/${pageNumber}`,
             cancelToken: new axios.CancelToken( c => cancel=c)
         }).then(res => {
             if(res.data.message) return validator(res.data.message, history)

@@ -19,6 +19,12 @@ $main-color: #DEDEDE;
     text-align: center;
     font-size: 25px;
 
+    .two-grid{
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        grid-gap: 1em;
+    }
+
     .date {
         position: relative;
         padding:1.4em 0;
@@ -33,7 +39,7 @@ $main-color: #DEDEDE;
 
         .date-section{
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-columns: 1.25fr 1.25fr 1.5fr;
             grid-gap: .5em;
         }
         
@@ -54,6 +60,7 @@ $main-color: #DEDEDE;
 
         span{
             display: flex;
+            text-transform: capitalize;
             font-weight: bold;
         }
 

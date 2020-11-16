@@ -46,9 +46,9 @@ goRight = () =>{
                                 background:  this.props.url ? 'url('+ this.props.url + ') center center / 100% no-repeat' : '#f2f2f2'
                                 ,border: '1px solid #f2f2f2', 
                                 borderRadius: '10px' ,
-                                height: "350px" }} 
+                                height: "350px" }}
                         />
-                        <input type='file' id='file' onChange={this.props.handleFile} multiple />
+                        <input type='file' id='file' onChange={this.props.handleFile} multiple accept='image/png, image/jpeg' />
                         <div className='images'>
                             {
                                 this.props.photos !== false ? <div className='image-slide' > 

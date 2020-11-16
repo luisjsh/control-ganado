@@ -53,6 +53,7 @@ export const HeaderWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   justify-items: center;
+  text-transform: capitalize;
   font-weight: bold;
   align-items: center;
 `
@@ -64,9 +65,12 @@ export const HeaderWrapperBottom = styled.div`
 `
 
 export const Hierro = styled.div`
+  background-color: white;  
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
   width: 30px;
   height: 30px;
-  background-size: cover;
   border-radius: 100% ;
 `
 
@@ -87,7 +91,6 @@ export const CardNoImage = styled.div`
 
 export const Span = styled.span`
   text-transform: full-width;
-  height: 99%;
   text-align: center;
   display: flex;
   align-items: center;
@@ -130,7 +133,7 @@ export const CardImage = ({path, hovered})=>{
   return(
     <Wrapper hovered={hovered}>
       <BlurredBackground path={path} />
-      <Img src={`http://localhost:4000${path}`} loading='lazy'/>
+      <Img src={`${path}`} loading='lazy' width='300' height='300'/>
     </Wrapper>
   )
 }

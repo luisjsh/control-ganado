@@ -19,7 +19,7 @@ $focus-color: #0E8FFF;
     label {
         position: absolute;
         font-weight: normal;
-        top: 0px;
+        top: -7px;
         text-align: left;
         color: $sub-color;
         transition: 0.3s;
@@ -34,6 +34,7 @@ $focus-color: #0E8FFF;
         width: 100%;
         border: none;
         border-radius: 10px;
+        transition: .3s;
 
         &:hover {
             background: #aaaaaa;

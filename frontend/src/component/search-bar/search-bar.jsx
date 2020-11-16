@@ -63,7 +63,7 @@ class searchBar extends Component {
 
     fetchData = debounce(async ()=>{
         if(this.state.searchbar.length > 0){
-            await fetch('http://localhost:4000/search/'+this.state.searchbar).then( async searchResult =>{
+            await fetch('http://localhost:4000/search/name/'+this.state.searchbar.toLowerCase()).then( async searchResult =>{
                 let {response, detail} = await  searchResult.json()
 
                 if(detail) validator(detail, this.props.history)

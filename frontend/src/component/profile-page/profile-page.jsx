@@ -27,18 +27,17 @@ class ProfilePage extends React.Component {
         this.props.history.push('/'+value)
     }
 
-    //--------------------------------
 
     async handleDelete(){
-        await fetch('http://localhost:4000/user/delete/'+ this.props.currentUserArray.id , {
+        await fetch('/user/delete/'+ this.props.currentUserArray.id , {
             method: "GET",
             headers: {
               "Content-type": "application/json",
               "x-access-token": this.props.currentToken,
             }
-        } ).then( e => { 
+        } ).then( () => { 
         
-        alert('Eliminado con exito'); 
+        this.props.setGoodNotification('Eliminado con exito'); 
         this.props.logOut()
      })
      
@@ -73,7 +72,7 @@ class ProfilePage extends React.Component {
 
 :
 
-this.props.history.push('/login')
+this.props.history.push('/')
 
 }
 </div>
@@ -90,7 +89,8 @@ const mapStatetoProps = ({user: { currentUser , currentUserArray, currentToken}}
 const mapDispatchtoProps = ( dispatch )=> (
     {
         setItem: ( itemData )=>{ dispatch({ type: "SET_CURRENT_ITEM", payload: itemData }) },
-        logOut: ()=>{dispatch({type:'LOG_OUT'})}
+        logOut: ()=>{dispatch({type:'LOG_OUT'})},
+        setGoodNotification: (message)=>{dispatch({type:'SET_GOOD_NOTIFICATION', payload: message})}
     }
 )
 

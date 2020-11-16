@@ -22,7 +22,7 @@ class ItemPage extends React.Component{
             //edit-values
             name: '',
             pelaje: '',
-            fechanac: '',
+            hierrocodigo: '',
 
             currentItemArray: false,
             grandParents: false,
@@ -62,8 +62,7 @@ class ItemPage extends React.Component{
     async updateInformation(id){
         await fetch('/item/search/profile/' + id)
             .then( async responseArray => {
-                let { response, detail } = await responseArray.json()
-
+                let {response,detail} = await responseArray.json()
                 if(detail){
                     validator(detail, this.props.history)
                 } 
@@ -77,7 +76,6 @@ class ItemPage extends React.Component{
         await fetch('/item/search/family/parents/'+ id)
             .then( async responseArray => {
                 let { parents , grandParents , detail} = await responseArray.json()
-                
                 if(detail) validator(detail, this.props.history)
 
                 if(parents || grandParents){
@@ -87,11 +85,9 @@ class ItemPage extends React.Component{
                     })
                 }
             })
-
             
             await fetch('/item/search/family/child/' + id).then( async response => {
                 let { detail , responseArray } = await response.json()
-
                 if (detail.search('has childs') !== -1){
                     
                     this.setState({ childs: {response: responseArray} })
@@ -154,7 +150,6 @@ class ItemPage extends React.Component{
         }
       })
       .catch((e) => {
-        console.log(e)
         this.setState({confirmation: !this.state.confirmation})
         this.props.setBadNotification("Error de conexion")});
     }
@@ -204,12 +199,13 @@ class ItemPage extends React.Component{
                     {
                                    this.state.parents ? 
 
-                                   this.state.parents.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                   this.state.parents.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                                   <ImageCard
                                                   key={id}
                                                   hierro={hierro}
                                                   nombre={nombre}
-                                                  fechanac={fechanac.slice(2, 4)}
+                                                  ganaderia={ganaderia}
+                                                  hierrocodigo={hierrocodigo}
                                                   animationDelay={index}
                                                   imagenes={torosimagenes} 
                                                   tientaDia={tientadia}
@@ -228,12 +224,13 @@ class ItemPage extends React.Component{
                     <CardCarousel title='Abuelos' itemArray={this.state.childs.response}>
                                     {
                                           this.state.grandParents ? 
-                                               this.state.grandParents.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                               this.state.grandParents.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                                 <ImageCard
                                                 key={id}
                                                 hierro={hierro}
                                                 nombre={nombre}
-                                                fechanac={fechanac.slice(2, 4)}
+                                                ganaderia={ganaderia}
+                                                hierrocodigo={hierrocodigo}
                                                 animationDelay={index}
                                                 imagenes={torosimagenes} 
                                                 tientaDia={tientadia}
@@ -257,12 +254,13 @@ class ItemPage extends React.Component{
 
                                         this.state.childs.response ? 
                                         
-                                        this.state.childs.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                        this.state.childs.response.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
                                             nombre={nombre}
-                                            fechanac={fechanac.slice(2, 4)}
+                                            ganaderia={ganaderia}
+                                            hierrocodigo={hierrocodigo}
                                             animationDelay={index}
                                             imagenes={torosimagenes}
                                             tientaDia={tientadia}
@@ -288,12 +286,13 @@ class ItemPage extends React.Component{
 
                                         this.state.grandChilds.response ? 
                                         
-                                        this.state.grandChilds.response.map( ({id, nombre, hierro, torosimagenes , fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                        this.state.grandChilds.response.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
+                                            ganaderia={ganaderia}
                                             nombre={nombre}
-                                            fechanac={fechanac.slice(2, 4)}
+                                            hierrocodigo={hierrocodigo}
                                             imagenes={torosimagenes}
                                             animationDelay={index}
                                             tientaDia={tientadia}

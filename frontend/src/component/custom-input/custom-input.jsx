@@ -22,6 +22,10 @@ const Input = styled.input`
   &:hover {
     background: #aaaaaa;
   }
+
+  &:invalid {
+    color: red;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -38,6 +42,7 @@ const Label = styled.label`
   left: 0;
   color: #909090;
   top: 0;
+  text-transform: capitalize;
   transition: 0.3s;
   z-index: 0;
 
@@ -56,6 +61,7 @@ const Comment = styled.span`
   font-size: 14px;
   bottom: -0.5em;
   color: #a1a2a7;
+  text-transform: capitalize;
 `;
 
 const DeleteDataFromInput = styled.button`

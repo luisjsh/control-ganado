@@ -17,34 +17,39 @@ function HomePage ({history, setBadNotification, currentUserAdmin}) {
 
   const lastItemReferred = useCallback(node => {
     if (loading) return
-    if (observer.current) observer.current.disconnect()
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        setPageNumber(prevPageNumber => prevPageNumber + 1)
-      }
-    })
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber(prevPageNumber => prevPageNumber + 1)
+        }
+      })
     if(node) observer.current.observe(node)
   }, [loading, hasMore])
 
   if(error) setBadNotification('Error de conexión')
 
+  if (items.length === 0 && !hasMore) return (
+    <div className="HomePage">
+      <div className="loader">
+        <div className='no-cards'> 
+          <h3>Esto se encuentra algo vacío...</h3>
+          <img src={HouseIcon} alt='empty house'/>
+          {currentUserAdmin && 
+          <CustomButton 
+            onClick={()=>history.push('/add-res')}
+            color='primary-blue'
+            >Agregar Res</CustomButton>}
+        </div>
+      </div>
+    </div>
+  )  
+  
   return (
     <div className="HomePage" >
       <div className='loader'>
-        {items.length === 0 && 
-          <div className='no-cards'> 
-            <h3>Esto se encuentra algo vacío...</h3>
-            <img src={HouseIcon} alt='empty house'/>
-            {currentUserAdmin && 
-            <CustomButton 
-              onClick={()=>history.push('/add-res')}
-              color='primary-blue'
-              >Agregar Res</CustomButton>}
-          </div>
-        }
         <div className="card-section">
         {
-          items.map( ({ id, nombre, hierro, torosimagenes, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => {
+          items.map( ({ id, nombre, hierro, hierrocodigo, torosimagenes, ganaderia, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => {
             if (items.length === index + 1) {
               return <div
               ref={lastItemReferred}
@@ -53,17 +58,21 @@ function HomePage ({history, setBadNotification, currentUserAdmin}) {
                 <Card
                 hierro={hierro}
                 nombre={nombre}
+                hierrocodigo={hierrocodigo}
                 animationDelay={index}
-                fechanac={fechanac.slice(2, 4)}
+                fechanac={fechanac.slice(8, 10)}
                 imagenes={torosimagenes}
                 tientaDia={tientadia}
+                ganaderia={ganaderia}
                 tientaResultado={tientaresultado}
                 tientaTentadoPor={tientatentadopor}
                 tientaLugar={tientalugar}
                 handleClick={() => {
                   history.push('/item/'+ id )
                 }}/>
+
                 </div>
+                
             } else {
               return <div
               key={id}
@@ -71,8 +80,10 @@ function HomePage ({history, setBadNotification, currentUserAdmin}) {
                   <Card
                 hierro={hierro}
                 nombre={nombre}
+                hierrocodigo={hierrocodigo}
                 animationDelay={index}
-                fechanac={fechanac.slice(2, 4)}
+                fechanac={fechanac.slice(8, 10)}
+                ganaderia={ganaderia}
                 imagenes={torosimagenes}
                 tientaDia={tientadia}
                 tientaResultado={tientaresultado}
@@ -81,6 +92,7 @@ function HomePage ({history, setBadNotification, currentUserAdmin}) {
                 handleClick={() => {
                   history.push('/item/'+ id )
                 }} />
+
               </div>
             }})
         }

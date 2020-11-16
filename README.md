@@ -21,8 +21,5 @@ Inside the Backend folder you should run this command
 
     npm start
 
-Inside the Frontend folder you should run this command
-
-     npm start
 
   

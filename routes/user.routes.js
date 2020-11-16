@@ -1,6 +1,8 @@
 const express = require('express')
-const router = express.Router()
 const jwt = require('jsonwebtoken')
+const imageMin = require('imagemin')
+const imageMin_jpeg = require('imagemin-jpegtran')
+const router = express.Router()
 
 
 const passwordFunctions = require('../functions/password-functions');
@@ -12,7 +14,20 @@ const config = require('../config');
 const user = require('../models/usuario')
 const userimagens = require('../models/usuarioImagenes')
 
-//--------------------------------------------
+router.get('/find/:email', async (req,res)=>{
+    let {email} = req.params
+    try{
+        await user.findOne({
+            where: {email}
+        }).then( response => {
+            if(!response)res.status(200).json({message: 'user not db'})
+            if(response)res.status(200).json({response})
+        })
+    }catch(e){
+        res.status(200).json({message: 'something went wrong'})
+    }
+})
+
 
 router.get('/profile/', tokenVerification, async (req,res)=>{
     let { userId } = req;
@@ -63,7 +78,7 @@ router.post('/add', async (req, res)=>{
             email: correo , 
             clave: contrasena, 
             nombre: nombre, 
-            admin: true, 
+            admin, 
             primerapregunta, 
             primerapreguntarespuesta, 
             segundapregunta, 
@@ -82,8 +97,15 @@ router.post('/add', async (req, res)=>{
         }).then( async response => {
             let i = 0
             for (i= 0; i<req.files.length; i++){
+                await imageMin(
+                    [`public/img/uploads/${req.files[i].filename}`],
+                    {
+                        destination: 'public/img/compressed',
+                        plugins: [imageMin_jpeg()]
+                    }
+                )
                 await userimagens.create({ 
-                    path: '/img/uploads/' + req.files[i].filename, usuarioid: response.id
+                    path: '/img/compressed/' + req.files[i].filename, usuarioid: response.id
                 },{
                     fields: [ 'path' , 'usuarioid']
                 })
@@ -154,32 +176,48 @@ router.post('/changepassword',  async (req,res)=>{
     
     clave = await passwordFunctions.encrypt( clave )
     
-    let Item = await user.findOne({
-        where: { id }
-    })
-    
-    Item.clave = clave;
-    Item.save()
+    try{
+        await user.findOne({
+            where: { id }
+        }).then( response =>{
+            if(!response) res.status(200).json({message: 'user not db'})
+            
+            if(response){
+                response.clave = clave;
+                response.save()
+                res.status(200).json({message: 'updated'})
+            }
+        })
 
-    res.json({status: 200, message: 'updated'})
+    }catch(e){
+        res.status(200).json({message: 'server error'})
+    }
 })
 
 
 router.get('/delete/:id', tokenVerification, adminVerification , async (req,res)=>{
     let { id } = req.params
-    
-    await usuarioImagenes.findOne({
-        where: { usuarioid: id }
-    }).then( response =>{
-        if( response.length > 0){
-            
-            response.forEach( async ( image ) => {
-                await image.destroy({
-                    where: { id: image.id}
+
+    await user.destroy({
+        where: {id}
+    }).then(async ()=>{
+        await userimagens.findOne({
+            where: { usuarioid: id }
+        }).then( response =>{
+            if( response.length > 0){
+                
+                response.forEach( async ( image ) => {
+                    await image.destroy({
+                        where: { id: image.id}
+                    })
                 })
-            })
-        }    
+            } 
+            res.status(200).json({message: 'succesfull'})   
+        }).catch(() =>{
+            res.status(200).json({message: 'something went wrong'})
+        })
     })
+    
 
 })
 
@@ -224,9 +262,17 @@ router.post('/updateimage', async (req, res)=>{
         await item.destroy()
     })
     
-    req.files.map( async item =>{
+    req.files.map( async ({filename}) =>{
+        await imageMin(
+            [`public/img/uploads/${filename}`],
+            {
+                destination: 'public/img/compressed',
+                plugins: [imageMin_jpeg()]
+            }
+        )
+
         await userimagens.create({
-            path: '/img/uploads/' + item.filename , usuarioid: id
+            path: '/img/compressed/' + filename , usuarioid: id
         },{
             fields: ['path', 'usuarioid']
         })

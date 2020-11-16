@@ -35,11 +35,11 @@ $main-color: #DEDEDE;
         .no-picture{
             background: url('./img/name-icon.svg') no-repeat;
             background-position: center ;
-            background-size: 100px;
+            background-size: 60px;
+            background-color: grey;
             width: 100px;
             height: 100px;
             border-radius: 100%;
-            border: 1px solid $main-color;
             
         }
 

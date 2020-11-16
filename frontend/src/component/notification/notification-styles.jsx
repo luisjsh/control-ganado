@@ -45,6 +45,7 @@ export const NotificationText = styled.div`
   width: 10em;
   text-align: left;
   font-size: 1em;
+  font-weight: bold;
   background: ${(props) => {
     switch (props.type) {
       case "fine":

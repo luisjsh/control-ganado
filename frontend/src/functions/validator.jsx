@@ -28,9 +28,6 @@ function validator (  detail , history ) {
             history.push('/login')
             break;
 
-        case 'not allowed':
-            return
-
         case 'isnt on db':
             store.dispatch(setBadNotification('El contenido no se encuentra registrado en la base de datos'))
             history.push('/')

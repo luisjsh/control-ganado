@@ -4,9 +4,7 @@ import ChangePassword from  '../../component/change-password/changepassword'
 
 function changePassword() {
     return (
-        <div>
             <ChangePassword />
-        </div>
     )
 }
 

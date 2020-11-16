@@ -26,9 +26,9 @@ function MainInfoStep({
       pelaje: "",
       padreId: 0,
       madreId: 0,
-      sexo: "Hembra",
+      sexo: "hembra",
       encaste: '',
-      tatuaje: '',
+      ganaderia: '',
       motherArray: false,
       fatherArray: false,
       motherSearchbarValue: "",
@@ -54,6 +54,12 @@ function MainInfoStep({
         year: ''
     })
 
+    const [DeathTime, setDeathTime] = useState({
+        day: '',
+        month: '',
+        year: ''
+    })
+
     const [parentForm, setParentForm] = useState({
         mother: '',
         father: ''
@@ -67,6 +73,11 @@ function MainInfoStep({
     const handleDate = (event) =>{
         let {name, value} = event.target
         setDate({...Date, [name]: value})
+    }
+
+    const handleDateDeath = (event) =>{
+        let {name, value} = event.target
+        setDeathTime({...DeathTime, [name]:value})
     }
 
     const pelajeSelected = (event) =>{
@@ -130,10 +141,10 @@ function MainInfoStep({
         updateState('firstStep', 
         {...Data,
             files: image.files,
-            fechaNac: `${Date.day}-${Date.month}-${Date.year}`
+            fechaNac: `${Date.day}-${Date.month}-${Date.year}`,
+            fechaMuerte: `${DeathTime.day}-${DeathTime.month}-${DeathTime.year}`
         })
         handleClick()
-        
     }
 
 return (
@@ -198,6 +209,15 @@ return (
                         </div>
                     </div>
 
+                    <div className="birth-date">
+                        <p>Fecha de Muerte</p>
+                        <div className='birth-grid'>
+                        <CustomInput name='day' value={DeathTime.day} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Dia' min='01' max='31' maxLength='2' pattern="[0-9]{2}"/>
+                        <CustomInput name='month' value={DeathTime.month} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Mes' min='01' max='12' maxLength='2' pattern="[0-9]{2}"/>
+                        <CustomInput name='year' value={DeathTime.year} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Año' min='0001' max='9999' maxLength='4' pattern="[0-9]{4}"/>
+                        </div>
+                    </div>
+
                 <div className="hierro">
                     <label htmlFor="hierro">Hierro</label>
                     <div className="hierro-section" label="hierro">
@@ -220,13 +240,11 @@ return (
                                     key={id}
                                     value={id}
                                     name={
-                                    "url(http://localhost:4000" +
-                                    path +
-                                    ") center center / 70% no-repeat"
+                                    "url("+path+") center center / 45% no-repeat"
                                     }
                                     style={{
                                     background:
-                                        "url(http://localhost:4000" + path + ") center center / 70% no-repeat",
+                                        "url(" + path + ") center center / 40px no-repeat",
                                     backgroundColor: '#d4d4d4'
                                     }}
                                     onClick={hierroSelectedImage}
@@ -249,11 +267,11 @@ return (
 
                     <CustomInput name='encaste' value={Data.encaste} handleChange={formHandler} label='Encaste' required/>
 
-                    <CustomInput name='tatuaje' value={Data.tatuaje} handleChange={formHandler} label='Tatuaje' required/>
+                    <CustomInput name='ganaderia' value={Data.ganaderia} handleChange={formHandler} label='Ganaderia' required/>
 
                     <DropdownSelect labelName='Sexo' onChange={formHandler} name='sexo' value={Data.sexo} required>
-                        <option value="Hembra">Hembra</option>
-                        <option value="Macho">Macho</option>
+                        <option value="hembra">Hembra</option>
+                        <option value="macho">Macho</option>
                     </DropdownSelect>
 
             </div>
@@ -273,9 +291,10 @@ return (
                     <div className="parents-card">
                     {motherArray
                         ? motherArray.map(
-                            ({ id, nombre, hierro, fechanac, torosimagenes,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
+                            ({ id, nombre, hierro, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
+                                ganaderia={ganaderia}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}
@@ -307,9 +326,10 @@ return (
                     <div className="parents-card">
                     {fatherArray
                         ? fatherArray.map(
-                        ({ id, nombre, hierro, fechanac, torosimagenes,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
+                        ({ id, nombre, hierro, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
+                                ganaderia={ganaderia}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}
@@ -328,28 +348,6 @@ return (
                 </div>
             </div>
             
-            {/*
-            <div className="genetic-range">
-                <h3>Genetica</h3>
-                <div className="genetic-information">
-                <div className="porcentaje">{Data.porcentaje}</div>
-
-                <div className="genetica">
-                    <CustomInput label="Casta" />
-                    <CustomInput
-                    label="Porcentaje"
-                    name="porcentajeInput"
-                    style={{ width: "30px", marginLeft: "20px" }}
-                    onChange={this.GeneticRange}
-                    value={Data.porcentajeInput}
-                    />
-                </div>
-
-                <Custombutton color="secundary-blue">Agregar Otro</Custombutton>
-                </div>
-            </div>
-            */}
-
             <div className="button-section">
                 <Custombutton color="primary-blue">
                 Guardar

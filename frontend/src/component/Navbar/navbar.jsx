@@ -29,7 +29,12 @@ class Nav extends React.Component{
 
     componentDidMount(){
         this.UpdateStatus()
-        if(this.props.currentUser === undefined && this.props.location.pathname !== '/signup'){
+        if(!this.props.currentUser && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
+
+        if(this.props.currentUser === 'undefined' && this.props.location.pathname !== '/signup'){
             this.props.logOut()
             this.props.history.push('/login')
         }
@@ -45,6 +50,16 @@ class Nav extends React.Component{
     componentDidUpdate(prevProps){
         if(prevProps.currentUser !== this.props.currentUser) this.UpdateStatus()
         if(prevProps.currentToken !== this.props.currentToken) this.UpdateStatus()
+        
+        if(this.props.currentUser === undefined && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
+    
+        if(this.props.currentUser === 'userNotLoged' && this.props.location.pathname !== '/signup'){
+            this.props.logOut()
+            this.props.history.push('/login')
+        }
     }
 
 
@@ -116,7 +131,11 @@ class Nav extends React.Component{
 
                     </div>
                        
-                    <SearchBar paddingWrapper='0 1em' />
+                    {   
+                       (!this.props.currentUser || this.props.currentUser !== 'userNotLoged' ) ?  
+                        <SearchBar paddingWrapper='0 1em' /> : 
+                        <div style={{padding:'1.8em'}}/>
+                    }
                        
                     {
                         this.props.currentUser !== 'userNotLoged'  ?
@@ -142,11 +161,11 @@ class Nav extends React.Component{
                     <div className='information-card'>
 
                         <InfoCard
-                        user={this.props.currentUser}
-                        image={this.props.currentUserImagePath} 
-                        profile={this.setUserForProfile} 
-                        addMore={this.Redirect}
-                        LogOut={this.LogOut} 
+                            user={this.props.currentUser}
+                            image={this.props.currentUserImagePath} 
+                            profile={this.setUserForProfile} 
+                            addMore={this.Redirect}
+                            LogOut={this.LogOut}  
                         />
 
                     </div>
@@ -163,15 +182,14 @@ class Nav extends React.Component{
 
                     } 
 
-                    {this.props.currentUserAdmin ? 
+                    {
+                        (this.props.currentUserAdmin && this.props.location.pathname !== '/add-res') &&
                             <button
                             value="add-res"
                             tabIndex={3}
                             className='button'
                             onClick={this.Redirect}
                             ></button>
-                             : 
-                                    ""
                     }   
                 </nav>
             </div>

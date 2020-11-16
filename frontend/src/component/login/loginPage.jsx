@@ -49,7 +49,6 @@ class LogIn extends React.Component {
                 body: formData
             }).then( async response =>{
                 let responsejson = await response.json()
-
                 switch(responsejson.status){
                     
                     case 'password approved':
@@ -107,7 +106,7 @@ class LogIn extends React.Component {
                         <CustomButton value='login' color='primary-blue'>Iniciar Sesión</CustomButton>
                     </div>
                     
-                    <span> Recuperar contraseña </span>
+                    <span value='restorepassword' onClick={this.Redirect}> Recuperar contraseña </span>
                     <span value='signup' onClick={this.Redirect}> Registrarse </span>
                 </div>
 
