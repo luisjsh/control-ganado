@@ -10,6 +10,7 @@ const torosImage = require('../models/torosimagenes.model')
 const pelajeModel = require('../models/usefull-model/pelaje.model')
 
 const {tokenVerification, adminVerification} = require('../functions/verification-functions')
+const torosimagenes = require('../models/torosimagenes.model')
 
 router.post('/add', tokenVerification, adminVerification ,  async (req, res)=>{
 
@@ -405,14 +406,21 @@ router.get('/destroy/:id', tokenVerification, adminVerification , async (req, re
     let {id} = req.params
 
     try{
-        await toros.destroy({
+        await torosimagenes.destroy({
             where: {
-                id
+                torosid:id
             }
+        })
+        
+        await toros.destroy({
+            where: {id}
         }).then( async (response)=>{
+
             if(response === 1 ) res.status(200).json({message: 'succesfully'})
             if(response === 0 ) res.status(200).json({message: 'no entry'})
         })
+
+
     }catch(e){
         res.status(200).json({message: 'error db'})
     }

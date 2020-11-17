@@ -66,7 +66,7 @@ export const HeaderWrapperBottom = styled.div`
 
 export const Hierro = styled.div`
   background-color: white;  
-  background-size: 20px;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   width: 30px;

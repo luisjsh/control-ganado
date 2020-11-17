@@ -3,7 +3,7 @@ $sub-color: grey;
 $focus-color: #0E8FFF; 
 
 .dropdown-select {
-    padding: 1em 0;
+    padding: 1.4em 0;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -19,14 +19,14 @@ $focus-color: #0E8FFF;
     label {
         position: absolute;
         font-weight: normal;
-        top: -7px;
+        top: 0;
         text-align: left;
         color: $sub-color;
         transition: 0.3s;
     }
 
     select {
-        background-color: #F2F2F2;
+        background-color: #d2d2d2;
         padding: .8em;
         font-weight: bold;
         height: 40px;

@@ -68,7 +68,7 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
                 {
                     ...Data,
                     tientaDate: `${Date.day}-${Date.month}-${Date.year}`,
-                    result: `${resultSelect.capa} ${resultSelect.capaNumber}/${resultSelect.caballo} ${resultSelect.caballoNumber}/${resultSelect.muleta} ${resultSelect.muletaNumber}`
+                    result: `${resultSelect.capa} (${resultSelect.capaNumber})/${resultSelect.caballo} (${resultSelect.caballoNumber})/${resultSelect.muleta} (${resultSelect.muletaNumber})`
                 })
             setConfirmation(!confirmation)}}>
 

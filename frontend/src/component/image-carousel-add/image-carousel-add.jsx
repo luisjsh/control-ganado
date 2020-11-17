@@ -43,8 +43,8 @@ goRight = () =>{
                             className='input-file' 
                             style={{
                                 width: '100%', 
-                                background:  this.props.url ? 'url('+ this.props.url + ') center center / 100% no-repeat' : '#f2f2f2'
-                                ,border: '1px solid #f2f2f2', 
+                                background:  this.props.url ? 'url('+ this.props.url + ') center center / 100% no-repeat' : '#d2d2d2'
+                                ,border: '1px solid #d2d2d2', 
                                 borderRadius: '10px' ,
                                 height: "350px" }}
                         />

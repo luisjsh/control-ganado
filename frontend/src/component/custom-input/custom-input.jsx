@@ -11,7 +11,7 @@ import { rotate } from "../keyframes/keyframes"; */
 
 const Input = styled.input`
   border: none;
-  background: #F2F2F2;
+  background: #d2d2d2;
   color: black;
   border-radius: 10px;
   padding: 0.8em;

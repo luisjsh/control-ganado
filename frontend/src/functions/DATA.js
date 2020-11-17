@@ -4,7 +4,7 @@ module.exports = [{
             },
             {
                 id: 1,
-                name: 'S'
+                name: 'S '
             },
             {
                 id: 2,
@@ -16,12 +16,9 @@ module.exports = [{
             },
             {
                 id: 4,
-                name: 'B'
+                name: 'B '
             },
             {
-                id: 5,
-                name: 'B'
-            },{
                 id: 6,
                 name: 'B-'
             },
@@ -31,7 +28,7 @@ module.exports = [{
             },
             {
                 id: 8,
-                name: 'R'
+                name: 'R '
             },
             {
                 id: 9,

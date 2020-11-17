@@ -133,13 +133,13 @@ class informationCard extends Component {
                             year: tientaDia[2]
                         },
                         tientaresultado: {
-                            capa: tientaResultadoCapa[0],
-                            capaNumber: tientaResultadoCapa[2],
-                            caballo: tientaResultadoCaballo[0],
-                            caballoNumber: tientaResultadoCaballo[2],
-                            muleta: tientaResultadoMuleta[0],
-                            muletaNumber: tientaResultadoMuleta[2]
-                        },
+                                capa: tientaResultadoCapa.length === 6 ? `${tientaResultadoCapa[0]}${tientaResultadoCapa[1]}` : tientaResultadoCapa[0],
+                                capaNumber: tientaResultadoCapa.length === 6 ? tientaResultadoCapa[4] : tientaResultadoCapa[3],
+                                caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
+                                caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
+                                muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
+                                muletaNumber: tientaResultadoMuleta === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                            },
                         tientatentadopor: response.tientatentadopor,
                         tientalugar: response.tientalugar,
                         tientacaballo: response.tientacaballo,
@@ -171,13 +171,13 @@ class informationCard extends Component {
                             year: tientaDia[2]
                         },
                         tientaresultado: {
-                            capa: tientaResultadoCapa[0],
-                            capaNumber: tientaResultadoCapa[2],
-                            caballo: tientaResultadoCaballo[0],
-                            caballoNumber: tientaResultadoCaballo[2],
-                            muleta: tientaResultadoMuleta[0],
-                            muletaNumber: tientaResultadoMuleta[2]
-                        },
+                                capa: tientaResultadoCapa.length === 6 ? `${tientaResultadoCapa[0]}${tientaResultadoCapa[1]}` : tientaResultadoCapa[0],
+                                capaNumber: tientaResultadoCapa.length === 6 ? tientaResultadoCapa[4] : tientaResultadoCapa[3],
+                                caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
+                                caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
+                                muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
+                                muletaNumber: tientaResultadoMuleta === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                            },
                         tientatentadopor: response.tientatentadopor,
                         tientalugar: response.tientalugar,
                         tientacaballo: response.tientacaballo,
@@ -247,7 +247,7 @@ class informationCard extends Component {
             //formData.append('logro' , this.state.goal)
             formData.append('ganaderia' , this.state.ganaderia.toLowerCase())
             formData.append('encaste' , this.state.encaste.toLowerCase())
-            formData.append('tientaResultado', `${this.state.tientaresultado.capa} ${this.state.tientaresultado.capaNumber}/${this.state.tientaresultado.caballo} ${this.state.tientaresultado.caballoNumber}/${this.state.tientaresultado.muleta} ${this.state.tientaresultado.muletaNumber}`)
+            formData.append('tientaResultado', `${this.state.tientaresultado.capa} (${this.state.tientaresultado.capaNumber})/${this.state.tientaresultado.caballo} (${this.state.tientaresultado.caballoNumber})/${this.state.tientaresultado.muleta} (${this.state.tientaresultado.muletaNumber})`)
             formData.append('tientaDia' , `${this.state.tientadia.day}-${this.state.tientadia.month}-${this.state.tientadia.year}`)
             formData.append('tientaTentadoPor' , this.state.tientatentadopor.toLowerCase())
             formData.append('tientaLugar' , this.state.tientalugar.toLowerCase())
@@ -294,12 +294,12 @@ class informationCard extends Component {
                                 year: tientaDia[2]
                             },
                             tientaresultado: {
-                                capa: tientaResultadoCapa[0],
-                                capaNumber: tientaResultadoCapa[2],
-                                caballo: tientaResultadoCaballo[0],
-                                caballoNumber: tientaResultadoCaballo[2],
-                                muleta: tientaResultadoMuleta[0],
-                                muletaNumber: tientaResultadoMuleta[2]
+                                capa: tientaResultadoCapa.length === 6 ? `${tientaResultadoCapa[0]}${tientaResultadoCapa[1]}` : tientaResultadoCapa[0],
+                                capaNumber: tientaResultadoCapa.length === 6 ? tientaResultadoCapa[4] : tientaResultadoCapa[3],
+                                caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
+                                caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
+                                muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
+                                muletaNumber: tientaResultadoMuleta === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
                             },
                             tientalugar: response.tientalugar,
                             tientatentadopor: response.tientatentadopor,
@@ -506,12 +506,15 @@ class informationCard extends Component {
     
                     <div className="information-card">
     
+                        <SecundaryText >
+                            {
+                            this.state.hierroImg && <img alt='imagen del hierro' src={this.state.hierroImg} width='100' height='100'/>
+                            }
+                        </SecundaryText>
+
                         <SecundaryText title='Nombre:'>{this.state.currentItemArray.nombre}</SecundaryText>
 
                         <SecundaryText title='Nro:'>
-                            {
-                            this.state.hierroImg && <img alt='imagen del hierro' src={this.state.hierroImg}/>
-                            }
                             {this.state.currentItemArray.hierrocodigo}
                         </SecundaryText>
 

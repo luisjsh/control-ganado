@@ -16,9 +16,11 @@ const P = styled.p`
   text-transform: capitalize;
 
   img{
-    width: 30px;
-    height: 30px;
+    width: 60px;
+    height: 60px;
     margin-left: 5px;
+    border-radius: 10px;
+    border:1px solid grey;
   }
 
   `

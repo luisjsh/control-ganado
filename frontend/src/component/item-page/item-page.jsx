@@ -137,7 +137,7 @@ class ItemPage extends React.Component{
     })
       .then(async (response) => {
         let {message} = await response.json()
-        
+
         if(message === 'succesfully'){
           this.props.setGoodNotification('Eliminado exitosamente')
           this.setState({confirmation: !this.state.confirmation})
