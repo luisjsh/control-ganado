@@ -49,7 +49,7 @@ function HomePage ({history, setBadNotification, currentUserAdmin}) {
       <div className='loader'>
         <div className="card-section">
         {
-          items.map( ({ id, nombre, hierro, hierrocodigo, torosimagenes, ganaderia, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => {
+          items.map( ({ id, nombre, hierro, sexo, hierrocodigo, torosimagenes, ganaderia, fechanac, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => {
             if (items.length === index + 1) {
               return <div
               ref={lastItemReferred}
@@ -58,6 +58,7 @@ function HomePage ({history, setBadNotification, currentUserAdmin}) {
                 <Card
                 hierro={hierro}
                 nombre={nombre}
+                sexo={sexo}
                 hierrocodigo={hierrocodigo}
                 animationDelay={index}
                 fechanac={fechanac.slice(8, 10)}
@@ -80,6 +81,7 @@ function HomePage ({history, setBadNotification, currentUserAdmin}) {
                   <Card
                 hierro={hierro}
                 nombre={nombre}
+                sexo={sexo}
                 hierrocodigo={hierrocodigo}
                 animationDelay={index}
                 fechanac={fechanac.slice(8, 10)}

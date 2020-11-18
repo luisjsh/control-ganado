@@ -284,6 +284,7 @@ router.post('/update', tokenVerification, adminVerification , async (req, res)=>
         id , 
         nombre, 
         pelaje, 
+        sexo,
         fechaNac,
         fechaMuerte, 
         //logros, 
@@ -317,6 +318,7 @@ router.post('/update', tokenVerification, adminVerification , async (req, res)=>
             response.pelaje = ChoosedPelaje.id;
             response.fechanac = fechaNac;
             response.fechamuerte = fechaMuerte;
+            response.sexo = sexo;
             //  response.logros = parseInt(logro);
             //  response.notas = notas;
             response.encaste = encaste

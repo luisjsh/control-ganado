@@ -52,11 +52,12 @@ class SearchPage extends Component {
           {this.state.result ? (
             <div className="cards-section">
               {this.state.result.response.map(
-                ({ id, nombre, hierro, torosimagenes, hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => (
+                ({ id, nombre, hierro, sexo, torosimagenes, hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) => (
                     <Card
                     key={id}
                     hierro={hierro}
                     nombre={nombre}
+                    sexo={sexo}
                     animationDelay={index}
                     hierrocodigo={hierrocodigo}
                     imagenes={torosimagenes}

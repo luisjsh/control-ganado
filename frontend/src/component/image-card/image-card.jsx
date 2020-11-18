@@ -94,7 +94,7 @@ class ImageCard extends Component {
               <SecundaryText title='Resultado:'>{this.props.tientaResultado}</SecundaryText>
               <SecundaryText title='Lugar:'>{this.props.tientaLugar}</SecundaryText>
               <SecundaryText title='Fecha:'>{this.props.tientaDia}</SecundaryText>
-              <SecundaryText title='Tentado por:'>{this.props.tientaTentadoPor}</SecundaryText>
+              <SecundaryText title={this.props.sexo === 'hembra' ? 'Tentada por:' : 'Toreado por:'}>{this.props.tientaTentadoPor}</SecundaryText>
             </HeaderWrapperBottom>
           </CardHeader>
           <CardSection>

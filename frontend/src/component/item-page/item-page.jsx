@@ -199,11 +199,12 @@ class ItemPage extends React.Component{
                     {
                                    this.state.parents ? 
 
-                                   this.state.parents.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                   this.state.parents.map( ({id, nombre, sexo, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                                   <ImageCard
                                                   key={id}
                                                   hierro={hierro}
                                                   nombre={nombre}
+                                                  sexo={sexo}
                                                   ganaderia={ganaderia}
                                                   hierrocodigo={hierrocodigo}
                                                   animationDelay={index}
@@ -224,11 +225,12 @@ class ItemPage extends React.Component{
                     <CardCarousel title='Abuelos' itemArray={this.state.childs.response}>
                                     {
                                           this.state.grandParents ? 
-                                               this.state.grandParents.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                               this.state.grandParents.map( ({id, nombre, sexo, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                                 <ImageCard
                                                 key={id}
                                                 hierro={hierro}
                                                 nombre={nombre}
+                                                sexo={sexo}
                                                 ganaderia={ganaderia}
                                                 hierrocodigo={hierrocodigo}
                                                 animationDelay={index}
@@ -254,10 +256,11 @@ class ItemPage extends React.Component{
 
                                         this.state.childs.response ? 
                                         
-                                        this.state.childs.response.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                        this.state.childs.response.map( ({id, nombre, hierro, sexo, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
+                                            sexo={sexo}
                                             nombre={nombre}
                                             ganaderia={ganaderia}
                                             hierrocodigo={hierrocodigo}
@@ -286,11 +289,12 @@ class ItemPage extends React.Component{
 
                                         this.state.grandChilds.response ? 
                                         
-                                        this.state.grandChilds.response.map( ({id, nombre, hierro, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
+                                        this.state.grandChilds.response.map( ({id, nombre, hierro, sexo, torosimagenes , hierrocodigo, ganaderia, tientadia, tientaresultado, tientatentadopor,tientalugar}, index) =>(
                                             <ImageCard
                                             key={id}
                                             hierro={hierro}
                                             ganaderia={ganaderia}
+                                            sexo={sexo}
                                             nombre={nombre}
                                             hierrocodigo={hierrocodigo}
                                             imagenes={torosimagenes}

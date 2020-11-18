@@ -23,6 +23,7 @@ class informationCard extends Component {
                 encaste: '',
                 ganaderia: '',
                 hierroImg: false,
+                sexo: '',
                 fechanac: {
                     day: '',
                     month: '',
@@ -113,6 +114,7 @@ class informationCard extends Component {
                         id: id , 
                         currentItemArray: response , 
                         name: response.nombre, 
+                        sexo: response.sexo,
                         pelaje: response.pelajes.nombre,
                         encaste: response.encaste,
                         ganaderia: response.ganaderia,
@@ -152,6 +154,7 @@ class informationCard extends Component {
                         id: id , 
                         currentItemArray: response , 
                         name: response.nombre, 
+                        sexo: response.sexo,
                         pelaje: response.pelajes.nombre,
                         ganaderia: response.ganaderia,
                         encaste: response.encaste,
@@ -241,6 +244,7 @@ class informationCard extends Component {
         ){  
             formData.append('id' , this.props.currentItemArray.id)
             formData.append('nombre' , this.state.name.toLowerCase())
+            formData.append('sexo' , this.state.sexo)
             formData.append('pelaje' , this.state.pelaje)
             formData.append('fechaNac' , `${this.state.fechanac.day}-${this.state.fechanac.month}-${this.state.fechanac.year}`)
             formData.append('fechaMuerte', `${this.state.fechamuerte.day}-${this.state.fechamuerte.month}-${this.state.fechamuerte.year}`)
@@ -275,6 +279,7 @@ class informationCard extends Component {
                         this.setState({
                             currentItemArray: response,
                             name: response.nombre, 
+                            sexo: response.sexo,
                             pelaje: response.pelajes.nombre,
                             encaste: response.encaste,
                             ganaderia: response.ganaderia,
@@ -379,10 +384,13 @@ class informationCard extends Component {
                         </DropdownInput>
 
                         <DropdownSelect
+                            name='sexo'
+                            onChange={this.formHandler}
                             labelName='Sexo'
-                        >
-                            <option value="Hembra">Hembra</option>
-                            <option value="Macho">Macho</option>
+                        >  
+                            <option>-----------</option>
+                            <option value="hembra">Hembra</option>
+                            <option value="macho">Macho</option>
                         </DropdownSelect>
                       
                         <div className="date"> 

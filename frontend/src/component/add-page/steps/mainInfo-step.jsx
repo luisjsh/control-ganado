@@ -291,12 +291,13 @@ return (
                     <div className="parents-card">
                     {motherArray
                         ? motherArray.map(
-                            ({ id, nombre, hierro, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
+                            ({ id, nombre, hierro,sexo, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
                                 ganaderia={ganaderia}
                                 hierro={hierro}
                                 nombre={nombre}
+                                sexo={sexo}
                                 fechanac={fechanac.slice(2, 4)}
                                 imagenes={torosimagenes}
                                 tientaDia={tientadia}
@@ -326,10 +327,11 @@ return (
                     <div className="parents-card">
                     {fatherArray
                         ? fatherArray.map(
-                        ({ id, nombre, hierro, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
+                        ({ id, nombre, hierro, sexo, fechanac, torosimagenes, ganaderia,  tientadia, tientaresultado, tientatentadopor,tientalugar }, i) => (
                             <ImageCard
                                 key={id}
                                 ganaderia={ganaderia}
+                                sexo={sexo}
                                 hierro={hierro}
                                 nombre={nombre}
                                 fechanac={fechanac.slice(2, 4)}
