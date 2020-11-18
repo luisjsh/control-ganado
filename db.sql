@@ -106,7 +106,7 @@ INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/domecq.svg', 'domecq'
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/garciaJimenez.svg', 'garcia jimenez');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/jandilla.svg', 'jandilla');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/murube.svg', 'murube');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/torreestreñña.svg', 'torreestrella');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/torreestrella.svg', 'torreestrella');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/victorianoDelRio.svg', 'victoriano del rio');
 
 INSERT INTO usuarios (email, nombre, primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta, admin, clave ) Values ('admin@admin.com','admin', 'admin', 'admin', 'admin', 'admin', 't', '$2a$10$TTYMKvi.cgEtTscb4Nr/gedfTY2o0YV5wD3i8rJ251yInYtJbLUXG');

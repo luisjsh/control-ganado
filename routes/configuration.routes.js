@@ -90,4 +90,20 @@ router.get('/destroy/pelaje/:id', tokenVerification, adminVerification , async (
     }
 })
 
+router.get('/destroy/hierro/:id', tokenVerification, adminVerification , async (req, res)=>{
+    let {id} = req.params
+    try{
+        await hierros.destroy({
+            where: {
+                id
+            }
+        }).then( async (response)=>{
+            if(response === 1 ) res.status(200).json({message: 'succesfully'})
+            if(response === 0 ) res.status(200).json({message: 'no entry'})
+        })
+    }catch(e){
+        res.status(200).json({message: 'error db'})
+    }
+})
+
 module.exports = router;

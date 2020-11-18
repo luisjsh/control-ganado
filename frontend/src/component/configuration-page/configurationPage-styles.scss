@@ -8,7 +8,6 @@
 
     .table {
         width: 100%;
-        height: 100%;
         font-size: 25px;
         text-align: center;
 
@@ -19,29 +18,36 @@
         }
 
         .add-section {
-            width: 100%;
-            height: 100%;
+            padding: 0 1em 1em 1em;
             transition: 0.8s;
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: space-around;
-
+            display: grid;
+            grid-gap: 1em;
+            grid-template-columns: 2fr 2fr;
 
             .inputfile-section {
-                width: 40%;
                 height: 100%;
-                display: flex;
-                flex-direction: column;
+                display: grid;
+                grid-gap: .5em;
+
+                .thumbnail{
+                    display: grid;
+                    padding: 1em;
+                    height: 200px;
+                    overflow: hidden;
+                    overflow-y: auto;
+                    border: 2px solid #d2d2d2;
+                    border-radius: 10px;
+                    grid-template-columns: repeat(auto-fit, 130px);
+                    justify-items: center;
+                }
             }
 
             .items {
-                width: 40%;
                 display: flex;
                 flex-direction: column;
-                height: 100%;
 
                 .pelajes-db {
-                    height: 60%;
+                    height: 400px;
                     border: 1px solid #dedede;
                     display: flex;
                     flex-direction: column;
@@ -69,6 +75,22 @@
                             font-weight: bold;
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 676px){
+    .configuration-page{
+        .table{
+            .add-section{
+                display: flex;
+                flex-direction: column;
+                grid-template-rows: 2fr;
+
+                .inputfile-section{
+                    padding: .4em;
                 }
             }
         }

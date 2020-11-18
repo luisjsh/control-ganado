@@ -4,9 +4,7 @@ import ConfigurationPage from '../../component/configuration-page/configurationP
 
 function configurationpage() {
     return (
-        <div>
-            <ConfigurationPage/>
-        </div>
+        <ConfigurationPage/>
     )
 }
 

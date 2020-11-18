@@ -7,6 +7,7 @@ import "./configurationPage-styles.scss";
 import ConfirmationCard from '../confirmation-card/confirmation-card'
 import CustomInput from "../custom-input/custom-input";
 import CustomButton from "../custom-button/custom-button";
+import ImageThumbnail from "../image-thumbnail-edit/image-thumbnail-edit";
 
 class configurationPage extends Component {
   constructor(props) {
@@ -14,24 +15,30 @@ class configurationPage extends Component {
 
     this.state = {
       confirmation: false,
+      confirmationFunction: false,
       url: false,
       pelaje: null,
+      hierro: [],
+      hierroToDelete: false,
       destroyPelajeId: false,
       pelajeCode: "",
       hierroCode: "",
     };
     this.getPelajes = this.getPelajes.bind(this)
+    this.getHierros = this.getHierros.bind(this)
     this.handleFile = this.handleFile.bind(this);
     this.formHandler = this.formHandler.bind(this);
     this.submit = this.submit.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.changeConfirmation = this.changeConfirmation.bind(this)
+    this.handleClickThumbnail = this.handleClickThumbnail.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.getPelajes()
+    this.getHierros()
   }
-
+  
   async getPelajes(){
     await fetch("configuration/getpelaje", {
       method: "GET",
@@ -39,10 +46,24 @@ class configurationPage extends Component {
         "x-access-token": this.props.currentToken,
       },
     })
-      .then(async (response) => {
+    .then(async (response) => {
         this.setState({ pelaje: await response.json() });
       })
-      .catch((e) => this.props.setBadNotification("Error de conexión"));
+      .catch(() => this.props.setBadNotification("Error de conexión"));
+  }
+
+  async getHierros(){
+    await fetch("/configuration/gethierro", {
+      method: "GET",
+      headers: {
+        "x-access-token": this.props.currentToken,
+        Accept: 'application/json', 'Content-Type': 'application/json'
+      },
+    })
+      .then(async (response) => {
+        let hierrosFromDb = await response.json()
+        this.setState({ hierro: [...hierrosFromDb.response] });
+      })
   }
   
   formHandler(event) {
@@ -76,10 +97,11 @@ class configurationPage extends Component {
           .then(async (response) => {
             this.setState({ pelaje: await response.json() });
           })
-          .catch((e) => this.props.setBadNotification("Error de conexión"));
+          .catch( () => this.props.setBadNotification("Error de conexión") );
       }
+
     } else if (name === "hierro") {
-      if (this.state.hierroCode.length > 1 && this.state.url) {
+      if (this.state.url) {
         let formData = new FormData();
         formData.append("hierroCode", this.state.hierroCode);
         formData.append("image", this.state.file);
@@ -89,7 +111,12 @@ class configurationPage extends Component {
             "x-access-token": this.props.currentToken,
           },
           body: formData,
-        }).then((response) => this.props.history.push("/"));
+        }).then(() => {
+          this.props.setGoodNotification('Hierro agregado exitosamente')
+          this.getHierros()
+        }).catch(()=>this.props.setBadNotification('Error de conexión'));
+      }else{
+        this.props.setBadNotification('Actualmente no cuenta con una imagen, recuerde colocar el cuadro del centro para realizarlo')
       }
     }
   }
@@ -119,6 +146,24 @@ class configurationPage extends Component {
       .catch((e) => this.props.setBadNotification("Error de conexion"));
   }
 
+  async handleClickThumbnail(){
+    await fetch(`configuration/destroy/hierro/${this.state.hierroToDelete.toString()}`)
+      .then(async (response) => {
+        let {message} = await response.json()
+        if(message === 'succesfully'){
+          this.props.setGoodNotification('Eliminado exitosamente')
+          this.getHierros()
+          this.changeConfirmation()
+        }
+
+        if(message === 'no entry'){
+          this.props.setBadNotification('El hierro introducido no se encuentra en la base de datos')
+          this.changeConfirmation()
+        }
+      })
+      .catch((e) => this.props.setBadNotification("Error de conexion"));
+  }
+
   changeConfirmation = ()=>{
     this.setState({confirmation: !this.state.confirmation})
   }
@@ -126,21 +171,18 @@ class configurationPage extends Component {
   render() {
     return (
       <div className="configuration-page">
-      {this.state.confirmation && 
-        <ConfirmationCard 
-          handleClick={this.changeConfirmation} 
-          handleSubmit={this.handleClick}/>
-          }
+
+      {
+        this.state.confirmation && 
+          <ConfirmationCard 
+            handleClick={this.changeConfirmation} 
+            handleSubmit={this.state.confirmationFunction}/>    
+      }
+
         <div className="table">
           <div className="add-section">
             <div className="inputfile-section">
-              <CustomInput
-                name="hierroCode"
-                value={this.state.hierroCode}
-                handleChange={this.formHandler}
-                handleClick={this.formHandler}
-                label="Introduzca el codigo del Hierro"
-              />
+              <span>Presione debajo para agregar un nuevo hierro</span>
               <label
                 htmlFor="file"
                 className="input-file"
@@ -149,11 +191,12 @@ class configurationPage extends Component {
                   background: this.state.url
                     ? "url(" +
                       this.state.url +
-                      ") center center / 100% no-repeat"
+                      ") center center / 40% no-repeat"
                     : "",
-                  border: "1px solid #DEDEDE",
+                  backgroundColor: '#d2d2d2',
+                  border: "1px solid #d2d2d2",
                   borderRadius: "4px",
-                  height: "60%",
+                  height: "300px",
                 }}
               ></label>
               <input type="file" id="file" onChange={this.handleFile} />
@@ -164,6 +207,24 @@ class configurationPage extends Component {
               >
                 Agregar
               </CustomButton>
+              <span>Hierros almacenados</span>
+              <div className="thumbnail">
+                {
+                this.state.hierro.map( ({id, path}) => (
+                    <ImageThumbnail 
+                      key={id} 
+                      id={id} 
+                      url={path} 
+                      handleClickButton={
+                        () => this.setState({
+                          confirmation: !this.state.confirmation,
+                          confirmationFunction:this.handleClickThumbnail,
+                          hierroToDelete: id
+                        })
+                      }/>
+                  ))
+                } 
+              </div>
             </div>
             <div className="items">
               <CustomInput
@@ -182,7 +243,7 @@ class configurationPage extends Component {
                         value={id} 
                         title={`Eliminar ${nombre}`}
                         onClick={
-                          ()=>this.setState({confirmation: !this.state.confirmation, destroyPelajeId: id})
+                          ()=>this.setState({confirmation: !this.state.confirmation, confirmationFunction: this.handleClick ,destroyPelajeId: id})
                         }>{nombre}</span>
                     ))
                 }
