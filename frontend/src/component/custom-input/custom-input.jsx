@@ -26,6 +26,7 @@ const Input = styled.input`
   &:invalid {
     color: red;
   }
+
 `;
 
 const Wrapper = styled.div`
@@ -59,7 +60,7 @@ const Comment = styled.span`
   position: absolute;
   left: 0;
   font-size: 14px;
-  bottom: -0.5em;
+  bottom: ${props => props.bottomComment ? props.bottomComment : '-1.2em'};
   color: #a1a2a7;
   text-transform: capitalize;
 `;
@@ -92,6 +93,7 @@ function CustomInput({
   handleClick,
   comment,
   paddingWrapper,
+  bottomComment,
   ...otherProps
 }) {
 
@@ -109,7 +111,7 @@ function CustomInput({
       {label ? <Label>{label}</Label> : ""}
       <Input name={name} ref={observer} onChange={handleChange} {...otherProps}></Input>
       {handleClick && <DeleteDataFromInput name={name} onClick={handleClickDeleteFromInput} />}
-      {comment && <Comment>{comment}</Comment>}
+      {comment && <Comment bottomComment={bottomComment}>{comment}</Comment>}
     </Wrapper>
   );
 }

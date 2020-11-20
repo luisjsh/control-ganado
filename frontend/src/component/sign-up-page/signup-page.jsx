@@ -169,7 +169,7 @@ class signUpPage extends React.Component {
                 <CarouselAdd  photoChanger={this.PhotoChanger} url={this.state.url} handleFile={this.handleFile} photos={this.state.photos}/>
             
                 <div className="information-section">
-                    <span>Informacion</span>
+                    <span className='span'>Informacion</span>
                 <div className="information">
                     <div className="input-section">
                     
@@ -177,7 +177,19 @@ class signUpPage extends React.Component {
                     
                         <CustomInput type='email' name='email' onChange={this.formHandler} value={this.state.email} label={this.state.emailLabel} ></CustomInput>
 
-                        <CustomInput type='password' name='password' onChange={this.formHandler} value={this.state.password} label='Contraseña'></CustomInput>
+                        <CustomInput 
+                            type='password' 
+                            name='password' 
+                            onChange={this.formHandler} 
+                            value={this.state.password} 
+                            label='Contraseña' 
+                            pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+                            comment='La contraseña debe contener como minimo 8 caracteres, 1 mayuscula, 1 minuscula, 1 caracter especial'
+                            paddingWrapper='1.4em 0.1em 3em 0'
+                            bottomComment='0'
+                            >
+
+                        </CustomInput>
 
                         <CustomInput type='password' name='repeatPassword' onChange={this.formHandler} value={this.state.repeatPassword} label={this.state.repeatPasswordLabel} ></CustomInput>
                     
@@ -201,7 +213,7 @@ class signUpPage extends React.Component {
                 </div>
                 </div>
                 
-                    <div className="button-side">
+                    <div className="button-side"> 
                         <div className="button-pack">
                             <Custombutton color='primary-blue'>Registrarse</Custombutton>
                         </div>

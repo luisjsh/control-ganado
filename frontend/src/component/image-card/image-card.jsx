@@ -12,6 +12,8 @@ import {
   Hierro
 } from './image-card-styles'
 
+import DefaultImage from './IMG/no-image.svg'
+
 import SecundaryText from '../secundary-text/secundary-text'
 
 class ImageCard extends Component {
@@ -37,9 +39,14 @@ class ImageCard extends Component {
           Accept: {Accept: 'application/json', 'Content-Type': 'application/json'}
         }
       }
-    ).then(async (hierroResponse) =>
-      this.setState({ hierro: await hierroResponse.json() })
-    );
+    ).then(async (hierroResponse) =>{
+      let {response} = await hierroResponse.json()
+      if(!response){
+
+      } else {
+        this.setState({ hierro: response})
+      }
+    });
   }
 
   onHover() {
@@ -76,10 +83,9 @@ class ImageCard extends Component {
               <Hierro
                 className="hierro-logo"
                 style={{
-                  backgroundImage: this.state.hierro
-                    ? "url(" +
-                      this.state.hierro.response.path +
-                      ")"
+                  backgroundImage: this.state.hierro ? "url(" +
+                      this.state.hierro.path +
+                      `)`
                     : "",
                 }}
               ></Hierro>

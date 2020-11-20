@@ -213,21 +213,26 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
                 { changePasswordStep && <Section>
                     <P>Cambio de contraseña</P>
                     <form onSubmit={setNewPassword}>
-
+                        <P>Pregunta Nro 1</P>
                         <QuestionTitle>Por favor introduzca su nueva contraseña</QuestionTitle>
                         <CustomInput 
                             name='newPassword'
                             value={inputData.newPassword}
                             handleChange={formHandler}
                             type='password'
+                            pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+                            comment='La contraseña debe contener como minimo 8 caracteres, 1 mayuscula, 1 minuscula, 1 caracter especial'
                             />    
                         
+                        <P>Pregunta Nro 2</P>
                         <QuestionTitle>Por favor introduzca confirme su nueva contraseña</QuestionTitle>
                         <CustomInput 
                             name='confirmNewPassword'
                             value={inputData.confirmNewPassword}
                             handleChange={formHandler}
                             type='password'
+                            pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+                            comment='La contraseña debe contener como minimo 8 caracteres, 1 mayuscula, 1 minuscula, 1 caracter especial'
                             />    
                         
                         <CustomButton color='primary-blue'>Guardar</CustomButton>

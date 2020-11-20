@@ -209,14 +209,7 @@ return (
                         </div>
                     </div>
 
-                    <div className="birth-date">
-                        <p>Fecha de Muerte</p>
-                        <div className='birth-grid'>
-                        <CustomInput name='day' value={DeathTime.day} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Dia' min='01' max='31' maxLength='2' pattern="[0-9]{2}"/>
-                        <CustomInput name='month' value={DeathTime.month} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Mes' min='01' max='12' maxLength='2' pattern="[0-9]{2}"/>
-                        <CustomInput name='year' value={DeathTime.year} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Año' min='0001' max='9999' maxLength='4' pattern="[0-9]{4}"/>
-                        </div>
-                    </div>
+                    
 
                 <div className="hierro">
                     <label htmlFor="hierro">Hierro</label>
@@ -264,7 +257,15 @@ return (
                     </div>
                 </div>
 
-
+                <div className="birth-date">
+                        <p>Fecha de Muerte</p>
+                        <div className='birth-grid'>
+                        <CustomInput name='day' value={DeathTime.day} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Dia' min='01' max='31' maxLength='2' pattern="[0-9]{2}"/>
+                        <CustomInput name='month' value={DeathTime.month} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Mes' min='01' max='12' maxLength='2' pattern="[0-9]{2}"/>
+                        <CustomInput name='year' value={DeathTime.year} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Año' min='0001' max='9999' maxLength='4' pattern="[0-9]{4}"/>
+                        </div>
+                    </div>
+                    
                     <CustomInput name='encaste' value={Data.encaste} handleChange={formHandler} label='Encaste' required/>
 
                     <CustomInput name='ganaderia' value={Data.ganaderia} handleChange={formHandler} label='Ganaderia' required/>

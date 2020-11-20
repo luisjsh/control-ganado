@@ -23,6 +23,28 @@ $main-color: #DEDEDE;
             filter: grayscale(0%);
             border: 2px solid $blue-color;
         }
+
+        &:before{
+            content: ' ';
+            display: block;
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            left: -2px;
+            top: -2px;
+            background-color: white;
+            border-radius: 4px;
+            border: 2px solid $main-color;
+            background-image: url('../image-card/IMG/no-image.svg');
+            background-size: 160%;
+            background-repeat: no-repeat;
+            background-position: center;
+            
+            &:hover, &:focus-within{
+                filter: grayscale(0%);
+                border: 2px solid $blue-color;
+            }
+        }
     }
 
     .image-thumbnail-displayed{

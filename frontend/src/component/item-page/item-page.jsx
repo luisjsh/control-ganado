@@ -168,7 +168,7 @@ class ItemPage extends React.Component{
                     <div className="information-card">
                         
                         <div className="information-title">
-                        <span>{this.props.currentItemArray.nombre}</span>
+                            {this.props.currentItemArray.nombre}
                         {
                             this.props.currentUserAdmin &&
                                 <button className='edit' onClick={this.handleEdit}></button>
@@ -193,7 +193,6 @@ class ItemPage extends React.Component{
                 </div>
 
                 <div className="results-side">
-                    <span className='main-title'>{this.state.currentItemArray.nombre}</span>
 
                     <CardCarousel title='Padres' itemArray={this.state.parents.response}>
                     {

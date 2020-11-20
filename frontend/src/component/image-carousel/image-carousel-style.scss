@@ -118,6 +118,26 @@ $main-color: #DEDEDE;
         height: 50px;
         width: 50px;
         cursor: pointer;
+        
+        &:before{
+            content: ' ';
+            display: block;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: -2px;
+            top: -2px;
+            background-color: white;
+            border-radius: 4px;
+            background-image: url('./img/no-image.svg');
+            background-size: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+            
+            &:hover, &:focus-within{
+                filter: grayscale(0%);
+            }
+        }
     }
 
     .selected-image{
@@ -126,7 +146,25 @@ $main-color: #DEDEDE;
         height: 50px;
         animation: selectedanimation 0.3s forwards;
         cursor: pointer;
-
+        &:before{
+            content: ' ';
+            display: block;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            left: -2px;
+            top: -2px;
+            background-color: white;
+            border-radius: 4px;
+            background-image: url('./img/no-image.svg');
+            background-size: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+            
+            &:hover, &:focus-within{
+                filter: grayscale(0%);
+            }
+        }
     }
 }
 

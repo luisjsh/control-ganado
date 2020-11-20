@@ -92,7 +92,7 @@ class ImageCarousel extends Component {
                      this.props.images ? 
                     
                     this.props.images.map( ({ id, path }, idValue)=>(
-                        <img key={id} src={'http://localhost:4000'+ path} alt='Img' value={idValue}  className={ this.state.imageId === idValue ? 'selected-image' : 'tiny-slides' } onClick={this.selectImage} />
+                        <img key={id} src={path} alt='Img' value={idValue}  className={ this.state.imageId === idValue ? 'selected-image' : 'tiny-slides' } onClick={this.selectImage} />
                     ))
                 
                      :

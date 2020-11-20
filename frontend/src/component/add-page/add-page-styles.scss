@@ -389,11 +389,15 @@ $main-color: #DEDEDE;
     }
 }
 
-@include media ('<=tablet') {
+@media (max-width: 954px){
     body {
         .add-page {
             grid-template-columns: 1fr;
             padding: 0;
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
 
             .above-all{
                 width: auto;
@@ -408,7 +412,9 @@ $main-color: #DEDEDE;
             }
 
             .card-information {
-                
+                padding: 1em;
+                width: auto;
+
                 .information-enter {
                     grid-template-columns: 1fr;
                     padding: 0;

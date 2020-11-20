@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled, {keyframes} from 'styled-components'
 
 import NoImageIcon from './IMG/no-image.svg'
@@ -71,7 +71,7 @@ export const Hierro = styled.div`
   background-position: center;
   width: 30px;
   height: 30px;
-  border-radius: 100% ;
+  border-radius: 100%;
 `
 
 
@@ -108,14 +108,14 @@ const Wrapper = styled.div`
   transition: .3s;
 `
 
-const BlurredBackground = styled.div`
-  background: url(http://localhost:4000${props => props.path ? props.path : ''}) no-repeat;
-  background-size: 10000%;
+const BlurredBackground = styled.img`
+  background-color: white;
   position: absolute; 
+  background-size: 3000%;
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  filter: contrast(0.5);
+  filter: grayscale(5) contrast(.3) brightness(.8);
   transition: .3s;
   `
   
@@ -130,10 +130,21 @@ const BlurredBackground = styled.div`
 
 
 export const CardImage = ({path, hovered})=>{
-  return(
+  const [imageLoadError, setImageLoadError] = useState(false)
+
+  if(imageLoadError) return <CardNoImage/>
+
+  if(!imageLoadError) return(
     <Wrapper hovered={hovered}>
-      <BlurredBackground path={path} />
-      <Img src={`${path}`} loading='lazy' width='300' height='300'/>
+      <BlurredBackground 
+        src={path} 
+        onError={()=>setImageLoadError(true)} 
+      />
+      <Img src={`${path}`} 
+      loading='lazy' 
+      onError={()=>setImageLoadError(true)} 
+      width='300' 
+      height='300'/>
     </Wrapper>
   )
 }
