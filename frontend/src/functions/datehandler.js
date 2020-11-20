@@ -10,7 +10,7 @@ export default function dateHandler (date){
         store.dispatch(setBadNotification('El dia ingresado es incorrecto'))    
         return 'wrong day'
     }
-    if(month > 12 || month < 2) {
+    if(month > 12 || month < 1) {
         store.dispatch(setBadNotification('El mes ingresado es incorrecto'))
         return 'wrong month'
     }
