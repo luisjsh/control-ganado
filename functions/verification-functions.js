@@ -26,6 +26,8 @@ function tokenVerification (req, res, next){
 
 
 async function adminVerification ( req, res, next ){
+    if(!req.userId) next()
+
     req.user = await user.findOne({
         where: {id:req.userId}
     }).then( async response => {
@@ -39,6 +41,22 @@ async function adminVerification ( req, res, next ){
     })
 }
 
+function tokenVerificationNotLoged (req, res, next){
+    const token = req.headers['x-access-token'];
+    if(token === 'null' || token === ''){
+        next()
+    }
+    
+    let decodedToken
+    try {
+    decodedToken = jwt.verify(token, config.secret);
+    }catch(err){
+        next()
+    }
+    if(decodedToken) req.userId = decodedToken.id;
+    next()
+}
+
 module.exports = {
-    tokenVerification , adminVerification
+    tokenVerification , adminVerification, tokenVerificationNotLoged
 };

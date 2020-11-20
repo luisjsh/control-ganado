@@ -12,8 +12,6 @@ import {
   Hierro
 } from './image-card-styles'
 
-import DefaultImage from './IMG/no-image.svg'
-
 import SecundaryText from '../secundary-text/secundary-text'
 
 class ImageCard extends Component {

@@ -6,7 +6,7 @@ const router = express.Router()
 
 
 const passwordFunctions = require('../functions/password-functions');
-const { tokenVerification , adminVerification }= require('../functions/verification-functions');
+const { tokenVerification , tokenVerificationNotLoged, adminVerification }= require('../functions/verification-functions');
 const config = require('../config');
 
 
@@ -58,7 +58,7 @@ router.get('/admin/', tokenVerification, adminVerification, (req, res)=>{
 
 //-------------------  Adding ----------------------
 
-router.post('/add', async (req, res)=>{
+router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
     let { 
         correo, 
         contrasena, 
@@ -68,129 +68,169 @@ router.post('/add', async (req, res)=>{
         primerapreguntarespuesta, 
         segundapregunta, 
         segundapreguntarespuesta } = req.body
-    
-
-    admin = admin === 'true' ? true : false;
-
-    contrasena = await passwordFunctions.encrypt( contrasena );
-    try{
-        await user.create({
-            email: correo , 
-            clave: contrasena, 
-            nombre: nombre, 
-            admin, 
-            primerapregunta, 
-            primerapreguntarespuesta, 
-            segundapregunta, 
-            segundapreguntarespuesta
-        },{
-            fields: 
-            [ 'email', 
-            'clave', 
-            'nombre', 
-            'admin' ,
-            'primerapregunta', 
-            'primerapreguntarespuesta', 
-            'segundapregunta', 
-            'segundapreguntarespuesta' ]
-
-        }).then( async response => {
-            let i = 0
-            for (i= 0; i<req.files.length; i++){
-                await imageMin(
-                    [`public/img/uploads/${req.files[i].filename}`],
-                    {
-                        destination: 'public/img/compressed',
-                        plugins: [imageMin_jpeg()]
-                    }
-                )
-                await userimagens.create({ 
-                    path: '/img/compressed/' + req.files[i].filename, usuarioid: response.id
-                },{
-                    fields: [ 'path' , 'usuarioid']
-                })
-            }
-        })
-
-    }catch(e){
-        if(e.message === 'llave duplicada viola restricción de unicidad «usuarios_email_key»') res.status(200).json({message: 'same email'})
-        if(e.message === 'notNull Violation: usuario.email cannot be null') res.status(200).json({message: 'wrong db'})
-    }
-
-    try{
-        let searchUser = await user.findOne({
-            where: {
-                email: correo, clave: contrasena
-            },
-            include: [{
-                model: userimagens
-            }]
-        })
-            
-        token = jwt.sign({id: searchUser.id}, config.secret, { expiresIn: 60 * 60 * 24  })
-
-        res.status(200).json({message: 'succeed', user: searchUser, token})
         
-    }catch(e){
-        if(e.message === "Cannot read property 'id' of null"){
-           res.status(200).json({message: 'not added'})
-        }else{
-           res.status(200).json({message: 'error db'})
+        let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
+
+    if(contrasena.length < 8 || !regularExpression.test(contrasena)) {
+
+        if(contrasena.length < 8) return res.status(200).json({message: 'at least 8 characters'})
+        if(!regularExpression.test(contrasena)) return res.status(200).json({message: 'badFormating'})
+
+    }else {
+
+        let creatorAdmin = false
+
+        if(req.userId){
+            await user.findOne({
+                where: {
+                    id: req.userId
+                }
+            }).then( response => {
+                if(response.admin === true) creatorAdmin = true
+            })
+        }
+
+        contrasena = await passwordFunctions.encrypt( contrasena );
+        admin = (admin === 'true' && creatorAdmin) ? true : false;
+
+       try{
+            await user.create({
+                email: correo , 
+                clave: contrasena, 
+                nombre: nombre, 
+                admin, 
+                primerapregunta, 
+                primerapreguntarespuesta, 
+                segundapregunta, 
+                segundapreguntarespuesta
+            },{
+                fields: 
+                [ 'email', 
+                'clave', 
+                'nombre', 
+                'admin' ,
+                'primerapregunta', 
+                'primerapreguntarespuesta', 
+                'segundapregunta', 
+                'segundapreguntarespuesta' ]
+
+            }).then( async response => {
+                let i = 0
+                for (i= 0; i<req.files.length; i++){
+                    await imageMin(
+                        [`public/img/uploads/${req.files[i].filename}`],
+                        {
+                            destination: 'public/img/compressed',
+                            plugins: [imageMin_jpeg()]
+                        }
+                    )
+                    await userimagens.create({ 
+                        path: '/img/compressed/' + req.files[i].filename, usuarioid: response.id
+                    },{
+                        fields: [ 'path' , 'usuarioid']
+                    })
+                }
+            })
+
+        }catch(e){
+            if(e.message === 'llave duplicada viola restricción de unicidad «usuarios_email_key»') res.status(200).json({message: 'same email'})
+            if(e.message === 'notNull Violation: usuario.email cannot be null') res.status(200).json({message: 'wrong db'})
+        }
+
+        try{
+            let searchUser = await user.findOne({
+                where: {
+                    email: correo, clave: contrasena
+                },
+                include: [{
+                    model: userimagens
+                }]
+            })
+                
+            token = jwt.sign({id: searchUser.id}, config.secret, { expiresIn: 60 * 60 * 24  })
+
+            res.status(200).json({message: 'succeed', user: searchUser, token})
+            
+        }catch(e){
+            if(e.message === "Cannot read property 'id' of null"){
+                res.status(200).json({message: 'not added'})
+            }else{
+                res.status(200).json({message: 'error db'})
+            }
         }
     }
-  
 })
 
 router.post('/login', async (req, res)=>{
     let { correo , clave } = req.body
-    let { token , status, userInformation } = ''
-    try{
-    await user.findOne({
-        where: {email: correo },
-        include: [{
-            model: userimagens
-        }]
-    }).then( async response => {
-        
-     if ( await passwordFunctions.compare(clave , response.clave) ){
-        token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 48 })
-        status = 'password approved'
-        userInformation = response 
+
+    let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
+
+    if(clave.length < 8 || !regularExpression.test(clave)) {
+
+        if(clave.length < 8) return res.status(200).json({message: 'at least 8 characters'})
+        if(!regularExpression.test(clave)) return res.status(200).json({message: 'badFormating'})
+
     } else {
-        status = 'password wrong'
-    }
+        let { token , status, userInformation } = ''
+        try{
+        await user.findOne({
+            where: {email: correo },
+            include: [{
+                model: userimagens
+            }]
+        }).then( async response => {
             
-    }).catch( e => {
-        status = 'email wrong'
-    })
-    } catch (e){
-        status = 'bad db'
+         if ( await passwordFunctions.compare(clave , response.clave) ){
+            token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 48 })
+            status = 'password approved'
+            userInformation = response 
+        } else {
+            status = 'password wrong'
+        }
+                
+        }).catch( e => {
+            status = 'email wrong'
+        })
+        } catch (e){
+            status = 'bad db'
+        }
+        res.json({ token , status, userInformation })
     }
-    res.json({ token , status, userInformation })
+
 })
 
 
 
 router.post('/changepassword',  async (req,res)=>{
     let { clave , id } = req.body
-    
-    clave = await passwordFunctions.encrypt( clave )
-    
-    try{
-        await user.findOne({
-            where: { id }
-        }).then( response =>{
-            if(!response) res.status(200).json({message: 'user not db'})
-            
-            if(response){
-                response.clave = clave;
-                response.save()
-                res.status(200).json({message: 'updated'})
-            }
-        })
 
-    }catch(e){
-        res.status(200).json({message: 'server error'})
+    let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
+
+    if(clave.length < 8 || !regularExpression.test(clave)) {
+
+        if(clave.length < 8) return res.status(200).json({message: 'at least 8 characters'})
+        if(!regularExpression.test(clave)) return res.status(200).json({message: 'badFormating'})
+
+    } else {
+        clave = await passwordFunctions.encrypt( clave )
+        
+        try{
+            await user.findOne({
+                where: { id }
+            }).then( response =>{
+                if(!response) res.status(200).json({message: 'user not db'})
+                
+                if(response){
+                    response.clave = clave;
+                    response.save()
+                    res.status(200).json({message: 'updated'})
+                }
+            })
+    
+        }catch(e){
+            res.status(200).json({message: 'server error'})
+        }
     }
 })
 

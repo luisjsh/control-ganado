@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
 import { debounce } from 'lodash'
+import {connect} from 'react-redux'
 
 import validator from '../../functions/validator'
 
@@ -63,7 +64,13 @@ class searchBar extends Component {
 
     fetchData = debounce(async ()=>{
         if(this.state.searchbar.length > 0){
-            await fetch('http://localhost:4000/search/name/'+this.state.searchbar.toLowerCase()).then( async searchResult =>{
+            await fetch('/search/name/'+this.state.searchbar.toLowerCase(),{
+                method:'GET',
+                headers:{
+                    'Content-type' :'application/json',
+                    'x-access-token' : this.props.currentToken
+                }
+            }).then( async searchResult =>{
                 let {response, detail} = await  searchResult.json()
 
                 if(detail) validator(detail, this.props.history)
@@ -97,7 +104,7 @@ class searchBar extends Component {
 
         if(value.length > 0){
 
-            await fetch('http://localhost:4000/search/'+value)
+            await fetch('/search/'+value)
                 .then( async Response =>{
                     let { response } = await Response.json()
 
@@ -152,4 +159,10 @@ class searchBar extends Component {
     }
 }
 
-export default withRouter(searchBar)
+const mapStatetoProps = ({user: {currentToken}}) =>{
+    return {
+        currentToken
+    }
+}
+
+export default connect(mapStatetoProps) (withRouter(searchBar))

@@ -24,16 +24,20 @@ class SearchPage extends Component {
         this.handleUpdate(this.state.value)
     }
 
-    componentDidUpdate(){
-        if( this.props.match.params.name !== this.state.value){
+    componentDidUpdate(prevProps){
+        if( this.props.match.params.name !== prevProps.match.params.name){
             this.setState({ value: this.props.match.params.name})
             this.handleUpdate(this.props.match.params.name)
         }
     }
 
     async handleUpdate(value){
-        await fetch("http://localhost:4000/search/page/"+ value.toLowerCase(), {
+        await fetch("/search/page/"+ value.toLowerCase(), {
             method: "GET",
+            headers:{
+              'Content-type' :'application/json',
+              'x-access-token' : this.props.currentToken
+          }
           }).then(async (response) =>
             this.setState({ result: await response.json() })
           );
@@ -92,9 +96,9 @@ class SearchPage extends Component {
     }
 }
 
-const mapStatetoProps = ({user: {currentUserAdmin}})=>{
+const mapStatetoProps = ({user: {currentUserAdmin, currentToken}})=>{
   return{
-    currentUserAdmin
+    currentUserAdmin, currentToken
   }
 }
 

@@ -148,6 +148,14 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
                         setGoodNotification('Contraseña cambiada exitosamente')
                         history.push('/login')
                     }
+
+                    if(message === 'badFormating'){
+                        this.props.setBadNotification('Recuerde que la contraseña debe llevar al menos 1 caracter especial, una letra mayuscula y una minuscula')
+                    }
+                    
+                    if(message === 'at least 8 characters'){
+                        this.props.setBadNotification('Recuerde que la contraseña debe ser de al menos 8 caracteres')
+                    }
                 }
             }).catch( () =>{
                 setBadNotification('Error de conexión')

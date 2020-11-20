@@ -6,8 +6,9 @@ const Op = sequelize.Op
 const torosModel = require('../models/toros.model')
 const torosImage = require('../models/torosimagenes.model') 
 
+const {tokenVerification} = require('../functions/verification-functions.js')
 
-router.get('/name/:name', async (req, res)=>{
+router.get('/name/:name', tokenVerification ,async (req, res)=>{
     let { name } = req.params
     try{
         await torosModel.findAll({
@@ -51,43 +52,49 @@ router.get('/name/:name', async (req, res)=>{
     }
 })
 
-router.get('/page/:name', async (req, res)=>{
+router.get('/page/:name', tokenVerification , async (req, res)=>{
     let { name } = req.params
     
-    let Item = await torosModel.findAll({
-        where: {
-            [Op.or]:[
-                {
-                    encaste:{ 
-                        [Op.like]: '%'+name+'%'
-                    }
-                },
-                {
-                    nombre: {
-                        [Op.like]: '%'+name+'%'
-                    }
-                },
-                {
-                    hierrocodigo:{
-                        [Op.like]: '%'+name+'%'
-                    }
-                },
-                { 
-                    sexo: {
-                        [Op.like]: '%'+name+'%'
-                    }
-                },
-                { 
-                    ganaderia: {
-                        [Op.like]: '%'+name+'%'
-                    }
-                },
-            ]
-        },
-        include: [{model: torosImage}]
-    })
-
-    res.status(200).json({response: Item})
+    try{
+        await torosModel.findAll({
+            where: {
+                [Op.or]:[
+                    {
+                        encaste:{ 
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    {
+                        nombre: {
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    {
+                        hierrocodigo:{
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    { 
+                        sexo: {
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                    { 
+                        ganaderia: {
+                            [Op.like]: '%'+name+'%'
+                        }
+                    },
+                ]
+            },
+            include: [{model: torosImage}]
+        }).then( response =>{
+            res.status(200).json({response: response})
+        }).catch( () => {
+            res.status(200).json({response: []})
+        })
+    }catch(e){
+        res.status(200).json({detail: 'problem db'})
+    }
 })
 
 module.exports = router;

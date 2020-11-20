@@ -127,6 +127,14 @@ class signUpPage extends React.Component {
                         this.props.setBadNotification('error de servidor')
                         this.props.history.push('/')
                         break;
+                    
+                    case 'badFormating':
+                        this.props.setBadNotification('Recuerde que la contraseña debe llevar al menos 1 caracter especial, una letra mayuscula y una minuscula')
+                        break;
+
+                    case 'at least 8 characters':
+                        this.props.setBadNotification('Recuerde que la contraseña debe ser de al menos 8 caracteres')
+                        break;
 
                     default:
                         return ''
