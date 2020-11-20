@@ -144,20 +144,21 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
                 
                 if(message){
                     if(message === 'user not db') setBadNotification('El correo no se encuentra registrado')
+                    
                     if(message === 'updated'){
                         setGoodNotification('Contraseña cambiada exitosamente')
                         history.push('/login')
                     }
 
                     if(message === 'badFormating'){
-                        this.props.setBadNotification('Recuerde que la contraseña debe llevar al menos 1 caracter especial, una letra mayuscula y una minuscula')
+                        setBadNotification('Recuerde que la contraseña debe llevar al menos 1 caracter especial, una letra mayuscula y una minuscula')
                     }
                     
                     if(message === 'at least 8 characters'){
-                        this.props.setBadNotification('Recuerde que la contraseña debe ser de al menos 8 caracteres')
+                        setBadNotification('Recuerde que la contraseña debe ser de al menos 8 caracteres')
                     }
                 }
-            }).catch( () =>{
+            }).catch( (e) =>{
                 setBadNotification('Error de conexión')
             })
         } else {
@@ -195,6 +196,8 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
                     <Section>
                         <P>Preguntas de seguridad</P>
                         <form onSubmit={checkAnswers}>
+                            <P>Primera pregunta</P>
+
                             <QuestionTitle>{user.primerapregunta}</QuestionTitle>
                             <CustomInput 
                                 type='text' 
@@ -204,6 +207,7 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
                                 handleChange={formHandler} 
                                 required/>
 
+                            <P>Segunda pregunta</P>
                             <QuestionTitle>{user.segundapregunta}</QuestionTitle>
                             <CustomInput 
                                 type='text' 
@@ -221,7 +225,6 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
                 { changePasswordStep && <Section>
                     <P>Cambio de contraseña</P>
                     <form onSubmit={setNewPassword}>
-                        <P>Pregunta Nro 1</P>
                         <QuestionTitle>Por favor introduzca su nueva contraseña</QuestionTitle>
                         <CustomInput 
                             name='newPassword'
@@ -232,7 +235,6 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
                             comment='La contraseña debe contener como minimo 8 caracteres, 1 mayuscula, 1 minuscula, 1 caracter especial'
                             />    
                         
-                        <P>Pregunta Nro 2</P>
                         <QuestionTitle>Por favor introduzca confirme su nueva contraseña</QuestionTitle>
                         <CustomInput 
                             name='confirmNewPassword'

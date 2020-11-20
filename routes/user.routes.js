@@ -168,8 +168,8 @@ router.post('/login', async (req, res)=>{
 
     if(clave.length < 8 || !regularExpression.test(clave)) {
 
-        if(clave.length < 8) return res.status(200).json({message: 'at least 8 characters'})
-        if(!regularExpression.test(clave)) return res.status(200).json({message: 'badFormating'})
+        if(clave.length < 8) return res.status(200).json({status: 'at least 8 characters'})
+        if(!regularExpression.test(clave)) return res.status(200).json({status: 'badFormating'})
 
     } else {
         let { token , status, userInformation } = ''
