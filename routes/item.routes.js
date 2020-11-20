@@ -131,7 +131,7 @@ router.post('/add', tokenVerification, adminVerification ,  async (req, res)=>{
 });
 
 
-router.get('/page/:pageNumber', async (req, res)=>{
+router.get('/page/:pageNumber',  async (req, res)=>{
     let {pageNumber} = req.params
     let limit = 10;
 
@@ -152,7 +152,7 @@ router.get('/page/:pageNumber', async (req, res)=>{
 })
 
 
-router.get('/search/profile/:id', async (req, res)=>{
+router.get('/search/profile/:id', tokenVerification ,  async (req, res)=>{
     let { id } = req.params;
     try{
     await toros.findOne({
@@ -212,7 +212,7 @@ router.post('/searchforParent', tokenVerification, adminVerification , async (re
 
 
 
-router.get('/search/family/parents/:id', async (req, res)=>{
+router.get('/search/family/parents/:id',  tokenVerification , async (req, res)=>{
     let { id } = req.params
     await toros.findOne({
         where: { id }
@@ -257,7 +257,7 @@ router.get('/search/family/parents/:id', async (req, res)=>{
 })
 
 
-router.get('/search/family/child/:id', async (req, res)=>{
+router.get('/search/family/child/:id', tokenVerification ,  async (req, res)=>{
     let { id } = req.params 
 
     await toros.findAll({
@@ -342,7 +342,7 @@ router.post('/update', tokenVerification, adminVerification , async (req, res)=>
     })
 })
 
-router.post('/updateimage', async (req, res)=>{
+router.post('/updateimage',  tokenVerification , async (req, res)=>{
     let { tokeepimage , id } = req.body;
     
     if(typeof tokeepimage == 'string'){

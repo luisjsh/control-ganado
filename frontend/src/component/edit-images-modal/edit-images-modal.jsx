@@ -82,10 +82,20 @@ class EditImageModal extends Component {
                 
                 await fetch('/item/updateimage', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers:{
+                        'Content-type' :'application/json',
+                        'x-access-token' : this.props.currentToken
+                    }
                     }).then( async () =>{
 
-                       await fetch('/item/search/profile/' + this.props.id)
+                       await fetch('/item/search/profile/' + this.props.id,{
+                        method:'GET',
+                        headers:{
+                            'Content-type' :'application/json',
+                            'x-access-token' : this.props.currentToken
+                        }
+                       })
                         .then( async responseArray => {
                             let { response } = await responseArray.json()
                              
@@ -103,7 +113,11 @@ class EditImageModal extends Component {
                  
                 await fetch('/user/updateimage', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers:{
+                        'Content-type' :'application/json',
+                        'x-access-token' : this.props.currentToken
+                    }
                     }).then( async () =>{
 
                        await fetch('/user/profile/', {

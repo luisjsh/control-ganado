@@ -72,9 +72,12 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
         let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
 
     if(contrasena.length < 8 || !regularExpression.test(contrasena)) {
-
-        if(contrasena.length < 8) return res.status(200).json({message: 'at least 8 characters'})
-        if(!regularExpression.test(contrasena)) return res.status(200).json({message: 'badFormating'})
+        if(contrasena.length < 8){
+            res.status(200).json({message: 'at least 8 characters'})
+        }
+        if(!regularExpression.test(contrasena)){
+            res.status(200).json({message: 'badFormating'})
+        }
 
     }else {
 
@@ -93,8 +96,7 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
         contrasena = await passwordFunctions.encrypt( contrasena );
         admin = (admin === 'true' && creatorAdmin) ? true : false;
 
-       try{
-            await user.create({
+        await user.create({
                 email: correo , 
                 clave: contrasena, 
                 nombre: nombre, 
@@ -130,13 +132,17 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
                         fields: [ 'path' , 'usuarioid']
                     })
                 }
+            }).catch(e =>{
+                if(e.message === 'llave duplicada viola restricción de unicidad «usuarios_email_key»'){
+                    res.status(200).json({message: 'same email'})
+                }
+                if(e.message === 'notNull Violation: usuario.email cannot be null'){
+                    res.status(200).json({message: 'wrong db'})
+                }
             })
 
-        }catch(e){
-            if(e.message === 'llave duplicada viola restricción de unicidad «usuarios_email_key»') res.status(200).json({message: 'same email'})
-            if(e.message === 'notNull Violation: usuario.email cannot be null') res.status(200).json({message: 'wrong db'})
-        }
 
+        
         try{
             let searchUser = await user.findOne({
                 where: {
@@ -146,12 +152,13 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
                     model: userimagens
                 }]
             })
-                
+
             token = jwt.sign({id: searchUser.id}, config.secret, { expiresIn: 60 * 60 * 24  })
 
             res.status(200).json({message: 'succeed', user: searchUser, token})
             
         }catch(e){
+
             if(e.message === "Cannot read property 'id' of null"){
                 res.status(200).json({message: 'not added'})
             }else{

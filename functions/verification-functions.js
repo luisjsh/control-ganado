@@ -44,13 +44,15 @@ async function adminVerification ( req, res, next ){
 function tokenVerificationNotLoged (req, res, next){
     const token = req.headers['x-access-token'];
     if(token === 'null' || token === ''){
+        req.userId= false;
         next()
     }
     
     let decodedToken
     try {
-    decodedToken = jwt.verify(token, config.secret);
+        decodedToken = jwt.verify(token, config.secret);
     }catch(err){
+        req.userId = false;
         next()
     }
     if(decodedToken) req.userId = decodedToken.id;

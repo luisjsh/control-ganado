@@ -47,7 +47,12 @@ class ItemPage extends React.Component{
 
         if(prevState.edit !== this.state.edit ) {
             try{
-                await fetch('/item/search/profile/' + this.props.match.params.id)
+                await fetch('/item/search/profile/' + this.props.match.params.id,{
+                method: "GET",
+                headers: {
+                    "x-access-token": this.props.currentToken,
+                }
+                })
                     .then( async responseArray => {
                         let { response } = await responseArray.json()
                         this.setState({currentItemArray: response , id: this.props.match.params.id })
@@ -60,7 +65,12 @@ class ItemPage extends React.Component{
     }
 
     async updateInformation(id){
-        await fetch('/item/search/profile/' + id)
+        await fetch('/item/search/profile/' + id,{
+            method: "GET",
+            headers: {
+                "x-access-token": this.props.currentToken,
+            }
+        })
             .then( async responseArray => {
                 let {response,detail} = await responseArray.json()
                 if(detail){
@@ -73,7 +83,12 @@ class ItemPage extends React.Component{
                 }
             })
 
-        await fetch('/item/search/family/parents/'+ id)
+        await fetch('/item/search/family/parents/'+ id,{
+            method: "GET",
+            headers: {
+                "x-access-token": this.props.currentToken,
+              }
+        })
             .then( async responseArray => {
                 let { parents , grandParents , detail} = await responseArray.json()
                 if(detail) validator(detail, this.props.history)
@@ -86,7 +101,12 @@ class ItemPage extends React.Component{
                 }
             })
             
-            await fetch('/item/search/family/child/' + id).then( async response => {
+            await fetch('/item/search/family/child/' + id,{
+                method: "GET",
+                headers: {
+                    "x-access-token": this.props.currentToken,
+                  }
+            }).then( async response => {
                 let { detail , responseArray } = await response.json()
                 if (detail.search('has childs') !== -1){
                     
@@ -95,7 +115,12 @@ class ItemPage extends React.Component{
                 let i=0;
                 let grandChildArr = [];
                 for( i = 0; i<this.state.childs.response.length; i++){
-                    await fetch('/item/search/family/child/' + this.state.childs.response[i].id )
+                    await fetch('/item/search/family/child/' + this.state.childs.response[i].id,{
+                        method: "GET",
+                        headers: {
+                            "x-access-token": this.props.currentToken,
+                          }
+                    } )
                         .then( async response => {
                         let { detail , responseArray } = await response.json()
 

@@ -94,7 +94,12 @@ class informationCard extends Component {
     }
 
     async handleUpdateandMount(id){
-        await fetch('/item/search/profile/' + id)
+        await fetch('/item/search/profile/' + id ,{
+            method: "GET",
+            headers: {
+              "x-access-token": this.props.currentToken,
+            }
+        })
         .then( async responseArray => {
             let { response } = await responseArray.json()
             let fechaNac = response.fechanac.split('-')
@@ -107,7 +112,11 @@ class informationCard extends Component {
             let tientaResultadoCaballo = tientaResultado[1].split('')
             let tientaResultadoMuleta = tientaResultado[2].split('')
 
-            await fetch(`/configuration/getparticularhierro/${response.hierro}`).then(async responseFromDb =>{
+            await fetch(`/configuration/getparticularhierro/${response.hierro}`,{
+                headers: {
+                    "x-access-token": this.props.currentToken,
+                }
+            }).then(async responseFromDb =>{
                     let fetchedResponse = await responseFromDb.json()
                     response && 
                     this.setState({

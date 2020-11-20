@@ -55,7 +55,7 @@ router.post('/hierros', tokenVerification, adminVerification, async (req, res)=>
         
 })
 
-router.get('/getparticularhierro/:id', async(req, res)=>{
+router.get('/getparticularhierro/:id', tokenVerification, async(req, res)=>{
     await hierros.findOne({
         where: {id: parseInt(req.params.id)}
     }).then( response => {
