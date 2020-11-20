@@ -38,18 +38,17 @@ router.post('/add', tokenVerification, adminVerification ,  async (req, res)=>{
         } = req.body;
 
     let ChoosedPelaje
-
-    try{
-        ChoosedPelaje = await pelajeModel.findOne({
-            where: {
-                nombre: pelaje
-            }
-        }).catch( e => res.status(200).json({message: 'problem pelaje'}))
-    } catch(e){
-        res.status(200).json({message: 'problem pelaje'})
+    if(!pelaje){
+        try{
+            ChoosedPelaje = await pelajeModel.findOne({
+                where: {
+                    nombre: pelaje
+                }
+            }).catch( e => res.status(200).json({message: 'problem pelaje'}))
+        } catch(e){
+            res.status(200).json({message: 'problem pelaje'})
+        }
     }
-
-    if(!ChoosedPelaje) return res.status(200).json({message: 'problem pelaje'})
 
     try{
         await toros.create({

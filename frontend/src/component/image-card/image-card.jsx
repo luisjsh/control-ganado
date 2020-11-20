@@ -34,7 +34,7 @@ class ImageCard extends Component {
         method: "GET",
         credentials: "same-origin",
         headers: {
-          Accept: {Accept: 'application/json', 'Content-Type': 'application/json'}
+          "x-access-token": this.props.currentToken
         }
       }
     ).then(async (hierroResponse) =>{

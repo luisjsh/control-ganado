@@ -72,9 +72,11 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
         let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
 
     if(contrasena.length < 8 || !regularExpression.test(contrasena)) {
+
         if(contrasena.length < 8){
             res.status(200).json({message: 'at least 8 characters'})
         }
+        
         if(!regularExpression.test(contrasena)){
             res.status(200).json({message: 'badFormating'})
         }

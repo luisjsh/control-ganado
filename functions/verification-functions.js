@@ -45,7 +45,6 @@ function tokenVerificationNotLoged (req, res, next){
     const token = req.headers['x-access-token'];
     if(token === 'null' || token === ''){
         req.userId= false;
-        next()
     }
     
     let decodedToken
@@ -53,9 +52,8 @@ function tokenVerificationNotLoged (req, res, next){
         decodedToken = jwt.verify(token, config.secret);
     }catch(err){
         req.userId = false;
-        next()
     }
-    if(decodedToken) req.userId = decodedToken.id;
+    if(decodedToken) req.userId = decodedToken.id
     next()
 }
 
