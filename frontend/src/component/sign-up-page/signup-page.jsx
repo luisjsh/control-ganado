@@ -98,7 +98,10 @@ class signUpPage extends React.Component {
 
         try{
             await fetch('/user/add',{
-                method: 'POST',
+                method: "POST",
+                headers: {
+                  "x-access-token": this.props.currentToken,
+                },
                 body: formData
             }).then ( async ( response ) => {
                 let {message, token, user} = await response.json()
@@ -165,7 +168,6 @@ class signUpPage extends React.Component {
 
 
     render(){
-
         return(
             <form onSubmit={this.Show}>
             <div className='signup-page'>
@@ -245,11 +247,11 @@ const mapDispatchtoProps = (dispatch) =>(
 
 const mapStatetoProps = ({
     user:{
-        currentUserAdmin
+        currentUserAdmin , currentToken
     }
   }) => {
     return {
-        currentUserAdmin
+        currentUserAdmin, currentToken
     };
   };
 

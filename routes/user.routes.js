@@ -69,6 +69,7 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
         segundapregunta, 
         segundapreguntarespuesta } = req.body
         
+        
         let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
 
     if(contrasena.length < 8 || !regularExpression.test(contrasena)) {
