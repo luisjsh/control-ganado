@@ -16,7 +16,7 @@ function Notification({notificationData, setNotification}) {
         setTimeout( ()=>{
             showNotification = 'disappear'
                 setNotification([])
-            }, 10000
+            }, 15000
         )
     }
 

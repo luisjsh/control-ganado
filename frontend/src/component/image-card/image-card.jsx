@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {connect} from 'react-redux'
 
 import {
   Card,
@@ -119,4 +120,10 @@ class ImageCard extends Component {
   }
 }
 
-export default ImageCard
+const mapStatetoProps = ({user: {currentToken}})=>{
+  return{
+    currentToken
+  }
+}
+
+export default connect(mapStatetoProps) (ImageCard)

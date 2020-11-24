@@ -59,11 +59,23 @@ class ImageCarousel extends Component {
         this.props.setItem({torosimagenes: []})
     }
 
+    componentDidUpdate(prevProps){
+        if(prevProps.images !== this.props.images){
+            this.setState({x: 0})
+        }
+    }
+
     render() {
         return (
             <div className='carousel'>
 
-                { this.state.show ? <EditImage DontShow={this.DontShow} id={this.props.id} context={this.props.context} /> : ''}
+                { this.state.show ?
+                    <EditImage 
+                        DontShow={this.DontShow} 
+                        handleUpdate={this.props.handleUpdate}
+                        context={this.props.context}
+                        id={this.props.id}/> 
+                    : ''}
 
                 { this.props.currentUserAdmin ? <button className='edit' onClick={()=>this.setState({show: !this.state.show})}></button> : ''} 
                 

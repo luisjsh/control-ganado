@@ -88,25 +88,23 @@ INSERT INTO pelajes ( nombre ) Values ( 'melocoton');
 INSERT INTO pelajes ( nombre ) Values ( 'castano');
 INSERT INTO pelajes ( nombre ) Values ( 'bocidorado');
 
-
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierroe.svg', 'hierro e');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrohv.svg', 'hierro hv');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrolp.svg', 'hierro lp');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrojp.svg', 'hierro jp');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierror6.svg', 'hierro r6');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrotp.svg', 'hierro tp');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierro4h.svg', 'hierro 4h');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrove.svg', 'hierro ve');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrolampara.svg', 'hierro lampara');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrocruz.svg', 'hierro cruz');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrom.svg', 'hierro m');
+INSERT INTO hierros ( path, codigo ) Values ('', 'sin hierro');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/carlosNunez.svg', 'carlos nunez');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/condeDeLaCorte.svg', 'conde de la corte');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/domecq.svg', 'domecq');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/garciaJimenez.svg', 'garcia jimenez');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrocruz.svg', 'hierro cruz');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierro4h.svg', 'hierro 4h');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierroElPrado.svg', 'hierro el prado');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrom.svg', 'hierro m');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/hierrove.svg', 'hierro ve');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/jandilla.svg', 'jandilla');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/lagunaBlanca.svg', 'laguna blanca');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/murube.svg', 'murube');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/torreestrella.svg', 'torreestrella');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/ranchoGrande.svg', 'rancho grande');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/tierraBlanca.svg', 'tierraBlanca');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/torreEstrella.svg', 'torreestrella');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/victorianoDelRio.svg', 'victoriano del rio');
+
 
 INSERT INTO usuarios (email, nombre, primerapregunta, primerapreguntarespuesta, segundapregunta, segundapreguntarespuesta, admin, clave ) Values ('admin@admin.com','admin', 'admin', 'admin', 'admin', 'admin', 't', '$2a$10$dhSZ0g8zWahcyzB3a9A34OZ69FQkQQc5P.Xlj.5GKuFTTPvWnDFdi');

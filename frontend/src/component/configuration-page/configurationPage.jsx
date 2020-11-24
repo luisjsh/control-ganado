@@ -147,7 +147,12 @@ class configurationPage extends Component {
   }
 
   async handleClickThumbnail(){
-    await fetch(`configuration/destroy/hierro/${this.state.hierroToDelete.toString()}`)
+    await fetch(`configuration/destroy/hierro/${this.state.hierroToDelete.toString()}`,{
+      method: "GET",
+      headers: {
+        "x-access-token": this.props.currentToken,
+      },
+    })
       .then(async (response) => {
         let {message} = await response.json()
         if(message === 'succesfully'){

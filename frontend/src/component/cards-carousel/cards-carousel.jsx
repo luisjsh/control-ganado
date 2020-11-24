@@ -36,6 +36,11 @@ class cardsCarousel extends Component {
     }
     
 
+    componentDidUpdate(prevProps){
+        if(prevProps.itemArray !== this.props.itemArray){
+            this.setState({x: 0})
+        }
+    }
 
 
     render() {

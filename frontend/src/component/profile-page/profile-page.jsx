@@ -5,11 +5,15 @@ import { connect } from 'react-redux'
 import './profile-page-style.scss'
 import ImageCarousel from '../image-carousel/image-carousel';
 import CustomButton from '../custom-button/custom-button';
+import ConfirmationCard from '../confirmation-card/confirmation-card'
 
 class ProfilePage extends React.Component {
  
  constructor(){
      super();
+     this.state = {
+         confirmation: false
+     }
      this.Redirect = this.Redirect.bind(this);
      this.handleDelete = this.handleDelete.bind(this);
  }
@@ -51,6 +55,12 @@ class ProfilePage extends React.Component {
     this.props.currentUser && this.props.currentUserArray !== null ? 
 
 <div className="page">
+    {
+        this.state.confirmation && 
+            <ConfirmationCard
+                handleClick={()=>this.setState({confirmation: !this.state.confirmation})}
+                handleSubmit={()=>this.handleDelete()} />
+    }
 
     <div className="image-section">
     <ImageCarousel id={this.props.currentUserArray.id} context='user' />
@@ -63,7 +73,7 @@ class ProfilePage extends React.Component {
 
     <div className="edit-section">
         <CustomButton color='secundary-blue' onClick={()=>{this.props.history.push('/changepassword')}}>Cambiar contraseña</CustomButton>
-        <CustomButton color='secundary-red' onClick={this.handleDelete} >Eliminar cuenta</CustomButton>
+        <CustomButton color='secundary-red' onClick={()=>this.setState({confirmation: true})} >Eliminar cuenta</CustomButton>
     </div>
 
     </div> 

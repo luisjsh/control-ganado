@@ -141,11 +141,7 @@ class ItemPage extends React.Component{
                 
                 this.setState({ childs: {response: false},  grandChilds: { response: false}})
              }
-
-
-             
-         })   
-       
+         })      
     }
     
 
@@ -188,7 +184,11 @@ class ItemPage extends React.Component{
                         handleSubmit={this.handleDelete}
                 />}
                 <div className="profile-section">
-                <ImageCarousel id={this.props.currentItemArray.id} context='item' />
+                <ImageCarousel 
+                        handleUpdate={()=>this.updateInformation(this.props.match.params.id)}
+                        id={this.props.currentItemArray.id}
+                        context='item' 
+                        />
                 
                     <div className="information-card">
                         

@@ -59,18 +59,18 @@ class EditImageModal extends Component {
         let NewArray = this.state.image.filter( item => {
             return item.id !== id
         })
-        this.setState({currentUrl: this.state.image[0].path , image: NewArray  })
+
+        this.setState({currentUrl: NewArray[0] ? NewArray[0].path : '' , image: NewArray  })
     }
 
     async handleSubmit(){
         
         let formData = new FormData()
-
         this.state.image.forEach( item => {
-            if (item.oldVersion !== undefined) {
+            if (item.oldVersion) {
                 formData.append('tokeepimage' , item.oldVersion)
-
-            }else if (item.file !== undefined ){
+                
+            }else if (item.file){
                 formData.append('image' , item.file)
             }
         })
@@ -79,32 +79,36 @@ class EditImageModal extends Component {
         switch(this.props.context){
             
             case 'item':
-                
                 await fetch('/item/updateimage', {
                     method: 'POST',
                     body: formData,
                     headers:{
-                        'Content-type' :'application/json',
-                        'x-access-token' : this.props.currentToken
+                        "x-access-token" : this.props.currentToken
                     }
-                    }).then( async () =>{
+                    }).then( async (response) =>{
+                        let {status} = await response.json()
+                        switch(status){
+                            case 'done':
+                                this.props.DontShow()
+                                this.props.setGoodNotification('Cambios realizados con éxito')
+                                setTimeout(()=>{
+                                    this.props.handleUpdate()
+                                }, 1000)
+                            break;
 
-                       await fetch('/item/search/profile/' + this.props.id,{
-                        method:'GET',
-                        headers:{
-                            'Content-type' :'application/json',
-                            'x-access-token' : this.props.currentToken
+                            case 'ups':
+                                this.props.DontShow()
+                                this.props.handleUpdate()
+                                this.props.setBadNotification('Error de servidor')
+                            break;
+
+                            default: 
+                                return ''
                         }
-                       })
-                        .then( async responseArray => {
-                            let { response } = await responseArray.json()
-                             
-                            this.props.updateItemInformation(response)
-                            
-                            this.props.DontShow()
-                        })
-        
-                })
+                           
+                    }).catch(e=>{
+                        this.props.setBadNotification('Error de conexión')
+                    })
 
                 break;
 
@@ -115,11 +119,11 @@ class EditImageModal extends Component {
                     method: 'POST',
                     body: formData,
                     headers:{
-                        'Content-type' :'application/json',
-                        'x-access-token' : this.props.currentToken
+                        "x-access-token" : this.props.currentToken
                     }
                     }).then( async () =>{
 
+                    setTimeout(async ()=>{
                        await fetch('/user/profile/', {
                         method: "GET",
                         headers: {
@@ -129,17 +133,20 @@ class EditImageModal extends Component {
                        })
                         .then( async responseArray => {
                             let { userInformation } = await responseArray.json()
-                            
-                            this.props.updateItemInformation({ torosimagenes: userInformation.usuariosimagenes })
-                            this.props.setUserImagePath(userInformation.usuariosimagenes.length > 0 && userInformation.usuariosimagenes[0].path)
                             this.props.DontShow()
-                        })
+                            this.props.setGoodNotification('Cambios realizados con éxito')
+                                    this.props.updateItemInformation({ torosimagenes: userInformation.usuariosimagenes })
+                                    this.props.setUserImagePath(userInformation.usuariosimagenes.length > 0 && userInformation.usuariosimagenes[0].path)
+                                    this.props.DontShow()
+                                })
+                        }, 1000)
         
-                })
+                }).catch(e=>this.props.setBadNotification('Error de conexión'))
                 
                 break;
 
                 default: 
+                    return ''
         }
     }
 
@@ -199,7 +206,9 @@ const mapStatetoProps = ({item: {images} , user: {currentToken}})=>{
 const mapDispatchtoProps = ( dispatch )=>(
     {
         updateItemInformation: (item)=>{ dispatch({ type: 'SET_CURRENT_ITEM', payload: item})},
-        setUserImagePath: (item)=>{ dispatch({type:'SET_IMAGE_PATH' , payload: item})}
+        setUserImagePath: (item)=>{ dispatch({type:'SET_IMAGE_PATH' , payload: item})},
+        setGoodNotification: (message)=>{dispatch({type: 'SET_GOOD_NOTIFICATION', payload: message})},
+        setBadNotification: (message)=>{dispatch({type: 'SET_BAD_NOTIFICATION', payload: message})}
     }
 )
 

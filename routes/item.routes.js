@@ -38,7 +38,8 @@ router.post('/add', tokenVerification, adminVerification ,  async (req, res)=>{
         } = req.body;
 
     let ChoosedPelaje
-    if(!pelaje){
+
+    if(pelaje){
         try{
             ChoosedPelaje = await pelajeModel.findOne({
                 where: {
@@ -56,7 +57,7 @@ router.post('/add', tokenVerification, adminVerification ,  async (req, res)=>{
             hierro,
             hierrocodigo,
             ganaderia, 
-            pelaje: ChoosedPelaje.id ? ChoosedPelaje.id : 0, 
+            pelaje: ChoosedPelaje ? ChoosedPelaje.id : 0, 
             encaste, 
             sexo, 
             fechanac: fechaNac, 
@@ -119,7 +120,7 @@ router.post('/add', tokenVerification, adminVerification ,  async (req, res)=>{
             else {
                 res.status(200).json({message: 'succeeded'});
             }    
-        }).catch( () =>{
+        }).catch( (e) =>{
         res.status(200).json({message: 'problem db'})
         })
 
@@ -341,7 +342,7 @@ router.post('/update', tokenVerification, adminVerification , async (req, res)=>
     })
 })
 
-router.post('/updateimage',  tokenVerification , async (req, res)=>{
+router.post('/updateimage',  tokenVerification, adminVerification, async (req, res)=>{
     let { tokeepimage , id } = req.body;
     
     if(typeof tokeepimage == 'string'){
@@ -357,50 +358,50 @@ router.post('/updateimage',  tokenVerification , async (req, res)=>{
             torosid: id
         }
     })
-     
+    
+    let ItemsToDelete = [...oldImages]
 
-    let ItemsToDelete = []
+    if(tokeepimage){
+        if(oldImages.length !== tokeepimage.length){
+            oldImages.map( oldItem =>{
+                tokeepimage.map( newItem  => {
+                    if (newItem.path === oldItem.path){
+                        ItemsToDelete = ItemsToDelete.filter(({path})=>path !== oldItem.path)
+                    }
+                })
+            })
+            ItemsToDelete.map( async item =>{
+                await item.destroy()
+            })    
+        }
+    } else {
+        ItemsToDelete.map( async item =>{
+            await item.destroy()
+        })   
+    }
+
+   
+    try{
+        req.files.map( async ({filename}) =>{
     
-    if (tokeepimage == undefined){
-        
-        oldImages.map( oldItem =>{
-            ItemsToDelete.push(oldItem)
-        })
-    
-    } else if (oldImages.length != tokeepimage.length){
-        oldImages.map( oldItem =>{
-            tokeepimage.map( newItem  => {
-                if (newItem.path != oldItem.path){
-                    ItemsToDelete.push(oldItem)
+            await imageMin(
+                [`public/img/uploads/${filename}`],
+                {
+                    destination: 'public/img/compressed',
+                    plugins: [imageMin_jpeg()]
                 }
+            )
+    
+            await torosImage.create({
+                path: '/img/compressed/' + filename , torosid: id 
+            },{
+                fields: ['path', 'torosid']
             })
         })
+        res.status(200).json({status: 'done'})
+    }catch(e){
+        res.status(200).json({status: 'ups'})
     }
-    
-    
-    ItemsToDelete.map( async item =>{
-        await item.destroy()
-    })
-    
-    req.files.map( async ({filename}) =>{
-
-        await imageMin(
-            [`public/img/uploads/${filename}`],
-            {
-                destination: 'public/img/compressed',
-                plugins: [imageMin_jpeg()]
-            }
-        )
-
-        await torosImage.create({
-            path: '/img/compressed/' + filename , torosid: id 
-        },{
-            fields: ['path', 'torosid']
-        })
-    })
-
-    res.status(200).json({status: 'done'})
-    
 })
 
 router.get('/destroy/:id', tokenVerification, adminVerification , async (req, res)=>{

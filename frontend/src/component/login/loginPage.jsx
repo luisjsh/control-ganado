@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import './login-style.scss'
 
+import Logo from '../Navbar/IMG/logo.svg'
 import CustomInput from '../custom-input/custom-input';
 import CustomButton from '../custom-button/custom-button';
 
@@ -99,6 +100,7 @@ class LogIn extends React.Component {
             <div className='login'>
                 
                 <div className="login-section" onKeyDown={ (event)=>{if(event.keyCode === '13'){this.submit(event)}}}>
+                    <img className='logo' alt='Logo of the system' src={Logo} />
                     
                     <div className="login-card">
                         <span className='iniciar-sesion'>Iniciar Sesión</span>

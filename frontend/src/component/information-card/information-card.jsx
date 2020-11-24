@@ -149,7 +149,7 @@ class informationCard extends Component {
                                 caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
                                 caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
                                 muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
-                                muletaNumber: tientaResultadoMuleta === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                                muletaNumber: tientaResultadoMuleta.length === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
                             },
                         tientatentadopor: response.tientatentadopor,
                         tientalugar: response.tientalugar,
@@ -188,7 +188,7 @@ class informationCard extends Component {
                                 caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
                                 caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
                                 muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
-                                muletaNumber: tientaResultadoMuleta === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                                muletaNumber: tientaResultadoMuleta.length === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
                             },
                         tientatentadopor: response.tientatentadopor,
                         tientalugar: response.tientalugar,
@@ -285,6 +285,7 @@ class informationCard extends Component {
                         let tientaResultadoCapa = tientaResultado[0].split('')
                         let tientaResultadoCaballo = tientaResultado[1].split('')
                         let tientaResultadoMuleta = tientaResultado[2].split('')  
+
                         this.setState({
                             currentItemArray: response,
                             name: response.nombre, 
@@ -313,7 +314,7 @@ class informationCard extends Component {
                                 caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
                                 caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
                                 muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
-                                muletaNumber: tientaResultadoMuleta === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                                muletaNumber: tientaResultadoMuleta.length === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
                             },
                             tientalugar: response.tientalugar,
                             tientatentadopor: response.tientatentadopor,

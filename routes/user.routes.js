@@ -248,24 +248,16 @@ router.post('/changepassword',  async (req,res)=>{
 router.get('/delete/:id', tokenVerification, adminVerification , async (req,res)=>{
     let { id } = req.params
 
+    await userimagens.destroy({
+        where: {usuaropid: id}
+    })
+
     await user.destroy({
         where: {id}
     }).then(async ()=>{
-        await userimagens.findOne({
-            where: { usuarioid: id }
-        }).then( response =>{
-            if( response.length > 0){
-                
-                response.forEach( async ( image ) => {
-                    await image.destroy({
-                        where: { id: image.id}
-                    })
-                })
-            } 
-            res.status(200).json({message: 'succesfull'})   
-        }).catch(() =>{
-            res.status(200).json({message: 'something went wrong'})
-        })
+        res.status(200).json({message: 'succesfull'})   
+    }).catch(() =>{
+        res.status(200).json({message: 'something went wrong'})
     })
     
 
@@ -289,28 +281,27 @@ router.post('/updateimage', async (req, res)=>{
     })
      
 
-    let ItemsToDelete = []
-    
-    if (tokeepimage == undefined){
-        
-        oldImages.map( oldItem =>{
-            ItemsToDelete.push(oldItem)
-        })
-    
-    } else if (oldImages.length != tokeepimage.length){
-        oldImages.map( oldItem =>{
-            tokeepimage.map( newItem  => {
-                if (newItem.path != oldItem.path){
-                    ItemsToDelete.push(oldItem)
-                }
+    let ItemsToDelete = [...oldImages]
+
+    if(tokeepimage){
+        if(oldImages.length !== tokeepimage.length){
+            oldImages.map( oldItem =>{
+                tokeepimage.map( newItem  => {
+                    if (newItem.path === oldItem.path){
+                        ItemsToDelete = ItemsToDelete.filter(({path})=>path !== oldItem.path)
+                    }
+                })
             })
-        })
+            ItemsToDelete.map( async item =>{
+                await item.destroy()
+            })    
+        }
+    } else {
+        ItemsToDelete.map( async item =>{
+            await item.destroy()
+        })   
     }
-    
-    
-    ItemsToDelete.map( async item =>{
-        await item.destroy()
-    })
+
     
     req.files.map( async ({filename}) =>{
         await imageMin(

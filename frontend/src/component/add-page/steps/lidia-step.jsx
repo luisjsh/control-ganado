@@ -101,7 +101,7 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
                 <SectionWithTitle title='Datos de la tienta'>
                     <GridForTwo>
                         <CustomSelect name='capa' onChange={handleSelect} labelName='Resultado capa'>
-                            <option>Por favor seleccione una de las siguientes</option>
+                            <option>----------------------</option>
                             {
                                 results.map( ({id, name})=>(
                                     <option key={id} value={name}>{name}</option>
@@ -109,7 +109,7 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
                             }
                         </CustomSelect>
                         <CustomSelect  name='capaNumber' onChange={handleSelect} labelName='Resultado capa'>
-                            <option>Por favor seleccione una de las siguientes</option>
+                            <option>----------------------</option>
                             {
                                 resultsNumbers.map( ({id})=>(
                                     <option key={id} value={id}>{id}</option>
@@ -122,7 +122,7 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
                     
                     <GridForTwo>
                         <CustomSelect name='caballo' onChange={handleSelect} labelName='Resultado caballo'>
-                            <option>Por favor seleccione una de las siguientes</option>
+                            <option>----------------------</option>
                             {
                                 results.map( ({id, name})=>(
                                     <option key={id} value={name}>{name}</option>
@@ -131,7 +131,7 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
                         </CustomSelect>
                         
                         <CustomSelect name='caballoNumber' onChange={handleSelect} labelName='Resultado caballo'>
-                                <option>Por favor seleccione una de las siguientes</option>
+                                <option>----------------------</option>
                                 {
                                     resultsNumbers.map( ({id})=>(
                                         <option key={id} value={id}>{id}</option>
@@ -144,7 +144,7 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
                     
                     <GridForTwo>
                         <CustomSelect name='muleta' onChange={handleSelect} labelName='Resultado muleta'>
-                            <option>Por favor seleccione una de las siguientes</option>
+                            <option>----------------------</option>
                             {
                                 results.map( ({id, name})=>(
                                     <option key={id} value={name}>{name}</option>
@@ -152,7 +152,7 @@ function LidiaStep({updateState, handleClickConfirmation, goBack}) {
                             }
                         </CustomSelect>
                         <CustomSelect name='muletaNumber' onChange={handleSelect} labelName='Resultado muleta'>
-                                <option>Por favor seleccione una de las siguientes</option>
+                                <option>----------------------</option>
                                 {
                                     resultsNumbers.map( ({id})=>(
                                         <option key={id} value={id}>{id}</option>

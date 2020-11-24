@@ -203,9 +203,9 @@ return (
                     <div className="birth-date">
                         <p>Fecha de nacimiento</p>
                         <div className='birth-grid'>
-                        <CustomInput name='day' value={Date.day} handleChange={handleDate} paddingWrapper='0' placeholder='Dia' maxLength='2' pattern="[0-9]{2}" required/>
-                        <CustomInput name='month' value={Date.month} handleChange={handleDate} paddingWrapper='0' placeholder='Mes' maxLength='2' pattern="[0-9]{2}" required/>
-                        <CustomInput name='year' value={Date.year} handleChange={handleDate} paddingWrapper='0' placeholder='Año' maxLength='4' pattern="[0-9]{4}" required/>
+                        <CustomInput name='day' comment='DD' value={Date.day} handleChange={handleDate} paddingWrapper='0' placeholder='Dia' maxLength='2' pattern="[0-9]{2}" required/>
+                        <CustomInput name='month' comment='MM' value={Date.month} handleChange={handleDate} paddingWrapper='0' placeholder='Mes' maxLength='2' pattern="[0-9]{2}" required/>
+                        <CustomInput name='year' comment='YYYY' value={Date.year} handleChange={handleDate} paddingWrapper='0' placeholder='Año' maxLength='4' pattern="[0-9]{4}" required/>
                         </div>
                     </div>
 
@@ -260,9 +260,9 @@ return (
                 <div className="birth-date">
                         <p>Fecha de Muerte</p>
                         <div className='birth-grid'>
-                        <CustomInput name='day' value={DeathTime.day} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Dia' min='01' max='31' maxLength='2' pattern="[0-9]{2}"/>
-                        <CustomInput name='month' value={DeathTime.month} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Mes' min='01' max='12' maxLength='2' pattern="[0-9]{2}"/>
-                        <CustomInput name='year' value={DeathTime.year} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Año' min='0001' max='9999' maxLength='4' pattern="[0-9]{4}"/>
+                        <CustomInput name='day' comment='DD' value={DeathTime.day} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Dia' min='01' max='31' maxLength='2' pattern="[0-9]{2}"/>
+                        <CustomInput name='month' comment='MM' value={DeathTime.month} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Mes' min='01' max='12' maxLength='2' pattern="[0-9]{2}"/>
+                        <CustomInput name='year' comment='YYYY' value={DeathTime.year} handleChange={handleDateDeath} paddingWrapper='0' placeholder='Año' min='0001' max='9999' maxLength='4' pattern="[0-9]{4}"/>
                         </div>
                     </div>
                     
