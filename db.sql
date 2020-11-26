@@ -103,7 +103,7 @@ INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/lagunaBlanca.svg', 'l
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/murube.svg', 'murube');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/ranchoGrande.svg', 'rancho grande');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/tierraBlanca.svg', 'tierraBlanca');
-INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/torreEstrella.svg', 'torreestrella');
+INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/torreestrella.svg', 'torreestrella');
 INSERT INTO hierros ( path, codigo ) Values ('/img/hierros/victorianoDelRio.svg', 'victoriano del rio');
 
 
