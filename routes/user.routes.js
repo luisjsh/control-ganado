@@ -245,17 +245,19 @@ router.post('/changepassword',  async (req,res)=>{
 })
 
 
-router.get('/delete/:id', tokenVerification, adminVerification , async (req,res)=>{
+router.get('/delete/:id', tokenVerification, async (req,res)=>{
     let { id } = req.params
 
     await userimagens.destroy({
-        where: {usuaropid: id}
+        where: {usuarioid: id}
     })
 
     await user.destroy({
         where: {id}
-    }).then(async ()=>{
-        res.status(200).json({message: 'succesfull'})   
+    }).then(async (response)=>{
+        console.log(response)
+        if(response === 1 )res.status(200).json({message: 'succesfull'})  
+        if(response === 0 ) res.status(200).json({message: 'user not db'})
     }).catch(() =>{
         res.status(200).json({message: 'something went wrong'})
     })

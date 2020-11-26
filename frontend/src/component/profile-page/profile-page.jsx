@@ -32,7 +32,8 @@ class ProfilePage extends React.Component {
     }
 
 
-    async handleDelete(){
+    async handleDelete(event){
+        event.preventDefault()
         await fetch('/user/delete/'+ this.props.currentUserArray.id , {
             method: "GET",
             headers: {
@@ -40,9 +41,9 @@ class ProfilePage extends React.Component {
               "x-access-token": this.props.currentToken,
             }
         } ).then( () => { 
-        
-        this.props.setGoodNotification('Eliminado con exito'); 
-        this.props.logOut()
+            this.props.history.push('/login')
+            this.props.setGoodNotification('Eliminado con exito'); 
+            this.props.logOut()
      })
      
     }
@@ -59,7 +60,7 @@ class ProfilePage extends React.Component {
         this.state.confirmation && 
             <ConfirmationCard
                 handleClick={()=>this.setState({confirmation: !this.state.confirmation})}
-                handleSubmit={()=>this.handleDelete()} />
+                handleSubmit={(event)=>{this.handleDelete(event)}} />
     }
 
     <div className="image-section">

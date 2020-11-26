@@ -65,7 +65,7 @@ class LogIn extends React.Component {
                     break;
 
                     case 'password wrong':
-                        this.props.setBadNotification('La contraseña ingresada no coincide con la asociada al correo')    
+                        this.props.setBadNotification('Correo y contraseña invalidos')    
                         break;
 
                     case 'email wrong':
@@ -77,11 +77,11 @@ class LogIn extends React.Component {
                         break;
 
                     case 'badFormating':
-                        this.props.setBadNotification('Recuerde que la contraseña debe llevar al menos 1 caracter especial, una letra mayuscula y una minuscula')
+                        this.props.setBadNotification('Correo y contraseñas invalidos');
                         break;
 
                     case 'at least 8 characters':
-                        this.props.setBadNotification('Recuerde que la contraseña debe ser de al menos 8 caracteres')
+                        this.props.setBadNotification('Correo y contraseñas invalidos')
                         break;
 
                     default: 

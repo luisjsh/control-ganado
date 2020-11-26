@@ -63,6 +63,10 @@ const Comment = styled.span`
   bottom: ${props => props.bottomComment ? props.bottomComment : '-1.2em'};
   color: #a1a2a7;
   text-transform: capitalize;
+
+  @media (max-width: 411px){
+    bottom: -10px;
+  }
 `;
 
 const DeleteDataFromInput = styled.button`

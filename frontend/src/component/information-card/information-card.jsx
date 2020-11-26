@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import results from '../../functions/DATA'
 import resultsNumber from '../../functions/DATA_NUMBERS'
+import resultHandler from '../../functions/resultsSplitter'
 
 import './information-card-styles.scss'
 
@@ -111,6 +112,10 @@ class informationCard extends Component {
             let tientaResultadoCapa = tientaResultado[0].split('')
             let tientaResultadoCaballo = tientaResultado[1].split('')
             let tientaResultadoMuleta = tientaResultado[2].split('')
+            
+            let capaSplitted = resultHandler(tientaResultadoCapa)
+            let caballoSplitted = resultHandler(tientaResultadoCaballo)
+            let muletaSplitted = resultHandler(tientaResultadoMuleta)
 
             await fetch(`/configuration/getparticularhierro/${response.hierro}`,{
                 headers: {
@@ -144,12 +149,12 @@ class informationCard extends Component {
                             year: tientaDia[2]
                         },
                         tientaresultado: {
-                                capa: tientaResultadoCapa.length === 6 ? `${tientaResultadoCapa[0]}${tientaResultadoCapa[1]}` : tientaResultadoCapa[0],
-                                capaNumber: tientaResultadoCapa.length === 6 ? tientaResultadoCapa[4] : tientaResultadoCapa[3],
-                                caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
-                                caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
-                                muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
-                                muletaNumber: tientaResultadoMuleta.length === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                                capa: capaSplitted.firstSide,
+                                capaNumber: capaSplitted.secondSide,
+                                caballo: caballoSplitted.firstSide,
+                                caballoNumber: caballoSplitted.secondSide,
+                                muleta: muletaSplitted.firstSide,
+                                muletaNumber: muletaSplitted.secondSide
                             },
                         tientatentadopor: response.tientatentadopor,
                         tientalugar: response.tientalugar,
@@ -183,12 +188,12 @@ class informationCard extends Component {
                             year: tientaDia[2]
                         },
                         tientaresultado: {
-                                capa: tientaResultadoCapa.length === 6 ? `${tientaResultadoCapa[0]}${tientaResultadoCapa[1]}` : tientaResultadoCapa[0],
-                                capaNumber: tientaResultadoCapa.length === 6 ? tientaResultadoCapa[4] : tientaResultadoCapa[3],
-                                caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
-                                caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
-                                muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
-                                muletaNumber: tientaResultadoMuleta.length === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                            capa: capaSplitted.firstSide,
+                            capaNumber: capaSplitted.secondSide,
+                            caballo: caballoSplitted.firstSide,
+                            caballoNumber: caballoSplitted.secondSide,
+                            muleta: muletaSplitted.firstSide,
+                            muletaNumber: muletaSplitted.secondSide
                             },
                         tientatentadopor: response.tientatentadopor,
                         tientalugar: response.tientalugar,
@@ -251,6 +256,7 @@ class informationCard extends Component {
         if(
             dateHandler(`${this.state.fechanac.day}-${this.state.fechanac.month}-${this.state.fechanac.year}`) === "everything its fine"
         ){  
+ 
             formData.append('id' , this.props.currentItemArray.id)
             formData.append('nombre' , this.state.name.toLowerCase())
             formData.append('sexo' , this.state.sexo)
@@ -267,6 +273,7 @@ class informationCard extends Component {
             formData.append('tientaCaballo' , this.state.tientacaballo.toLowerCase())
             formData.append('tientaCapa' , this.state.tientacapa.toLowerCase())
             formData.append('tientaMuleta' , this.state.tientamuleta.toLowerCase())
+
             try{
                 await fetch('/item/update',{
                 method: 'POST',
@@ -285,6 +292,10 @@ class informationCard extends Component {
                         let tientaResultadoCapa = tientaResultado[0].split('')
                         let tientaResultadoCaballo = tientaResultado[1].split('')
                         let tientaResultadoMuleta = tientaResultado[2].split('')  
+
+                        let capaSplitted = resultHandler(tientaResultadoCapa)
+                        let caballoSplitted = resultHandler(tientaResultadoCaballo)
+                        let muletaSplitted = resultHandler(tientaResultadoMuleta)
 
                         this.setState({
                             currentItemArray: response,
@@ -309,12 +320,12 @@ class informationCard extends Component {
                                 year: tientaDia[2]
                             },
                             tientaresultado: {
-                                capa: tientaResultadoCapa.length === 6 ? `${tientaResultadoCapa[0]}${tientaResultadoCapa[1]}` : tientaResultadoCapa[0],
-                                capaNumber: tientaResultadoCapa.length === 6 ? tientaResultadoCapa[4] : tientaResultadoCapa[3],
-                                caballo: tientaResultadoCaballo.length === 6 ? `${tientaResultadoCaballo[0]}${tientaResultadoCaballo[1]}` : tientaResultadoCaballo[0],
-                                caballoNumber: tientaResultadoCaballo.length === 6 ? tientaResultadoCaballo[4] : tientaResultadoCaballo[3],
-                                muleta: tientaResultadoMuleta.length === 6 ? `${tientaResultadoMuleta[0]}${tientaResultadoMuleta[1]}` :  tientaResultadoMuleta[0],
-                                muletaNumber: tientaResultadoMuleta.length === 6 ? tientaResultadoMuleta[4] : tientaResultadoMuleta[3]
+                                capa: capaSplitted.firstSide,
+                                capaNumber: capaSplitted.secondSide,
+                                caballo: caballoSplitted.firstSide,
+                                caballoNumber: caballoSplitted.secondSide,
+                                muleta: muletaSplitted.firstSide,
+                                muletaNumber: muletaSplitted.secondSide
                             },
                             tientalugar: response.tientalugar,
                             tientatentadopor: response.tientatentadopor,
