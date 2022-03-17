@@ -66,7 +66,7 @@ class Nav extends React.Component{
     async UpdateStatus ( ){
         if ( this.props.currentToken ){
         
-            await fetch("/user/admin", {
+            await fetch("http://localhost:4000/user/admin", {
                 method: "GET",
                 headers: {
                   "Content-type": "application/json",
@@ -101,7 +101,7 @@ class Nav extends React.Component{
     }
 
     async setUserForProfile( ){
-        await fetch('/user/profile/',{
+        await fetch('http://localhost:4000/user/profile/',{
             method:'GET',
             headers:{
                 'Content-type' :'application/json',

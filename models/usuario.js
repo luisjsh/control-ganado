@@ -11,6 +11,7 @@ const usuarios = sequelize.define(
     clave: { type: Sequelize.TEXT },
     admin: { type: Sequelize.BOOLEAN },
     nombre: { type: Sequelize.TEXT },
+    last_connection: {type: Sequelize.DATE},
     primerapregunta: { type: Sequelize.TEXT },
     primerapreguntarespuesta: { type: Sequelize.TEXT },
     segundapregunta: { type: Sequelize.TEXT },

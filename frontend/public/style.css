@@ -7,6 +7,21 @@ body{
     color: #707070;
 }
 
+table{
+    width: 100%;
+    text-align: center;
+}
+
+.ant-table-tbody:hover {
+    background: #e5f7fa;
+}
+
+.ant-table th {
+    background: #0E8FFF;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+}
 
 ::-webkit-scrollbar {
     width: 6px;

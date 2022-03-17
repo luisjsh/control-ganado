@@ -80,7 +80,7 @@ class informationCard extends Component {
         this.handleUpdateandMount(this.props.id)
       } 
       if(this.props.edit && !this.state.pelajeInformation){
-        await fetch("/configuration/getpelaje", {
+        await fetch("http://localhost:4000/configuration/getpelaje", {
             method: "GET",
             headers: {
               "x-access-token": this.props.currentToken,
@@ -95,7 +95,7 @@ class informationCard extends Component {
     }
 
     async handleUpdateandMount(id){
-        await fetch('/item/search/profile/' + id ,{
+        await fetch('http://localhost:4000/item/search/profile/' + id ,{
             method: "GET",
             headers: {
               "x-access-token": this.props.currentToken,
@@ -117,7 +117,7 @@ class informationCard extends Component {
             let caballoSplitted = resultHandler(tientaResultadoCaballo)
             let muletaSplitted = resultHandler(tientaResultadoMuleta)
 
-            await fetch(`/configuration/getparticularhierro/${response.hierro}`,{
+            await fetch(`http://localhost:4000/configuration/getparticularhierro/${response.hierro}`,{
                 headers: {
                     "x-access-token": this.props.currentToken,
                 }
@@ -275,7 +275,7 @@ class informationCard extends Component {
             formData.append('tientaMuleta' , this.state.tientamuleta.toLowerCase())
 
             try{
-                await fetch('/item/update',{
+                await fetch('http://localhost:4000/item/update',{
                 method: 'POST',
                 headers:{
                     'x-access-token' : this.props.currentToken

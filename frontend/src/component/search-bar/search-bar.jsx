@@ -64,7 +64,7 @@ class searchBar extends Component {
 
     fetchData = debounce(async ()=>{
         if(this.state.searchbar.length > 0){
-            await fetch('/search/name/'+this.state.searchbar.toLowerCase(),{
+            await fetch('http://localhost:4000/search/name/'+this.state.searchbar.toLowerCase(),{
                 method:'GET',
                 headers:{
                     'Content-type' :'application/json',
@@ -104,7 +104,7 @@ class searchBar extends Component {
 
         if(value.length > 0){
 
-            await fetch('/search/'+value)
+            await fetch('http://localhost:4000/search/'+value)
                 .then( async Response =>{
                     let { response } = await Response.json()
 

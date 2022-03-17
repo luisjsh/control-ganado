@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production'){
   module.exports = sequelize;
 
 } else {
-  const sequelize = new Sequelize("takos", "postgres", "12345", {
+  const sequelize = new Sequelize("takos", "postgres", "root", {
     host: "localhost",
     dialect: "postgres",
     pool: {

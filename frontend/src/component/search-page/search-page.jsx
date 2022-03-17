@@ -32,7 +32,7 @@ class SearchPage extends Component {
     }
 
     async handleUpdate(value){
-        await fetch("/search/page/"+ value.toLowerCase(), {
+        await fetch("http://localhost:4000/search/page/"+ value.toLowerCase(), {
             method: "GET",
             headers:{
               'Content-type' :'application/json',

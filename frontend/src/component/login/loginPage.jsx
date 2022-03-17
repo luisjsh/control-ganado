@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
 
 import './login-style.scss'
 
@@ -18,7 +19,11 @@ class LogIn extends React.Component {
 
             password: '',
             passwordLabel: 'Contraseña',
-            passwordBorderColor: '#dedede'
+            passwordBorderColor: '#dedede',
+
+            catchap: '',
+            catchapLabel: 'Por favor introduzca el texto',
+            catchapBorderColor: '#dedede',
         }
         this.Redirect = this.Redirect.bind(this);
         this.submit = this.submit.bind(this);
@@ -38,59 +43,67 @@ class LogIn extends React.Component {
         this.setState({[name]:value})
     }
 
+    componentDidMount(){
+        loadCaptchaEnginge(6)
+    }
 
     async submit (event){
-        event.preventDefault()
-        let formData = new FormData()
-        formData.append('correo', this.state.email)
-        formData.append('clave', this.state.password)
-        try{
-            await fetch('/user/login', {
-                method: 'POST',
-                body: formData
-            }).then( async response =>{
-                let responsejson = await response.json()
-                switch(responsejson.status){
-                    
-                    case 'password approved':
-                        let userInformation = {
-                            id: responsejson.userInformation.id,
-                            name: responsejson.userInformation.nombre,
-                            token: responsejson.token,
-                            path: responsejson.userInformation.usuariosimagenes[0] !== undefined ? responsejson.userInformation.usuariosimagenes[0].path : false
-                        }
-                        this.props.setGoodNotification('Sesión iniciada de manera exitosa')
-                        this.props.login(userInformation);
-                        this.props.history.push('/')
-                    break;
+        if(validateCaptcha(this.state.catchap) === false) return alert('Por favor introduzca el texto del catchap correctamente')
 
-                    case 'password wrong':
-                        this.props.setBadNotification('Correo y contraseña invalidos')    
+        if(validateCaptcha(this.state.catchap)  === true){
+
+            event.preventDefault()
+            let formData = new FormData()
+            formData.append('correo', this.state.email)
+            formData.append('clave', this.state.password)
+            try{
+                await fetch('http://localhost:4000/user/login', {
+                    method: 'POST',
+                    body: formData
+                }).then( async response =>{
+                    let responsejson = await response.json()
+                    switch(responsejson.status){
+                        
+                        case 'password approved':
+                            let userInformation = {
+                                id: responsejson.userInformation.id,
+                                name: responsejson.userInformation.nombre,
+                                token: responsejson.token,
+                                path: responsejson.userInformation.usuariosimagenes[0] !== undefined ? responsejson.userInformation.usuariosimagenes[0].path : false
+                            }
+                            this.props.setGoodNotification('Sesión iniciada de manera exitosa')
+                            this.props.login(userInformation);
+                            this.props.history.push('/')
                         break;
 
-                    case 'email wrong':
-                        this.props.setBadNotification('El correo introducido no se encuentra registrado')
-                        break;
-                    
-                    case 'bad db':
-                        this.props.setBadNotification('Error de servidor');
-                        break;
+                        case 'password wrong':
+                            this.props.setBadNotification('Correo y contraseña invalidos')    
+                            break;
 
-                    case 'badFormating':
-                        this.props.setBadNotification('Correo y contraseñas invalidos');
-                        break;
+                            case 'email wrong':
+                                this.props.setBadNotification('El correo introducido no se encuentra registrado')
+                            break;
+                        
+                        case 'bad db':
+                            this.props.setBadNotification('Error de servidor');
+                            break;
 
-                    case 'at least 8 characters':
-                        this.props.setBadNotification('Correo y contraseñas invalidos')
-                        break;
+                        case 'badFormating':
+                            this.props.setBadNotification('Correo y contraseñas invalidos');
+                            break;
 
-                    default: 
-                }
+                            case 'at least 8 characters':
+                            this.props.setBadNotification('Correo y contraseñas invalidos')
+                            break;
+
+                            default: 
+                    }
                 }).catch( () => {
                     this.props.setBadNotification('Error de conexión')
                 })
-        } catch(e){
-            this.props.setBadNotification('Error de conexión')
+            } catch(e){
+                this.props.setBadNotification('Error de conexión')
+            }
         }
     }
 
@@ -113,6 +126,10 @@ class LogIn extends React.Component {
                         <div className="captchap">
 
                         </div>
+
+                        <LoadCanvasTemplate />
+                        <CustomInput name='catchap' value={this.state.catchap} onChange={this.formHandler} label={this.state.catchapLabel}/>
+
                         <CustomButton value='login' color='primary-blue'>Iniciar Sesión</CustomButton>
                     </div>
                     

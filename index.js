@@ -14,8 +14,26 @@ if (process.env.NODE_ENV === 'production'){
 }
 app.use(express.static(path.join(__dirname, 'frontend/build')))
 
+const origins = ['http://localhost:3000', 'http://localhost:4000']
+
+const corsOptions = {
+  credentials: true,
+  origin: function (origin, callback) {
+    if (
+      origins.indexOf(origin) !== -1 ||
+      !origin
+    ) {
+      callback(null, origin)
+    } else {
+      const err = new Error(ERRORS.NOT_ALLOWED_BY_CORS.MESSAGE);
+      err['status'] = ERRORS.NOT_ALLOWED_BY_CORS.STATUS_CODE;
+      callback(err);
+    }
+  },
+};
 
 //middlewares
+// app.use(cors(corsOptions));
 app.use(cors());
 app.use(express.json());
 

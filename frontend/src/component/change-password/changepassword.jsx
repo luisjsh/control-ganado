@@ -50,7 +50,7 @@ class ChangePassword extends Component {
             formData.append('clave', this.state.password)
             formData.append('id', this.props.currentUserArray.id)
             try{
-                await fetch('/user/changepassword', {
+                await fetch('http://localhost:4000/user/changepassword', {
                     method: 'POST',
                     body: formData
                 }).then( async (response)=>{

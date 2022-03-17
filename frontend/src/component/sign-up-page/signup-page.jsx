@@ -97,10 +97,10 @@ class signUpPage extends React.Component {
         }
 
         try{
-            await fetch('/user/add',{
+            await fetch('http://localhost:4000/user/add',{
                 method: "POST",
                 headers: {
-                  "x-access-token": this.props.currentToken,
+                    "x-access-token": this.props.currentToken,
                 },
                 body: formData
             }).then ( async ( response ) => {

@@ -84,7 +84,7 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
     const getUser = async (event) =>{
         event.preventDefault()
         try {
-            await fetch(`/user/find/${inputData.email}`).then( async userJson => {
+            await fetch(`http://localhost:4000/user/find/${inputData.email}`).then( async userJson => {
                 let {message, response} = await userJson.json()
                 if(message){
                     if(message === 'user not db') setBadNotification('El correo no se encuentra registrado')

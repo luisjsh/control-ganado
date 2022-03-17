@@ -47,7 +47,7 @@ class ItemPage extends React.Component{
 
         if(prevState.edit !== this.state.edit ) {
             try{
-                await fetch('/item/search/profile/' + this.props.match.params.id,{
+                await fetch('http://localhost:4000/item/search/profile/' + this.props.match.params.id,{
                 method: "GET",
                 headers: {
                     "x-access-token": this.props.currentToken,
@@ -65,7 +65,7 @@ class ItemPage extends React.Component{
     }
 
     async updateInformation(id){
-        await fetch('/item/search/profile/' + id,{
+        await fetch('http://localhost:4000/item/search/profile/' + id,{
             method: "GET",
             headers: {
                 "x-access-token": this.props.currentToken,
@@ -83,7 +83,7 @@ class ItemPage extends React.Component{
                 }
             })
 
-        await fetch('/item/search/family/parents/'+ id,{
+        await fetch('http://localhost:4000/item/search/family/parents/'+ id,{
             method: "GET",
             headers: {
                 "x-access-token": this.props.currentToken,
@@ -101,7 +101,7 @@ class ItemPage extends React.Component{
                 }
             })
             
-            await fetch('/item/search/family/child/' + id,{
+            await fetch('http://localhost:4000/item/search/family/child/' + id,{
                 method: "GET",
                 headers: {
                     "x-access-token": this.props.currentToken,
@@ -115,7 +115,7 @@ class ItemPage extends React.Component{
                 let i=0;
                 let grandChildArr = [];
                 for( i = 0; i<this.state.childs.response.length; i++){
-                    await fetch('/item/search/family/child/' + this.state.childs.response[i].id,{
+                    await fetch('http://localhost:4000/item/search/family/child/' + this.state.childs.response[i].id,{
                         method: "GET",
                         headers: {
                             "x-access-token": this.props.currentToken,
@@ -150,7 +150,7 @@ class ItemPage extends React.Component{
     }
 
     async handleDelete(){
-        await fetch("/item/destroy/"+this.props.match.params.id, {
+        await fetch("http://localhost:4000/item/destroy/"+this.props.match.params.id, {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,

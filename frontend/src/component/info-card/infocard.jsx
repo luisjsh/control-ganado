@@ -41,7 +41,11 @@ function infocard({ image , user , addMore, currentUserAdmin, profile , LogOut, 
                             <button onClick={
                                 ()=>history.push('/signup')
                             }>Registrar otro</button>
+                             <button onClick={
+                                ()=>history.push('/history-users')
+                            }>Historial usuarios</button>
                         </div>
+                        
                     </div>}
                     
                     <div className="log-out" onClick={LogOut}></div>

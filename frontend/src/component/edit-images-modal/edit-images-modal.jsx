@@ -79,7 +79,7 @@ class EditImageModal extends Component {
         switch(this.props.context){
             
             case 'item':
-                await fetch('/item/updateimage', {
+                await fetch('http://localhost:4000/item/updateimage', {
                     method: 'POST',
                     body: formData,
                     headers:{
@@ -115,7 +115,7 @@ class EditImageModal extends Component {
             case 'user':
 
                  
-                await fetch('/user/updateimage', {
+                await fetch('http://localhost:4000/user/updateimage', {
                     method: 'POST',
                     body: formData,
                     headers:{
@@ -124,7 +124,7 @@ class EditImageModal extends Component {
                     }).then( async () =>{
 
                     setTimeout(async ()=>{
-                       await fetch('/user/profile/', {
+                       await fetch('http://localhost:4000/user/profile/', {
                         method: "GET",
                         headers: {
                           "Content-type": "application/json",

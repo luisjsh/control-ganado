@@ -34,7 +34,7 @@ class ProfilePage extends React.Component {
 
     async handleDelete(event){
         event.preventDefault()
-        await fetch('/user/delete/'+ this.props.currentUserArray.id , {
+        await fetch('http://localhost:4000/user/delete/'+ this.props.currentUserArray.id , {
             method: "GET",
             headers: {
               "Content-type": "application/json",

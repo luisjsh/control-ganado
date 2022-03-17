@@ -40,7 +40,7 @@ class configurationPage extends Component {
   }
   
   async getPelajes(){
-    await fetch("configuration/getpelaje", {
+    await fetch("http://localhost:4000/configuration/getpelaje", {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
@@ -53,7 +53,7 @@ class configurationPage extends Component {
   }
 
   async getHierros(){
-    await fetch("/configuration/gethierro", {
+    await fetch("http://localhost:4000/configuration/gethierro", {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
@@ -87,7 +87,7 @@ class configurationPage extends Component {
         let formData = new FormData();
         formData.append("pelaje", this.state.pelajeCode);
 
-        await fetch("configuration/pelajes", {
+        await fetch("http://localhost:4000/configuration/pelajes", {
           method: "POST",
           headers: {
             "x-access-token": this.props.currentToken,
@@ -105,7 +105,7 @@ class configurationPage extends Component {
         let formData = new FormData();
         formData.append("hierroCode", this.state.hierroCode);
         formData.append("image", this.state.file);
-        await fetch("configuration/hierros", {
+        await fetch("http://localhost:4000/configuration/hierros", {
           method: "POST",
           headers: {
             "x-access-token": this.props.currentToken,
@@ -123,7 +123,7 @@ class configurationPage extends Component {
 
 
   async handleClick (){
-    await fetch("configuration/destroy/pelaje/"+this.state.destroyPelajeId, {
+    await fetch("http://localhost:4000/configuration/destroy/pelaje/"+this.state.destroyPelajeId, {
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,
@@ -147,7 +147,7 @@ class configurationPage extends Component {
   }
 
   async handleClickThumbnail(){
-    await fetch(`configuration/destroy/hierro/${this.state.hierroToDelete.toString()}`,{
+    await fetch(`http://localhost:4000/configuration/destroy/hierro/${this.state.hierroToDelete.toString()}`,{
       method: "GET",
       headers: {
         "x-access-token": this.props.currentToken,

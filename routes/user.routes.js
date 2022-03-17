@@ -1,5 +1,6 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const moment = require('moment')
 const imageMin = require('imagemin')
 const imageMin_jpeg = require('imagemin-jpegtran')
 const router = express.Router()
@@ -24,6 +25,7 @@ router.get('/find/:email', async (req,res)=>{
             if(response)res.status(200).json({response})
         })
     }catch(e){
+        console.log(e)
         res.status(200).json({message: 'something went wrong'})
     }
 })
@@ -174,40 +176,36 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
 router.post('/login', async (req, res)=>{
     let { correo , clave } = req.body
 
-    let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
+    let today = moment()
 
-    if(clave.length < 8 || !regularExpression.test(clave)) {
+    let { token , status, userInformation } = ''
+    try{
+    await user.findOne({
+        where: {email: correo },
+        include: [{
+            model: userimagens
+        }]
+    }).then( async response => {
+        
+        if ( await passwordFunctions.compare(clave , response.clave) ){
+        token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 48 })
+        status = 'password approved'
+        
+        response.last_connection = today
+        response.save()
 
-        if(clave.length < 8) return res.status(200).json({status: 'at least 8 characters'})
-        if(!regularExpression.test(clave)) return res.status(200).json({status: 'badFormating'})
-
+        userInformation = response 
     } else {
-        let { token , status, userInformation } = ''
-        try{
-        await user.findOne({
-            where: {email: correo },
-            include: [{
-                model: userimagens
-            }]
-        }).then( async response => {
-            
-         if ( await passwordFunctions.compare(clave , response.clave) ){
-            token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 48 })
-            status = 'password approved'
-            userInformation = response 
-        } else {
-            status = 'password wrong'
-        }
-                
-        }).catch( e => {
-            status = 'email wrong'
-        })
-        } catch (e){
-            status = 'bad db'
-        }
-        res.json({ token , status, userInformation })
+        status = 'password wrong'
     }
-
+            
+    }).catch( e => {
+        status = 'email wrong'
+    })
+    } catch (e){
+        status = 'bad db'
+    }
+    res.json({ token , status, userInformation })
 })
 
 
@@ -215,12 +213,12 @@ router.post('/login', async (req, res)=>{
 router.post('/changepassword',  async (req,res)=>{
     let { clave , id } = req.body
 
-    let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
+    let regularExpression = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 
-    if(clave.length < 8 || !regularExpression.test(clave)) {
-
+    if(clave.length < 8 || regularExpression.test(clave)) {
+        console.log(clave)
         if(clave.length < 8) return res.status(200).json({message: 'at least 8 characters'})
-        if(!regularExpression.test(clave)) return res.status(200).json({message: 'badFormating'})
+        if(regularExpression.test(clave)) return res.status(200).json({message: 'badFormating'})
 
     } else {
         clave = await passwordFunctions.encrypt( clave )
@@ -255,14 +253,27 @@ router.get('/delete/:id', tokenVerification, async (req,res)=>{
     await user.destroy({
         where: {id}
     }).then(async (response)=>{
-        console.log(response)
         if(response === 1 )res.status(200).json({message: 'succesfull'})  
         if(response === 0 ) res.status(200).json({message: 'user not db'})
     }).catch(() =>{
         res.status(200).json({message: 'something went wrong'})
     })
-    
+})
 
+router.get('/getLastConnections', tokenVerification, async (req,res)=>{
+    try{
+
+        const response = await user.findAll({
+            order: [
+                ['last_connection', 'DESC']
+            ]
+        })
+
+        res.status(200).json({response})
+    } catch (e){
+        res.json(e)
+    }
+    
 })
 
 router.post('/updateimage', async (req, res)=>{

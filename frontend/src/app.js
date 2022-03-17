@@ -16,6 +16,7 @@ import Configuration from './page/configuration/configurationpage'
 import ChangePassword from './component/change-password/changepassword';
 import SearchPage from './page/searchpage/searchpage'
 import RestorePassword from './page/restore-password/restorePassword'
+import HistoryUser from './page/history-users'
 
 const Display = styled.div`
     grid-template-areas: "navbar" "page";
@@ -42,6 +43,7 @@ export default class App extends Component {
                         <Route exact path='/configuration' component={Configuration}/>
                         <Route exact path='/changepassword' component={ChangePassword}/>
                         <Route path='/search/:name' component={SearchPage}></Route>
+                        <Route path='/history-users' component={HistoryUser}></Route>
                     </Display>
                 </Switch>
             </div>
