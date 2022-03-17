@@ -33,8 +33,7 @@ const corsOptions = {
 };
 
 //middlewares
-// app.use(cors(corsOptions));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const storage = multer.diskStorage({
