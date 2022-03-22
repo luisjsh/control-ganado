@@ -100,28 +100,33 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
         }
     }
 
-    const checkAnswers = (event)=>{
+    const checkAnswers = async (event)=>{
         event.preventDefault()
-        let {
-            primerapreguntarespuesta, 
-            segundapreguntarespuesta
-            } = user
 
         let {
             firstQuestionAnswer,
             secondQuestionAnswer} = inputData
         
-        if( (primerapreguntarespuesta !== firstQuestionAnswer) || 
-            (segundapreguntarespuesta !== secondQuestionAnswer) ){
+            console.log('Check asnwers', user.id)
 
-            if(primerapreguntarespuesta !== firstQuestionAnswer) setBadNotification('La primera respuesta no coincide')
-            if(segundapreguntarespuesta !== secondQuestionAnswer) setBadNotification('La segunda respuesta no coincide')
-        
-        } 
+            let formData = new FormData()
+            formData.append('primerapreguntarespuesta', firstQuestionAnswer)
+            formData.append('segundapreguntarespuesta', secondQuestionAnswer)
+            try{
+                await fetch('http://localhost:4000/user/compare_questions/' + user.id, {
+                    method: 'POST',
+                    body: formData
+                }).then( async (response)=>{
+                    let {message} = await response.json()
+                    
+                    if (message === true) setChangePasswordStep(true)
+                    if (message === 'The user isnt in the database') setBadNotification('El correo no se encuentra registrado')
+                    if (!message) {
+                        setBadNotification('Las respuestas no coinciden')
+                    }
+                })
+            } catch(e){
 
-        if( (primerapreguntarespuesta === firstQuestionAnswer) &&
-            (segundapreguntarespuesta === secondQuestionAnswer) ){
-            setChangePasswordStep(true)
         }
     }
 

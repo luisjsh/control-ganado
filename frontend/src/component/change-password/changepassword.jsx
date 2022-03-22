@@ -31,17 +31,32 @@ class ChangePassword extends Component {
     }
 
 
-    onSubmit(){
-        if (this.props.currentUserArray.primerapreguntarespuesta === this.state.primeraPregunta && 
-            this.props.currentUserArray.segundapreguntarespuesta === this.state.segundaPregunta ){
-
+    async onSubmit(){
+        console.log('asdsakdns  ')
             this.setState({ validation: true})
-        
-        } else{ 
-        
-            this.props.setBadNotification('Las respuestas a las preguntas de seguridad son incorrectas') 
-        
+        let formData = new FormData()
+        formData.append('primerapreguntarespuesta', this.state.primeraPregunta)
+        formData.append('segundapreguntarespuesta', this.state.segundaPregunta)
+        try{
+            await fetch('http://localhost:4000/user/compare_questions/' + this.props.currentUserArray.id, {
+                method: 'POST',
+                body: formData
+            }).then( async (response)=>{
+
+            })
+        } catch(e){
+
         }
+
+        // if (this.props.currentUserArray.primerapreguntarespuesta === this.state.primeraPregunta && 
+        //     this.props.currentUserArray.segundapreguntarespuesta === this.state.segundaPregunta ){
+
+        
+        // } else{ 
+        
+        //     this.props.setBadNotification('Las respuestas a las preguntas de seguridad son incorrectas') 
+        
+        // }
     }
 
     async changePassword(){

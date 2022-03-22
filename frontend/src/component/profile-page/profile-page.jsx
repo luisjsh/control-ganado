@@ -20,7 +20,7 @@ class ProfilePage extends React.Component {
 
     componentDidMount(){
         if (this.props.currentUserArray){
-             this.props.setItem({ torosimagenes: this.props.currentUserArray.usuariosimagenes })
+            this.props.setItem({ torosimagenes: this.props.currentUserArray.usuariosimagenes })
         }
     }
 
@@ -73,7 +73,8 @@ class ProfilePage extends React.Component {
     <span>Nombre: { this.props.currentUserArray.nombre }</span>
 
     <div className="edit-section">
-        <CustomButton color='secundary-blue' onClick={()=>{this.props.history.push('/changepassword')}}>Cambiar contraseña</CustomButton>
+        <CustomButton color='secundary-blue' onClick={()=>{this.props.history.push('/changepassword')}}>Cambiar contraseña o preguntas de seguridad</CustomButton>
+        <CustomButton color='secundary-blue' onClick={()=>{this.props.history.push('/changequestions')}}>Cambiar preguntas de seguridad</CustomButton>
         <CustomButton color='secundary-red' onClick={()=>this.setState({confirmation: true})} >Eliminar cuenta</CustomButton>
     </div>
 

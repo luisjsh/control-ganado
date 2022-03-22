@@ -14,6 +14,7 @@ const config = require('../config');
 //models 
 const user = require('../models/usuario')
 const userimagens = require('../models/usuarioImagenes')
+const { encrypt } = require('../functions/password-functions')
 
 router.get('/find/:email', async (req,res)=>{
     let {email} = req.params
@@ -107,9 +108,9 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
                 nombre: nombre, 
                 admin, 
                 primerapregunta, 
-                primerapreguntarespuesta, 
+                primerapreguntarespuesta: await passwordFunctions.encrypt(primerapreguntarespuesta), 
                 segundapregunta, 
-                segundapreguntarespuesta
+                segundapreguntarespuesta: await passwordFunctions.encrypt(segundapreguntarespuesta)
             },{
                 fields: 
                 [ 'email', 
@@ -216,7 +217,7 @@ router.post('/changepassword',  async (req,res)=>{
     let regularExpression = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 
     if(clave.length < 8 || regularExpression.test(clave)) {
-        console.log(clave)
+        
         if(clave.length < 8) return res.status(200).json({message: 'at least 8 characters'})
         if(regularExpression.test(clave)) return res.status(200).json({message: 'badFormating'})
 
@@ -276,7 +277,7 @@ router.get('/getLastConnections', tokenVerification, async (req,res)=>{
     
 })
 
-router.post('/updateimage', async (req, res)=>{
+router.post('/updateimage', tokenVerification, async (req, res)=>{
     let { tokeepimage , id } = req.body;
    
     if(typeof tokeepimage == 'string'){
@@ -340,8 +341,70 @@ router.post('/updateimage', async (req, res)=>{
     }).then( response =>{
         res.status(200).json({status: 'done', data: response})
     })
-    
-    
+})
+
+router.post('/change_questions', tokenVerification, async (req, res)=>{
+    let { userId } = req;
+    let { primerapregunta, segundapregunta, primerapreguntarespuesta, segundapreguntarespuesta } = JSON.parse(JSON.stringify(req.body))
+
+    let status = 0
+    let message
+
+    try{
+        await user.findOne({
+            where: {id: userId},
+        }).then( async (response) => {
+            
+            response.primerapregunta = primerapregunta
+            response.primerapreguntarespuesta = await passwordFunctions.encrypt(primerapreguntarespuesta)
+            response.segundapregunta = segundapregunta
+            response.segundapreguntarespuesta = await passwordFunctions.encrypt(segundapreguntarespuesta) 
+            
+            response.save()
+            status = 200
+            message = 'success'
+
+            res.status(status).json({message})
+        }).catch( e => {
+            status = 401;
+            message = 'The user isnt in the database'
+            res.status(status).json({message})
+        })
+    } catch(e){
+        res.json({message: e})
+    }
+})
+
+router.post('/compare_questions/:id', async (req, res)=>{
+    let { id } = req.params;
+    let { primerapreguntarespuesta, segundapreguntarespuesta } = JSON.parse(JSON.stringify(req.body))
+    let status = 0
+    let message
+    try{
+        await user.findOne({
+            where: {id: id},
+        }).then( async (response) => {
+            
+            if (
+                await passwordFunctions.compare(primerapreguntarespuesta, response.primerapreguntarespuesta) && 
+                await passwordFunctions.compare(segundapreguntarespuesta, response.segundapreguntarespuesta) ){
+                    status = 200
+                    message = true
+                } else {
+                    status = 201
+                    message = false
+                }
+
+            res.status(status).json({message})
+        }).catch( e => {
+            status = 401;
+            message = 'The user isnt in the database'
+            
+            res.status(status).json({message})
+        })
+    } catch(e){
+        res.json({message: e})
+    }
 })
 
 module.exports = router;
