@@ -17,7 +17,7 @@
     "username": "cthggvurgaxqyd",
     "password": "cb605057e94670ed6720b0b1243df8503fd138ebce48e1f74622d0ba4ecc6d71",
     "database": "d46tu2c1t62rg3",
-    "host": "ec2-54-156-149-189.compute-1.amazonaws.com    ",
+    "host": "ec2-54-156-149-189.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
 }
