@@ -32,7 +32,6 @@ class ChangePassword extends Component {
 
 
     async onSubmit(){
-        console.log('asdsakdns  ')
             this.setState({ validation: true})
         let formData = new FormData()
         formData.append('primerapreguntarespuesta', this.state.primeraPregunta)

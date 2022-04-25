@@ -3,9 +3,9 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.addColumn('usuarios', 
-    'last_connection',
+    'status',
     { 
-      type: Sequelize.DATE,
+      type: Sequelize.TEXT
     });
   },
 

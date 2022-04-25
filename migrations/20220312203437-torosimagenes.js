@@ -3,17 +3,14 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('torosimagenes', { 
-      id: Sequelize.INTEGER,
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
       path: Sequelize.TEXT,
       torosid: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'toros',
-            schema: 'schema'
-          },
-          key: 'id'
-        }
+        type: Sequelize.INTEGER 
       }
     });
     /**

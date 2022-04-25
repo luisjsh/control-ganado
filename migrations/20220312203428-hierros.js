@@ -3,7 +3,11 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('hierros', { 
-      id: Sequelize.INTEGER,
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
       path: Sequelize.TEXT,
       codigo: Sequelize.TEXT,
     });

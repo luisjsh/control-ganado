@@ -107,13 +107,12 @@ function RestorePassword({history, setBadNotification, setGoodNotification}) {
             firstQuestionAnswer,
             secondQuestionAnswer} = inputData
         
-            console.log('Check asnwers', user.id)
 
             let formData = new FormData()
             formData.append('primerapreguntarespuesta', firstQuestionAnswer)
             formData.append('segundapreguntarespuesta', secondQuestionAnswer)
             try{
-                await fetch('http://localhost:4000/user/compare_questions/' + user.id, {
+                await fetch('http://localhost:4000/user/compare_questions/' + user.email, {
                     method: 'POST',
                     body: formData
                 }).then( async (response)=>{

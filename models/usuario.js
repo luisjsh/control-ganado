@@ -16,6 +16,9 @@ const usuarios = sequelize.define(
     primerapreguntarespuesta: { type: Sequelize.TEXT },
     segundapregunta: { type: Sequelize.TEXT },
     segundapreguntarespuesta: { type: Sequelize.TEXT },
+    status: { type: Sequelize.TEXT },
+    login_attempt: { type: Sequelize.INTEGER },
+    last_login_attempt: { type: Sequelize.DATE },
   },
   {
     timestamps: false,

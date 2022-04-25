@@ -3,7 +3,11 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('logros', { 
-      id: Sequelize.INTEGER,
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
       nombre: Sequelize.TEXT,
     });
     /**

@@ -147,6 +147,7 @@ router.get('/page/:pageNumber',  async (req, res)=>{
         })
 
     } catch(e){
+        console.log(e)
         res.status(200).json({message: 'problem db'})
     }
 })

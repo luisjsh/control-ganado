@@ -3,7 +3,11 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('toros', { 
-      id: Sequelize.INTEGER,
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
       nombre: Sequelize.TEXT,
       hierro: Sequelize.TEXT,
       hierrocodigo: Sequelize.TEXT,
@@ -14,24 +18,17 @@ module.exports = {
       madreid: Sequelize.TEXT,
       padreid: Sequelize.TEXT,
       ganaderia: Sequelize.TEXT,
-      tientaDia: Sequelize.TEXT,
-      tientaResultado: Sequelize.TEXT,
-      tientaTentadoPor: Sequelize.TEXT,
-      tientaLugar: Sequelize.TEXT,
-      tientaCapa: Sequelize.TEXT,
-      tientaCaballo: Sequelize.TEXT,
-      tientaMuleta: Sequelize.TEXT,
+      tientadia: Sequelize.TEXT,
+      tientaresultado: Sequelize.TEXT,
+      tientatentadopor: Sequelize.TEXT,
+      tientalugar: Sequelize.TEXT,
+      tientacapa: Sequelize.TEXT,
+      tientacaballo: Sequelize.TEXT,
+      tientamuleta: Sequelize.TEXT,
 
 
       pelaje: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'pelajes',
-            schema: 'schema'
-          },
-          key: 'id'
-        }
       }
     });
     /**

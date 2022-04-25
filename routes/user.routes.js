@@ -73,9 +73,10 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
         segundapreguntarespuesta } = req.body
         
         
-        let regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*-]{8,}$/
-
-    if(contrasena.length < 8 || !regularExpression.test(contrasena)) {
+        let regularExpression = /^(?=.*[0-9])(?=.*[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~])[a-zA-Z0-9!@#$%^&*-]{8,}$/
+        
+        
+        if(contrasena.length < 8 || !regularExpression.test(contrasena)) {
 
         if(contrasena.length < 8){
             res.status(200).json({message: 'at least 8 characters'})
@@ -165,11 +166,11 @@ router.post('/add', tokenVerificationNotLoged, async (req, res)=>{
             
         }catch(e){
 
-            if(e.message === "Cannot read property 'id' of null"){
-                res.status(200).json({message: 'not added'})
-            }else{
-                res.status(200).json({message: 'error db'})
-            }
+                if(e.message === "Cannot read property 'id' of null"){
+                    res.status(200).json({message: 'not added'})
+                }else{
+                    res.status(200).json({message: 'error db'})
+                }
         }
     }
 })
@@ -181,24 +182,46 @@ router.post('/login', async (req, res)=>{
 
     let { token , status, userInformation } = ''
     try{
-    await user.findOne({
-        where: {email: correo },
-        include: [{
-            model: userimagens
-        }]
-    }).then( async response => {
-        
-        if ( await passwordFunctions.compare(clave , response.clave) ){
-        token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 48 })
-        status = 'password approved'
-        
-        response.last_connection = today
-        response.save()
+            await user.findOne({
+            where: {email: correo },
+            include: [{
+                model: userimagens
+            }]
+        }).then( async response => {
+            console.log(response)
+            if(!response.admin && response.status === 'bloqueado'){
+                status = 'blocked'
+            } else {
+                    
+                if ( await passwordFunctions.compare(clave , response.clave) ){
+                    token = jwt.sign({id: response.id}, config.secret, { expiresIn: 60 * 60 * 48 })
+                    status = 'password approved'
+                    
+                    response.last_connection = today
+                    response.login_attempt = 0
+                    response.status = 'activo'
+                    response.save()
+                    
+                    userInformation = response 
+                } else {
+                    status = 'password wrong'
+                    
+                    response.last_login_attempt = today
+                    response.login_attempt = response.login_attempt + 1
 
-        userInformation = response 
-    } else {
-        status = 'password wrong'
-    }
+                    if(response.login_attempt > 2 && response.login_attempt < 5) {
+                        if(response.login_attempt === 2) status = 'going-block-3'
+                        if(response.login_attempt === 3) status = 'going-block-2'
+                        if(response.login_attempt === 4) status = 'going-block-1'
+                    }
+
+                    
+                    if(!response.admin && response.login_attempt > 5) {
+                        response.status = 'bloqueado'
+                    }
+                    await response.save()
+                }
+        }
             
     }).catch( e => {
         status = 'email wrong'
@@ -206,6 +229,7 @@ router.post('/login', async (req, res)=>{
     } catch (e){
         status = 'bad db'
     }
+    
     res.json({ token , status, userInformation })
 })
 
@@ -232,6 +256,8 @@ router.post('/changepassword',  async (req,res)=>{
                 
                 if(response){
                     response.clave = clave;
+                    response.status = 'activo'
+                    response.login_attempt = 0
                     response.save()
                     res.status(200).json({message: 'updated'})
                 }
@@ -375,16 +401,16 @@ router.post('/change_questions', tokenVerification, async (req, res)=>{
     }
 })
 
-router.post('/compare_questions/:id', async (req, res)=>{
-    let { id } = req.params;
+router.post('/compare_questions/:email', async (req, res)=>{
+    let { email } = req.params;
     let { primerapreguntarespuesta, segundapreguntarespuesta } = JSON.parse(JSON.stringify(req.body))
+
     let status = 0
     let message
     try{
         await user.findOne({
-            where: {id: id},
+            where: {email},
         }).then( async (response) => {
-            
             if (
                 await passwordFunctions.compare(primerapreguntarespuesta, response.primerapreguntarespuesta) && 
                 await passwordFunctions.compare(segundapreguntarespuesta, response.segundapreguntarespuesta) ){
@@ -397,6 +423,7 @@ router.post('/compare_questions/:id', async (req, res)=>{
 
             res.status(status).json({message})
         }).catch( e => {
+            console.log(e)
             status = 401;
             message = 'The user isnt in the database'
             
@@ -406,5 +433,33 @@ router.post('/compare_questions/:id', async (req, res)=>{
         res.json({message: e})
     }
 })
+
+router.get(
+    '/unlock_user/:id', async (req, res)=>{
+        let { id } = req.params;
+    
+        let status = 0
+        let message
+        try{
+            await user.findOne({
+                where: {id},
+            }).then( async (response) => {
+                response.status = 'activo'
+                response.login_attempt = 0
+                response.save()
+                
+                res.status(status).json({message})
+            }).catch( e => {
+                status = 401;
+                message = 'The user isnt in the database'
+                
+                res.status(status).json({message})
+            })
+        } catch(e){
+            res.json({message: e})
+        }
+    }
+
+)
 
 module.exports = router;

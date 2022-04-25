@@ -77,80 +77,82 @@ class signUpPage extends React.Component {
     //--------------- handleSubmit -----------------
 
     async handleSubmit ( firstQuestion, firstQuestionAnswer, secondQuestion, secondQuestionAnswer ){
-        
+        console.log(this.state.password === this.state.repeatPassword)
         if (this.state.password === this.state.repeatPassword ){
             this.setState({repeatPasswordLabel: 'Las contraseñas coinciden' ,repeatPasswordBorderColor: 'green'})
-        let formData = new FormData();
-        formData.append('correo', this.state.email)
-        formData.append('contrasena', this.state.password)
-        formData.append('admin', this.state.admin)
-        formData.append('nombre', this.state.name)
-        formData.append('primerapregunta', firstQuestion)
-        formData.append('primerapreguntarespuesta', firstQuestionAnswer)
-        formData.append('segundapregunta', secondQuestion)
-        formData.append('segundapreguntarespuesta', secondQuestionAnswer)
+            let formData = new FormData();
+            formData.append('correo', this.state.email)
+            formData.append('contrasena', this.state.password)
+            formData.append('admin', this.state.admin)
+            formData.append('nombre', this.state.name)
+            formData.append('primerapregunta', firstQuestion)
+            formData.append('primerapreguntarespuesta', firstQuestionAnswer)
+            formData.append('segundapregunta', secondQuestion)
+            formData.append('segundapreguntarespuesta', secondQuestionAnswer)
 
-        if ( this.state.files != null){
-            for( let i = 0; i<this.state.files.length; i++){
-                formData.append('image', this.state.files[i])
-                }
-        }
+            if ( this.state.files != null){
+                for( let i = 0; i<this.state.files.length; i++){
+                    formData.append('image', this.state.files[i])
+                    }
+            }
 
-        try{
-            await fetch('http://localhost:4000/user/add',{
-                method: "POST",
-                headers: {
-                    "x-access-token": this.props.currentToken,
-                },
-                body: formData
-            }).then ( async ( response ) => {
-                let {message, token, user} = await response.json()
+            try{
+                await fetch('http://localhost:4000/user/add',{
+                    method: "POST",
+                    headers: {
+                        "x-access-token": this.props.currentToken,
+                    },
+                    body: formData
+                }).then ( async ( response ) => {
+                    let {message, token, user} = await response.json()
 
-                switch(message){
-                    case 'succeed':
-                        this.props.setGoodNotification('Cuenta creada exitosamente')
-                        this.props.setUser({
-                            name: user.nombre,
-                            path: user.usuariosimagenes[0] !== undefined ? user.usuariosimagenes[0].path : false,
-                            token
-                        })
-                        this.DontShow();
-                        this.props.history.push('/')
-                        break;
-                    
-                    case 'same email':
-                        this.props.setBadNotification('El correo se encuentra registrado con otro usuario')
-                        break;
+                    switch(message){
+                        case 'succeed':
+                            this.props.setGoodNotification('Cuenta creada exitosamente')
+                            this.props.setUser({
+                                name: user.nombre,
+                                path: user.usuariosimagenes[0] !== undefined ? user.usuariosimagenes[0].path : false,
+                                token
+                            })
+                            this.DontShow();
+                            this.props.history.push('/')
+                            break;
+                        
+                        case 'same email':
+                            this.props.setBadNotification('El correo se encuentra registrado con otro usuario')
+                            break;
 
-                    case 'not added':
-                        this.props.setBadNotification('El usuario no ha sido agregado correctamente')
-                        break;
+                        case 'not added':
+                            this.props.setBadNotification('El usuario no ha sido agregado correctamente')
+                            break;
 
-                    case 'error db':
-                        this.props.setBadNotification('error de servidor')
-                        this.props.history.push('/')
-                        break;
-                    
-                    case 'badFormating':
-                        this.props.setBadNotification('Recuerde que la contraseña debe llevar al menos 1 caracter especial, una letra mayuscula y una minuscula')
-                        break;
+                        case 'error db':
+                            this.props.setBadNotification('error de servidor')
+                            this.props.history.push('/')
+                            break;
+                        
+                        case 'badFormating':
+                            this.props.setBadNotification('Recuerde que la contraseña debe llevar al menos 1 caracter especial, una letra mayuscula y una minuscula')
+                            break;
 
-                    case 'at least 8 characters':
-                        this.props.setBadNotification('Recuerde que la contraseña debe ser de al menos 8 caracteres')
-                        break;
+                        case 'at least 8 characters':
+                            this.props.setBadNotification('Recuerde que la contraseña debe ser de al menos 8 caracteres')
+                            break;
 
-                    default:
-                        return ''
-                }
-            }).catch( e =>{
+                        default:
+                            return ''
+                    }
+                }).catch( e =>{
+                    console.log(e)
+                    this.props.setBadNotification('Error de conexión con el servidor')
+                }) 
+            }catch(e){
+                console.log(e)
                 this.props.setBadNotification('Error de conexión con el servidor')
-            }) 
-        }catch(e){
-            this.props.setBadNotification('Error de conexión con el servidor')
+            }
+        } else {
+            this.props.setBadNotification('Las contraseñas no coinciden')
         }
-    } else {
-        this.props.setBadNotification('Las contraseñas no coinciden')
-    }
     }
 
 

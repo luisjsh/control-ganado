@@ -1,5 +1,7 @@
 'use strict';
 
+const passwordFunctions = require('../functions/password-functions');
+
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('usuarios', [
@@ -7,11 +9,12 @@ module.exports = {
       email: 'admin@admin.com',
       nombre: 'admin',
       primerapregunta: 'admin',
-      primerapreguntarespuesta: 'admin',
+      primerapreguntarespuesta: await passwordFunctions.encrypt('admin'),
       segundapregunta: 'admin',
-      segundapreguntarespuesta: 'admin',
+      segundapreguntarespuesta: await passwordFunctions.encrypt('admin'),
       admin: 't',
-      clave: '$2a$10$dhSZ0g8zWahcyzB3a9A34OZ69FQkQQc5P.Xlj.5GKuFTTPvWnDFdi$2a$10$dhSZ0g8zWahcyzB3a9A34OZ69FQkQQc5P.Xlj.5GKuFTTPvWnDFdi'
+      status: 'activo',
+      clave: await passwordFunctions.encrypt('password1')
      }], {});
   },
 

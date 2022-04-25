@@ -48,11 +48,11 @@ class LogIn extends React.Component {
     }
 
     async submit (event){
+        event.preventDefault()
         if(validateCaptcha(this.state.catchap) === false) return alert('Por favor introduzca el texto del catchap correctamente')
 
         if(validateCaptcha(this.state.catchap)  === true){
 
-            event.preventDefault()
             let formData = new FormData()
             formData.append('correo', this.state.email)
             formData.append('clave', this.state.password)
@@ -86,6 +86,22 @@ class LogIn extends React.Component {
                         
                         case 'bad db':
                             this.props.setBadNotification('Error de servidor');
+                            break;
+
+                        case 'blocked':
+                            this.props.setBadNotification('El usuario esta bloqueado')
+                            break;
+
+                        case 'going-block-3':
+                            this.props.setBadNotification('El usuario se va a bloquear despues de 3 intentos')
+                            break;
+                        
+                        case 'going-block-2':
+                            this.props.setBadNotification('El usuario se va a bloquear despues de 2 intentos')
+                            break;
+                            
+                        case 'going-block-1':
+                            this.props.setBadNotification('El usuario se va a bloquear despues de 1 intento')
                             break;
 
                         case 'badFormating':

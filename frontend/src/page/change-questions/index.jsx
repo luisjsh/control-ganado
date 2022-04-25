@@ -68,7 +68,7 @@ function Index({currentToken, setGoodNotification, setBadNotification}) {
             
 
         const request = async (formData) => {
-            await fetch('http://localhost:4000/user/change_questions',{
+            await fetch(`http://localhost:4000/user/change_questions/`,{
                 method: "POST",
                 headers: {
                     "x-access-token": currentToken,
