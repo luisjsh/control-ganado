@@ -216,7 +216,7 @@ router.post('/login', async (req, res)=>{
                     }
 
                     
-                    if(!response.admin && response.login_attempt > 5) {
+                    if(!response.admin && response.login_attempt >= 5) {
                         response.status = 'bloqueado'
                     }
                     await response.save()
